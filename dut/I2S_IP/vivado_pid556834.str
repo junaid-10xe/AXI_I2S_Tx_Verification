@@ -1,0 +1,456 @@
+/*
+
+Xilinx Vivado v2022.1 (64-bit) [Major: 2022, Minor: 1]
+SW Build: 3526262 on Mon Apr 18 15:47:01 MDT 2022
+IP Build: 3524634 on Mon Apr 18 20:55:01 MDT 2022
+
+Process ID (PID): 556834
+License: Customer
+Mode: GUI Mode
+
+Current time: 	Tue Dec 17 12:24:26 PKT 2024
+Time zone: 	Pakistan Standard Time (Asia/Karachi)
+
+OS: Ubuntu
+OS Version: 6.8.0-49-generic
+OS Architecture: amd64
+Available processors (cores): 12
+
+Display: 0
+Screen size: 1920x1080
+Screen resolution (DPI): 100
+Available screens: 2
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+Scale size: 12
+
+Java version: 	11.0.11 64-bit
+Java home: 	/home/lpt-10xe/Vivado/Vivado/2022.1/tps/lnx64/jre11.0.11_9
+Java executable: 	/home/lpt-10xe/Vivado/Vivado/2022.1/tps/lnx64/jre11.0.11_9/bin/java
+Java arguments: 	[-Dsun.java2d.pmoffscreen=false, -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2, -Dsun.java2d.xrender=false, -Djdk.gtk.version=2, -Dsun.java2d.uiScale.enabled=false, -Xverify:none, -Dswing.aatext=true, -XX:-UsePerfData, -Djdk.map.althashing.threshold=512, -XX:StringTableSize=4072, --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-opens=java.base/java.nio=ALL-UNNAMED, --add-opens=java.desktop/sun.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-opens=java.desktop/javax.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-opens=java.desktop/java.awt.event=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-exports=java.base/java.nio=ALL-UNNAMED, --add-exports=java.desktop/sun.swing=ALL-UNNAMED, --add-exports=java.desktop/javax.swing=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-exports=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-exports=java.desktop/sun.swing=ALL-UNNAMED, --add-exports=java.desktop/sun.swing.table=ALL-UNNAMED, --add-exports=java.desktop/sun.swing.plaf.synth=ALL-UNNAMED, --add-exports=java.desktop/sun.awt.shell=ALL-UNNAMED, --add-exports=java.base/sun.security.action=ALL-UNNAMED, --add-exports=java.desktop/sun.font=ALL-UNNAMED, --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED, -XX:NewSize=60m, -XX:MaxNewSize=60m, -Xms256m, -Xmx3072m, -Xss5m, -Xrs]
+Java initial memory (-Xms): 	256 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	lpt-10xe
+User home directory: /home/lpt-10xe
+User working directory: /home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /home/lpt-10xe/Vivado/Vivado
+HDI_APPROOT: /home/lpt-10xe/Vivado/Vivado/2022.1
+RDI_DATADIR: /home/lpt-10xe/Vivado/Vivado/2022.1/data
+RDI_BINDIR: /home/lpt-10xe/Vivado/Vivado/2022.1/bin
+
+Vivado preferences file: /home/lpt-10xe/.Xilinx/Vivado/2022.1/vivado.xml
+Vivado preferences directory: /home/lpt-10xe/.Xilinx/Vivado/2022.1/
+Vivado layouts directory: /home/lpt-10xe/.Xilinx/Vivado/2022.1/data/layouts
+PlanAhead jar file: 	/home/lpt-10xe/Vivado/Vivado/2022.1/lib/classes/planAhead.jar
+Vivado log file: 	/home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP/vivado.log
+Vivado journal file: 	/home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-556834-junaid
+
+Xilinx Environment Variables
+----------------------------
+XILINX: /home/lpt-10xe/Vivado/Vivado/2022.1/ids_lite/ISE
+XILINX_DSP: /home/lpt-10xe/Vivado/Vivado/2022.1/ids_lite/ISE
+XILINX_HLS: /home/lpt-10xe/Vivado/Vitis_HLS/2022.1
+XILINX_PLANAHEAD: /home/lpt-10xe/Vivado/Vivado/2022.1
+XILINX_VITIS: 
+XILINX_VIVADO: /home/lpt-10xe/Vivado/Vivado/2022.1
+XILINX_VIVADO_HLS: /home/lpt-10xe/Vivado/Vivado/2022.1
+
+
+GUI allocated memory:	308 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,932 MB
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+selectButton(PAResourceEtoH.GettingStartedView_OPEN_PROJECT, "Open Project"); // y
+// Run Command: PAResourceCommand.PACommandNames_OPEN_PROJECT
+setFileChooser("/home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP/I2S_IP.xpr");
+// Opening Vivado Project: /home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP/I2S_IP.xpr. Version: Vivado v2022.1 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: FLOW_ADDED
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 91 MB (+93353kb) [00:00:10]
+// [Engine Memory]: 1,962 MB (+1905707kb) [00:00:10]
+// WARNING: HEventQueue.dispatchEvent() is taking  2336 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,949 MB. GUI used memory: 63 MB. Current time: 12/17/24, 12:24:29 PM PKT
+// Tcl Message: open_project /home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP/I2S_IP.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/lpt-10xe/Vivado/Vivado/2022.1/data/ip'. 
+// [GUI Memory]: 105 MB (+9591kb) [00:00:13]
+// Project name: I2S_IP; location: /home/lpt-10xe/10xTraining/TCP/IP_Gen/I2S_IP; part: xc7k70tfbv676-1
+dismissDialog("Open Project"); // bA
+// Tcl Message: update_compile_order -fileset sources_1 
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1); // D
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// TclEventType: DG_GRAPH_STALE
+dismissDialog("Show IP Hierarchy"); // A
+// PAPropertyPanels.initPanels (i2s_transmitter_0.xci) elapsed time: 0.2s
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1, false); // D
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // i
+// [GUI Memory]: 119 MB (+9434kb) [00:00:24]
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template]", 2); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template, i2s_transmitter_0.vho]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template, i2s_transmitter_0.veo]", 4, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template, i2s_transmitter_0.veo]", 4, false, false, false, false, false, true); // D - Double Click
+// Elapsed time: 16 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 124, 198); // E
+selectCodeEditor("i2s_transmitter_0.veo", 151, 198); // E
+selectCodeEditor("i2s_transmitter_0.veo", 200, 218); // E
+selectCodeEditor("i2s_transmitter_0.veo", 202, 233); // E
+selectCodeEditor("i2s_transmitter_0.veo", 201, 250); // E
+selectCodeEditor("i2s_transmitter_0.veo", 200, 257); // E
+selectCodeEditor("i2s_transmitter_0.veo", 199, 280); // E
+selectCodeEditor("i2s_transmitter_0.veo", 199, 297); // E
+selectCodeEditor("i2s_transmitter_0.veo", 197, 303); // E
+selectCodeEditor("i2s_transmitter_0.veo", 196, 316); // E
+selectCodeEditor("i2s_transmitter_0.veo", 196, 336); // E
+selectCodeEditor("i2s_transmitter_0.veo", 191, 354); // E
+selectCodeEditor("i2s_transmitter_0.veo", 191, 371); // E
+selectCodeEditor("i2s_transmitter_0.veo", 194, 388); // E
+selectCodeEditor("i2s_transmitter_0.veo", 194, 404); // E
+selectCodeEditor("i2s_transmitter_0.veo", 201, 435); // E
+selectCodeEditor("i2s_transmitter_0.veo", 197, 457); // E
+selectCodeEditor("i2s_transmitter_0.veo", 81, 382); // E
+selectCodeEditor("i2s_transmitter_0.veo", 170, 399); // E
+selectCodeEditor("i2s_transmitter_0.veo", 154, 417); // E
+selectCodeEditor("i2s_transmitter_0.veo", 198, 379); // E
+selectCodeEditor("i2s_transmitter_0.veo", 208, 396); // E
+selectCodeEditor("i2s_transmitter_0.veo", 217, 413); // E
+selectCodeEditor("i2s_transmitter_0.veo", 220, 427); // E
+selectCodeEditor("i2s_transmitter_0.veo", 223, 445); // E
+// Elapsed time: 416 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 261, 375); // E
+// Elapsed time: 47 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 18, 279); // E
+selectCodeEditor("i2s_transmitter_0.veo", 16, 279); // E
+selectCodeEditor("i2s_transmitter_0.veo", 15, 296); // E
+selectCodeEditor("i2s_transmitter_0.veo", 21, 297); // E
+selectCodeEditor("i2s_transmitter_0.veo", 14, 311); // E
+selectCodeEditor("i2s_transmitter_0.veo", 26, 311); // E
+selectCodeEditor("i2s_transmitter_0.veo", 21, 310); // E
+selectCodeEditor("i2s_transmitter_0.veo", 16, 314); // E
+selectCodeEditor("i2s_transmitter_0.veo", 17, 328); // E
+selectCodeEditor("i2s_transmitter_0.veo", 23, 326); // E
+selectCodeEditor("i2s_transmitter_0.veo", 12, 346); // E
+selectCodeEditor("i2s_transmitter_0.veo", 16, 338); // E
+selectCodeEditor("i2s_transmitter_0.veo", 15, 355); // E
+selectCodeEditor("i2s_transmitter_0.veo", 16, 366); // E
+selectCodeEditor("i2s_transmitter_0.veo", 22, 370); // E
+selectCodeEditor("i2s_transmitter_0.veo", 19, 351); // E
+selectCodeEditor("i2s_transmitter_0.veo", 22, 338); // E
+selectCodeEditor("i2s_transmitter_0.veo", 22, 328); // E
+selectCodeEditor("i2s_transmitter_0.veo", 21, 309); // E
+selectCodeEditor("i2s_transmitter_0.veo", 26, 296); // E
+selectCodeEditor("i2s_transmitter_0.veo", 24, 294); // E
+// Elapsed time: 21 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 23, 378); // E
+selectCodeEditor("i2s_transmitter_0.veo", 23, 309); // E
+// Elapsed time: 1032 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1, true, false, false, false, false, true); // D - Double Click - Node
+// Run Command: PAResourceCommand.PACommandNames_RECUSTOMIZE_CORE
+// TclEventType: LOAD_FEATURE
+// Elapsed time: 16 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Re-customize IP"); // r
+// HMemoryUtils.trashcanNow. Engine heap size: 2,006 MB. GUI used memory: 68 MB. Current time: 12/17/24, 12:54:33 PM PKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,006 MB. GUI used memory: 61 MB. Current time: 12/17/24, 1:24:33 PM PKT
+// WARNING: HEventQueue.dispatchEvent() is taking  1341 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,006 MB. GUI used memory: 51 MB. Current time: 12/17/24, 1:54:33 PM PKT
+// WARNING: HEventQueue.dispatchEvent() is taking  1074 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,006 MB. GUI used memory: 50 MB. Current time: 12/17/24, 2:24:34 PM PKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,006 MB. GUI used memory: 50 MB. Current time: 12/17/24, 2:54:34 PM PKT
+// Elapsed time: 8262 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Settings]", 1, false); // n
+// Run Command: RDIResourceCommand.RDICommands_SETTINGS
+// Tcl Command: 'rdi::info_commands {device::*}'
+// Tcl Command: 'rdi::info_commands {debug::*}'
+// Tcl Command: 'rdi::info_commands {*}'
+// WARNING: HEventQueue.dispatchEvent() is taking  1553 ms.
+selectButton(PAResourceQtoS.SettingsProjectGeneralPage_CHOOSE_DEVICE_FOR_YOUR_PROJECT, (String) null); // s
+selectButton(PAResourceQtoS.SettingsProjectGeneralPage_CHOOSE_DEVICE_FOR_YOUR_PROJECT, (String) null); // s
+// [GUI Memory]: 163 MB (+39851kb) [02:45:23]
+// Elapsed time: 18 seconds
+selectTab(PAResourceOtoP.PartChooser_TABBED_PANE, (HResource) null, "Boards", 1); // i
+// HMemoryUtils.trashcanNow. Engine heap size: 2,034 MB. GUI used memory: 89 MB. Current time: 12/17/24, 3:10:04 PM PKT
+// Elapsed time: 72 seconds
+selectTab(PAResourceOtoP.PartChooser_TABBED_PANE, (HResource) null, "Parts", 0); // i
+// Elapsed time: 43 seconds
+selectComboBox(PAResourceEtoH.FPGAChooser_FAMILY, "XA Zynq UltraScale+ MPSoCs", 9); // q
+// Elapsed time: 21 seconds
+selectComboBox(PAResourceEtoH.FPGAChooser_FAMILY, "XA Zynq-7000", 8); // q
+selectTable(PAResourceEtoH.FPGAChooser_FPGA_TABLE, "xa7z010clg225-1I ; 225 ; 54 ; 17600 ; 35200 ; 60 ; 0 ; 80 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 2 ;  ;  ;  ;  ; 0 ;  ;  ; -40 ; 100 ; 100 ; I ; 0.95 ; 0.95 ; 1.05", 0, "xa7z010clg225-1I", 0); // r
+selectTable(PAResourceEtoH.FPGAChooser_FPGA_TABLE, "xa7z010clg225-1Q ; 225 ; 54 ; 17600 ; 35200 ; 60 ; 0 ; 80 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 2 ;  ;  ;  ;  ; 0 ;  ;  ; -40 ; 125 ; 125 ; Q ; 0.95 ; 0.95 ; 1.05", 1, "xa7z010clg225-1Q", 0); // r
+selectTable(PAResourceEtoH.FPGAChooser_FPGA_TABLE, "xa7z020clg484-1Q ; 484 ; 200 ; 53200 ; 106400 ; 140 ; 0 ; 220 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 4 ;  ;  ;  ;  ; 0 ;  ;  ; -40 ; 125 ; 125 ; Q ; 0.95 ; 0.95 ; 1.05", 7, "xa7z020clg484-1Q", 0); // r
+// Elapsed time: 31 seconds
+selectTable(PAResourceEtoH.FPGAChooser_FPGA_TABLE, "xa7z030fbg484-1I ; 484 ; 163 ; 78600 ; 157200 ; 265 ; 0 ; 400 ; 4 ; 0 ; 4 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 1 ; 5 ;  ;  ;  ;  ; 0 ;  ;  ; -40 ; 100 ; 100 ; I ; 0.97 ; 0.97 ; 1.03", 8, "xa7z030fbg484-1I", 0); // r
+// Elapsed time: 14 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Select Device"); // c
+selectButton(RDIResource.BaseDialog_APPLY, "Apply"); // a
+// TclEventType: RUN_MODIFY
+// Tcl Message: set_property part xa7z030fbg484-1I [current_project] 
+// TclEventType: RUN_MODIFY
+// TclEventType: CREATE_IP_CATALOG
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: PART_MODIFIED
+selectButton(RDIResource.BaseDialog_APPLY, "Apply"); // a
+dismissDialog("Change Settings"); // bA
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Settings"); // d
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1, true); // D - Node
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template]", 2); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0, Instantiation Template, i2s_transmitter_0.veo]", 4, false); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, i2s_transmitter_0]", 1); // D
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "Hierarchy", 0); // i
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2, true); // D - Node
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false, false, false, false, false, true); // D - Double Click
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false, false, false, false, false, true); // D - Double Click
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false, false, false, false, true, false); // D - Popup Trigger
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ao
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ao
+selectMenuItem(PAResourceCommand.PACommandNames_SHOW_ALL_IP_HIER, "Show All IP Hierarchy"); // ar
+// TclEventType: DG_GRAPH_STALE
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false, false, false, false, true, false); // D - Popup Trigger
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ao
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ao
+// HMemoryUtils.trashcanNow. Engine heap size: 2,067 MB. GUI used memory: 80 MB. Current time: 12/17/24, 3:14:04 PM PKT
+// [Engine Memory]: 2,067 MB (+7161kb) [02:49:49]
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 5); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 7); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1]", 6); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1]", 6, true, false, false, false, true, false); // D - Popup Trigger - Node
+selectMenu(PAResourceCommand.PACommandNames_SIMULATION_RUN, "Run Simulation"); // ao
+selectMenu(PAResourceCommand.PACommandNames_SIMULATION_RESET, "Reset Simulation"); // ao
+selectMenu(PAResourceCommand.PACommandNames_SIMULATION_RUN, "Run Simulation"); // ao
+selectMenuItem(PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL, "Run Behavioral Simulation"); // ar
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL
+selectButton("OptionPane.button", "OK"); // JButton
+selectButton(PAResourceTtoZ.TopModuleDialog_SELECT_TOP_MODULE_FOR_YOUR_SIMULATION, (String) null); // s
+selectButton(PAResourceTtoZ.TopModuleDialog_SELECT_TOP_MODULE_FOR_YOUR_SIMULATION, (String) null); // s
+selectButton("OptionPane.button", "OK"); // JButton
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// HOptionPane Error: 'Please specify a valid simulation top module name. (Specify Top Module)'
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+selectButton("OptionPane.button", "OK"); // JButton
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+// 'd' command handler elapsed time: 15 seconds
+dismissDialog("Specify Top Module"); // ag
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// HOptionPane Error: 'There are no HDL sources in file set 'sources_1'. Please use the Add Sources command. (Run Synthesis)'
+// 'k' command handler elapsed time: 3 seconds
+selectButton("OptionPane.button", "OK"); // JButton
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, RTL Analysis, Open Elaborated Design]", 12, true); // n - Node
+// Run Command: PAResourceCommand.PACommandNames_GOTO_RTL_DESIGN
+// HOptionPane Error: 'There are no HDL sources in file set 'sources_1'. Please use the Add Sources command. (Elaborate Design)'
+selectButton("OptionPane.button", "OK"); // JButton
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1]", 6, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 5, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints]", 4, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2, true); // D - Node
+// HMemoryUtils.trashcanNow. Engine heap size: 2,061 MB. GUI used memory: 80 MB. Current time: 12/17/24, 3:44:04 PM PKT
+// Elapsed time: 2941 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 147, 367); // E
+selectCodeEditor("i2s_transmitter_0.veo", 147, 356); // E
+selectCodeEditor("i2s_transmitter_0.veo", 147, 364); // E
+selectCodeEditor("i2s_transmitter_0.veo", 148, 356); // E
+selectCodeEditor("i2s_transmitter_0.veo", 149, 371); // E
+selectCodeEditor("i2s_transmitter_0.veo", 147, 356); // E
+selectCodeEditor("i2s_transmitter_0.veo", 146, 365); // E
+selectCodeEditor("i2s_transmitter_0.veo", 147, 352); // E
+selectCodeEditor("i2s_transmitter_0.veo", 146, 366); // E
+selectCodeEditor("i2s_transmitter_0.veo", 148, 352); // E
+selectCodeEditor("i2s_transmitter_0.veo", 127, 336); // E
+selectCodeEditor("i2s_transmitter_0.veo", 141, 322); // E
+selectCodeEditor("i2s_transmitter_0.veo", 107, 305); // E
+selectCodeEditor("i2s_transmitter_0.veo", 86, 293); // E
+// Elapsed time: 98 seconds
+selectButton(PAResourceQtoS.StaleMoreAction_OUT_OF_DATE_DETAILS, "details"); // g
+selectButton(PAResourceQtoS.StaleMoreAction_OUT_OF_DATE_DETAILS, "details"); // g
+// Elapsed time: 14 seconds
+selectButton(RDIResource.HPopupTitle_CLOSE, (String) null); // j
+selectButton(RDIResource.HPopupTitle_CLOSE, (String) null); // j
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, IP Integrator, Create Block Design]", 6, false); // n
+// Run Command: PAResourceCommand.PACommandNames_CREATE_NEW_DIAGRAM
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+dismissDialog("Create Block Design"); // aX
+// Elapsed time: 14 seconds
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // i
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "Libraries", 2); // i
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "Compile Order", 3); // i
+// Elapsed time: 12 seconds
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "Libraries", 2); // i
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // i
+// Elapsed time: 19 seconds
+selectTab(PAResourceEtoH.FileSetView_TABBED_PANE, (HResource) null, "Hierarchy", 0); // i
+// Elapsed time: 32 seconds
+selectButton((HResource) null, "Code_settings"); // w: TRUE
+selectButton((HResource) null, "Code_settings"); // w: FALSE
+// Elapsed time: 11 seconds
+selectTab(PAResourceOtoP.PACodeEditorOptions_EDITOR_OPTIONS_PANE, PAResourceOtoP.PACodeEditorOptions_SYNTAX_CHECKING, "Syntax Checking", 1); // i
+selectTab(PAResourceOtoP.PACodeEditorOptions_EDITOR_OPTIONS_PANE, PAResourceOtoP.PACodeEditorOptions_GENERAL, "General", 2); // i
+selectButton(RDIResource.OptionsView_CLOSE, (String) null); // D
+selectButton(RDIResource.OptionsView_CLOSE, (String) null); // D
+// Elapsed time: 12 seconds
+selectTab((HResource) null, "PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "i2s_transmitter_0.veo", 1, true, false); // m - Popup Trigger
+selectCodeEditor("i2s_transmitter_0.veo", 636, 423); // E
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // m
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "i2s_transmitter_0.veo", 1); // m
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // m
+selectButton(RDIResourceCommand.RDICommands_SETTINGS, "Mixed"); // g
+// Run Command: RDIResourceCommand.RDICommands_SETTINGS
+selectButton(RDIResourceCommand.RDICommands_SETTINGS, "Mixed"); // g
+// Elapsed time: 12 seconds
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_ELABORATION, "Elaboration", 1); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_SIMULATION, "Simulation", 2); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_NETLIST, "Netlist", 3); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_ADVANCED, "Advanced", 4); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_NETLIST, "Netlist", 3); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_ADVANCED, "Advanced", 4); // i
+selectTab(PAResourceOtoP.ProjectSettingsSimulationPanel_TABBED_PANE, PAResourceOtoP.ProjectSettingsSimulationPanel_COMPILATION, "Compilation", 0); // i
+expandTree(PAResourceQtoS.SettingsDialog_OPTIONS_TREE, "[optionsRoot, Vivado Store]", 2); // B
+collapseTree(PAResourceQtoS.SettingsDialog_OPTIONS_TREE, "[optionsRoot, Vivado Store]", 2); // B
+expandTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, IP]", 6); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, IP, Packager]", 8, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, IP, Repository]", 7, false); // B
+collapseTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, IP]", 6); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, Bitstream]", 5, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, Implementation]", 4, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, Synthesis]", 3, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, Elaboration]", 2, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, Simulation]", 1, false); // B
+selectTree(PAResourceQtoS.SettingsDialog_PROJECT_TREE, "[projectRoot, General]", 0, false); // B
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+dismissDialog("Settings"); // d
+// HMemoryUtils.trashcanNow. Engine heap size: 2,064 MB. GUI used memory: 74 MB. Current time: 12/17/24, 4:14:04 PM PKT
+// Elapsed time: 360 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "i2s_transmitter_0.veo", 1); // m
+// WARNING: HEventQueue.dispatchEvent() is taking  2584312 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,060 MB. GUI used memory: 72 MB. Current time: 12/17/24, 5:25:53 PM PKT
+// Elapsed time: 4264 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 270, 336); // E
+selectCodeEditor("i2s_transmitter_0.veo", 282, 352); // E
+// Elapsed time: 824 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 193, 63); // E
+selectCodeEditor("i2s_transmitter_0.veo", 193, 63, false, false, false, false, true); // E - Double Click
+selectCodeEditor("i2s_transmitter_0.veo", 183, 131); // E
+selectCodeEditor("i2s_transmitter_0.veo", 183, 131, false, false, false, false, true); // E - Double Click
+selectCodeEditor("i2s_transmitter_0.veo", 98, 100); // E
+selectCodeEditor("i2s_transmitter_0.veo", 98, 100, false, false, false, false, true); // E - Double Click
+// Elapsed time: 155 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 290, 121); // E
+selectButton(PAResourceItoN.MainToolbarMgr_RUN, (String) null); // ad
+selectMenuItem(PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION, "Run Implementation"); // ar
+// Run Command: PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+// 'c' command handler elapsed time: 7 seconds
+dismissDialog("Synthesis is Out-of-date"); // A
+selectCodeEditor("i2s_transmitter_0.veo", 313, 362); // E
+selectCodeEditor("i2s_transmitter_0.veo", 248, 472); // E
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "i2s_transmitter_0.veo", 1); // m
+selectButton(PAResourceItoN.MainToolbarMgr_RUN, (String) null); // ad
+selectMenuItem(PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION, "Run Implementation"); // ar
+// Run Command: PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION
+selectButton(RDIResource.BaseDialog_YES, "Yes"); // a
+selectButton(RDIResource.BaseDialog_YES, "Yes"); // a
+dismissDialog("Synthesis is Out-of-date"); // A
+selectButton("OptionPane.button", "OK"); // JButton
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run i2s_transmitter_0_synth_1 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// HOptionPane Error: 'There are no HDL sources in file set 'sources_1'. Please use the Add Sources command. (Run Implementation)'
+// 'c' command handler elapsed time: 10 seconds
+selectButton("OptionPane.button", "OK"); // JButton
+selectCodeEditor("i2s_transmitter_0.veo", 407, 297); // E
+selectCodeEditor("i2s_transmitter_0.veo", 253, 244); // E
+selectCodeEditor("i2s_transmitter_0.veo", 408, 197); // E
+// Elapsed time: 504 seconds
+selectCodeEditor("i2s_transmitter_0.veo", 291, 287); // E
+// HMemoryUtils.trashcanNow. Engine heap size: 2,061 MB. GUI used memory: 78 MB. Current time: 12/17/24, 5:55:53 PM PKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,061 MB. GUI used memory: 78 MB. Current time: 12/17/24, 6:25:56 PM PKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,061 MB. GUI used memory: 78 MB. Current time: 12/17/24, 6:56:00 PM PKT
+// WARNING: HEventQueue.dispatchEvent() is taking  1111 ms.
+// Elapsed time: 4392 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1, true); // D - Node
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1); // D
+// Run Command: PAResourceCommand.PACommandNames_RECUSTOMIZE_CORE
+// TclEventType: IP_LOCK_CHANGE
+dismissDialog("Re-customize IP"); // r
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2); // D
+// Run Command: PAResourceCommand.PACommandNames_RECUSTOMIZE_CORE
+// TclEventType: IP_LOCK_CHANGE
+dismissDialog("Re-customize IP"); // r
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv), inst : i2s_transmitter_v1_0_5]", 3, false); // D
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 5); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources]", 5); // D
+// Elapsed time: 17 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci), i2s_transmitter_0 (i2s_transmitter_0.sv)]", 2, true); // D - Node
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 1, true, false, false, false, false, true); // D - Double Click - Node
+// Run Command: PAResourceCommand.PACommandNames_RECUSTOMIZE_CORE
+// TclEventType: IP_LOCK_CHANGE
+selectButton(PAResourceAtoD.CustomizeCoreDialog_IP_LOCATION, "IP Location"); // D
+selectButton(PAResourceAtoD.CustomizeCoreDialog_IP_LOCATION, "IP Location"); // D
+selectButton(RDIResource.HPopupTitle_CLOSE, (String) null); // j
+selectButton(RDIResource.HPopupTitle_CLOSE, (String) null); // j
+dismissDialog("Re-customize IP"); // r
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1, i2s_transmitter_0 (i2s_transmitter_0.xci)]", 7, true); // D - Node
+// WARNING: HEventQueue.dispatchEvent() is taking  1332 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,063 MB. GUI used memory: 80 MB. Current time: 12/17/24, 7:26:02 PM PKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,063 MB. GUI used memory: 72 MB. Current time: 12/18/24, 10:19:16 AM PKT
