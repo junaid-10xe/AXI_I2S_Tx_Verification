@@ -20,7 +20,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
         super.new(name, parent);
     endfunction: new
 
-    i2s_tx_10xe_axi4_lite_intf axi4_lite_vif;           //Interface handle of axi4-Lite
+    virtual i2s_tx_10xe_axi4_lite_intf axi4_lite_vif;           //Interface handle of axi4-Lite
 
     //Build Phase
 
@@ -40,33 +40,38 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
                 write();
                 read();
             join
+            `uvm_info(get_name(),$sformatf(" Data Driven to DUT from Axi4-Lite Driver, \n  %s",axi4_tr.sprint()),UVM_LOW)
             seq_item_port.item_done();
         end
     endtask: run_phase
 
     //task to drive signals for write
     task write();
-        DR_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;      //For Address channel
+        `DR_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;      //For Address channel
         if (axi4_tr.s_axi_ctrl_awvalid) begin
-            DR_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
-            wait(DR_AX.s_axi_ctrl_awready);                         //Wait to complete handshake
+            @(posedge `DR_AX.s_axi_ctrl_aclk)
+            `DR_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
+            wait(`DR_AX.s_axi_ctrl_awready);                         //Wait to complete handshake
             if (axi4_tr.s_axi_ctrl_wvalid) begin                    //For Write data channel
-                DR_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
-                wait(DR_AX.s_axi_ctrl_wready);                      //Wait to complete Handshake
-                DR_AX.s_axi_ctrl_wdata <= axi4_tr.s_axi_ctrl_wdata;
+                @(posedge `DR_AX.s_axi_ctrl_aclk)
+                `DR_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
+                wait(`DR_AX.s_axi_ctrl_wready);                      //Wait to complete Handshake
+                `DR_AX.s_axi_ctrl_wdata <= axi4_tr.s_axi_ctrl_wdata;
             end
-            DR_AX.s_axi_ctrl_bready  <= axi4_tr.s_axi_ctrl_bready;
+            `DR_AX.s_axi_ctrl_bready  <= axi4_tr.s_axi_ctrl_bready;
         end
     endtask
 
     //task to drive signals for read
     task read();
-        DR_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr; //For read address channel
+        `DR_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr; //For read address channel
         if (axi4_tr.s_axi_ctrl_arvalid) begin                 //Drive further if valid
-            DR_AX.s_axi_ctrl_arvalid <= axi4_tr.s_axi_ctrl_arvalid;
-            wait(DR_AX.s_axi_ctrl_arready);                     //wait for ready to complete handshake
-            if(axi4_tr.s_axi_ctrl_rready) begin                 
-                DR_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
+            @(posedge `DR_AX.s_axi_ctrl_aclk)
+            `DR_AX.s_axi_ctrl_arvalid <= axi4_tr.s_axi_ctrl_arvalid;
+            wait(`DR_AX.s_axi_ctrl_arready);                     //wait for ready to complete handshake
+            if(axi4_tr.s_axi_ctrl_rready) begin
+                @(posedge `DR_AX.s_axi_ctrl_aclk)                 
+                `DR_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
             end
 
         end    

@@ -1,0 +1,10 @@
+0.7
+2020.2
+Apr 18 2022
+15:53:03
+/home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/I2S_IP.gen/sources_1/ip/i2s_transmitter_0/sim/i2s_transmitter_0.sv,1734346588,systemVerilog,,/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi4_lite_intf.sv,,i2s_transmitter_0,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,
+/home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/I2S_IP.sim/sim_1/behav/xsim/glbl.v,1649976174,verilog,,,,glbl,,i2s_transmitter_v1_0_5;uvm,,,,,,
+/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi4_lite_intf.sv,1734514231,systemVerilog,,/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi_stream_intf.sv,,i2s_tx_10xe_axi4_lite_intf,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,
+/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi_stream_intf.sv,1734509043,systemVerilog,,/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_dut_intf.sv,,i2s_tx_10xe_axi_stream_intf,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,
+/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_dut_intf.sv,1734509865,systemVerilog,,/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_tb_top.sv,,i2s_tx_10xe_dut_intf,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,
+/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_tb_top.sv,1734509837,systemVerilog,,,/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi_stream_intf.sv;/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_axi4_lite_intf.sv;/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_dut_intf.sv,i2s_tx_10xe_tb_top,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,

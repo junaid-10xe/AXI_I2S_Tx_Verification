@@ -1,0 +1,5 @@
+0.7
+2020.2
+Apr 18 2022
+15:53:03
+/home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/I2S_IP.ip_user_files/ipstatic/hdl/i2s_transmitter_v1_0_rfs.sv,1734346595,systemVerilog,,,,i2s_transmitter_v1_0_5;i2s_transmitter_v1_0_5_aes_dec;i2s_transmitter_v1_0_5_async_fifo;i2s_transmitter_v1_0_5_axi;i2s_transmitter_v1_0_5_ser;i2s_transmitter_v1_0_5_sys;i2s_transmitter_v1_0_5_timgen,,i2s_transmitter_v1_0_5;uvm,/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include,,,,,

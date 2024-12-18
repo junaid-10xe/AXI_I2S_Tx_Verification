@@ -9,22 +9,22 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef i2s_tx_10xe_dut_intf.sv
-`define i2s_tx_10xe_dut_intf.sv
+`ifndef I2S_TX_10XE_DUT_INTF
+`define I2S_TX_10XE_DUT_INTF
 
 interface i2s_tx_10xe_dut_intf (input aud_mclk, input aud_mrst);
 
   // Interrupt signal indicating an event
-  wire irq;
+  logic irq;
 
   // Left-right clock signal for audio synchronization
-  wire lrclk_out;
+  logic lrclk_out;
 
   // Serial clock output for audio data transmission
-  wire sclk_out;
+  logic sclk_out;
 
   // Serial data output
-  wire sdata_0_out;
+  logic sdata_0_out;
 
 endinterface
 

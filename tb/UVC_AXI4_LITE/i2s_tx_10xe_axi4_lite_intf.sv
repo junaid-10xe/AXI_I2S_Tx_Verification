@@ -14,26 +14,26 @@
 interface i2s_tx_10xe_axi4_lite_intf (input s_axi_ctrl_aclk, input s_axi_ctrl_aresetn );
 
 //for address write channel 
-wire                  s_axi_ctrl_awvalid;
-wire                  s_axi_ctrl_awready;
-wire [7:0]            s_axi_ctrl_awaddr;
+logic                  s_axi_ctrl_awvalid;
+logic                  s_axi_ctrl_awready;
+logic [7:0]            s_axi_ctrl_awaddr;
 //for write data channel
-wire                    s_axi_ctrl_wvalid;
-wire                    s_axi_ctrl_wready;
-wire [31:0]             s_axi_ctrl_wdata;
+logic                    s_axi_ctrl_wvalid;
+logic                    s_axi_ctrl_wready;
+logic [31:0]             s_axi_ctrl_wdata;
 //for write response channel
-wire                    s_axi_ctrl_bvalid;
-wire                    s_axi_ctrl_bready;
-wire [1:0]              s_axi_ctrl_bresp;
+logic                    s_axi_ctrl_bvalid;
+logic                    s_axi_ctrl_bready;
+logic [1:0]              s_axi_ctrl_bresp;
 //for read address channel
-wire                    s_axi_ctrl_arvalid;
-wire                    s_axi_ctrl_arready;
-wire [7:0]              s_axi_ctrl_araddr;
+logic                    s_axi_ctrl_arvalid;
+logic                    s_axi_ctrl_arready;
+logic [7:0]              s_axi_ctrl_araddr;
 //for read data channel
-wire                    s_axi_ctrl_rvalid;
-wire                    s_axi_ctrl_rready;
-wire [1:0]              s_axi_ctrl_rresp;
-wire [31:0]             s_axi_ctrl_rdata;
+logic                    s_axi_ctrl_rvalid;
+logic                    s_axi_ctrl_rready;
+logic [1:0]              s_axi_ctrl_rresp;
+logic [31:0]             s_axi_ctrl_rdata;
 
 
 //Signals for Axi4_Lite driver

@@ -53,8 +53,8 @@ class i2s_tx_10xe_seq_item extends uvm_sequence_item;
     bit                         s_axi_ctrl_wready;
     rand bit [31:0]             s_axi_ctrl_wdata;
     //for write response channel
-    rand bit                    s_axi_ctrl_bvalid;
-    bit                         s_axi_ctrl_bready;
+    bit                         s_axi_ctrl_bvalid;
+    rand bit                    s_axi_ctrl_bready;
     bit [1:0]                   s_axi_ctrl_bresp;
     //for read address channel
     rand bit                    s_axi_ctrl_arvalid;

@@ -13,10 +13,10 @@
 
 interface i2s_tx_10xe_axi_stream_intf (input s_axis_aud_aclk, input s_axis_aud_aresetn);
   // AXI-Stream signals for audio data transfer
-  wire [31:0]          s_axis_aud_tdata;
-  wire [2:0]           s_axis_aud_tid;
-  wire                 s_axis_aud_tvalid;
-  wire                 s_axis_aud_tready;
+  logic [31:0]          s_axis_aud_tdata;
+  logic [2:0]           s_axis_aud_tid;
+  logic                 s_axis_aud_tvalid;
+  logic                 s_axis_aud_tready;
 
 //Signals for axi-stream driver
 clocking axi_stream_driver @(posedge s_axis_aud_aclk);
