@@ -9,9 +9,11 @@
    ---------------------------------------------------------------
 ************************************************************************/
 
-`include "i2s_tx_10xe_axi_stream_intf.sv"
-`include "i2s_tx_10xe_axi4_lite_intf.sv"
-`include "i2s_tx_10xe_dut_intf.sv"
+// import the UVM library
+  	import uvm_pkg::*;
+
+  	// include the UVM macros
+  	`include "uvm_macros.svh"
  
 module i2s_tx_10xe_tb_top;
     bit clk;

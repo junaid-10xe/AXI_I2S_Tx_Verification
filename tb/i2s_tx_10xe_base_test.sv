@@ -37,7 +37,25 @@ class i2s_tx_10xe_base_test extends uvm_test;
         uvm_top.print_topology();
     endfunction: end_of_elaboration_phase
     
-    // Run Phase
+
+
+    
+
+
+    
+endclass: i2s_tx_10xe_base_test
+
+//  Class: read_reg_test
+//
+class read_reg_test extends i2s_tx_10xe_base_test;
+    `uvm_component_utils(read_reg_test);
+
+    //  Constructor: new
+    function new(string name = "read_reg_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    
+    //Run Phase
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
@@ -45,11 +63,7 @@ class i2s_tx_10xe_base_test extends uvm_test;
         phase.drop_objection(this);
         `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
     endtask: run_phase
-    
 
-
-    
-endclass: i2s_tx_10xe_base_test
-
+endclass: read_reg_test
 
 `endif

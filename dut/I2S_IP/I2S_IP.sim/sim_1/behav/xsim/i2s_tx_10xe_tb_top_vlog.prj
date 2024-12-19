@@ -4,8 +4,8 @@ sv i2s_transmitter_v1_0_5  --include "/home/lpt-10xe/Vivado/Vivado/2022.1/data/x
 
 sv xil_defaultlib  --include "/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include" \
 "../../../../I2S_IP.gen/sources_1/ip/i2s_transmitter_0/sim/i2s_transmitter_0.sv" \
-"../../../../../../tb/i2s_tx_10xe_axi4_lite_intf.sv" \
-"../../../../../../tb/i2s_tx_10xe_axi_stream_intf.sv" \
+"../../../../../../tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv" \
+"../../../../../../tb/UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv" \
 "../../../../../../tb/i2s_tx_10xe_dut_intf.sv" \
 "../../../../../../tb/i2s_tx_10xe_tb_top.sv" \
 
