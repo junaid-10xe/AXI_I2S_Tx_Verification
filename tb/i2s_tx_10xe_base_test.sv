@@ -18,6 +18,8 @@ class i2s_tx_10xe_base_test extends uvm_test;
     //environment 
     i2s_tx_10xe_env env;
 
+    //Sequence to read register only
+    read_reg_seq agt_seq;
     //  Constructor: new
     function new(string name = "i2s_tx_10xe_base_test", uvm_component parent);
         super.new(name, parent);
@@ -26,6 +28,7 @@ class i2s_tx_10xe_base_test extends uvm_test;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         env = i2s_tx_10xe_env::type_id::create("env", this);
+        agt_seq = read_reg_seq::type_id::create("agt_seq", this);
     endfunction: build_phase
 
     //To print topology

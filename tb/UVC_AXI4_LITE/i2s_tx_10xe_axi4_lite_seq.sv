@@ -57,15 +57,15 @@ class i2s_tx_10xe_axi4_lite_seq extends uvm_sequence;
 endclass: i2s_tx_10xe_axi4_lite_seq
 
 
-//  Class: simple_seq
+//  Class: read_reg_seq
 //
-class simple_seq extends i2s_tx_10xe_axi4_lite_seq;
-    `uvm_object_utils(simple_seq);
+class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
+    `uvm_object_utils(read_reg_seq);
 
     i2s_tx_10xe_seq_item    axi_seq;
 
     //  Constructor: new
-    function new(string name = "simple_seq");
+    function new(string name = "read_reg_seq");
         super.new(name);
     endfunction: new
 
@@ -77,6 +77,6 @@ class simple_seq extends i2s_tx_10xe_axi4_lite_seq;
         end
     endtask: body
     
-endclass: simple_seq
+endclass: read_reg_seq
 
 `endif

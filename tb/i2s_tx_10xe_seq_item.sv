@@ -86,6 +86,30 @@ class i2s_tx_10xe_seq_item extends uvm_sequence_item;
     // Serial data output
     bit sdata_0_out;
 
+
+    //Constraints 
+// Constraint to ensure only relevant registers are read during AXI transactions
+    constraint read_reg {
+        // Allow read address valid signal to be active
+        s_axi_ctrl_arvalid == 1;
+    
+        // Restrict read address to specific register addresses
+        s_axi_ctrl_araddr inside {
+            'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+            'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+            'h54, 'h58, 'h5C, 'h60, 'h64
+        };
+    
+        // Ensure read ready signal is active
+        s_axi_ctrl_rready == 1;
+    
+        // Ensure write operations are not active
+        s_axi_ctrl_awvalid == 0;
+        s_axi_ctrl_wvalid == 0;
+    }
+    
+    
+
 endclass : i2s_tx_10xe_seq_item
 
 `endif
