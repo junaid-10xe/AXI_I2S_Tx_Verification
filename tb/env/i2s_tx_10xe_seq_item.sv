@@ -88,7 +88,7 @@ class i2s_tx_10xe_seq_item extends uvm_sequence_item;
 
 
     //Constraints 
-// Constraint to ensure only relevant registers are read during AXI transactions
+    // Constraint to ensure only relevant registers are read during AXI transactions
     constraint read_reg {
         // Allow read address valid signal to be active
         s_axi_ctrl_arvalid == 1;
@@ -107,7 +107,7 @@ class i2s_tx_10xe_seq_item extends uvm_sequence_item;
         s_axi_ctrl_awvalid == 0;
         s_axi_ctrl_wvalid == 0;
     }
-    
+    //TODO (later) add constraint for write transaction so that wdata should be alligned with the given address and also write solves before constraints to make sure that one register is written before another 
     
 
 endclass : i2s_tx_10xe_seq_item

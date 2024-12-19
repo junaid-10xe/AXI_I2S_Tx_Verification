@@ -41,8 +41,9 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
             seq_item_port.get_next_item(axi4_tr);
             fork
                 write();
-                read();
+                
             join
+            read();
             `uvm_info(get_name(),$sformatf(" Data Driven to DUT from Axi4-Lite Driver, \n  %s",axi4_tr.sprint()),UVM_LOW)
             seq_item_port.item_done();
         end
@@ -50,7 +51,11 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
 
     //task to drive signals for write
     task write();
-        `DR_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;      //For Address channel
+        // `DR_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;      //For Address channel
+         `DR_AX.s_axi_ctrl_awaddr  <= 'h0C;      //For Address channel
+        axi4_tr.s_axi_ctrl_awvalid = 1;
+        axi4_tr.s_axi_ctrl_wvalid  = 1;
+        axi4_tr.s_axi_ctrl_wdata   = 1;
         if (axi4_tr.s_axi_ctrl_awvalid) begin
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
             `DR_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
@@ -61,13 +66,16 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
                 wait(`DR_AX.s_axi_ctrl_wready);                      //Wait to complete Handshake
                 `DR_AX.s_axi_ctrl_wdata <= axi4_tr.s_axi_ctrl_wdata;
             end
+            //put check on write resp
             `DR_AX.s_axi_ctrl_bready  <= axi4_tr.s_axi_ctrl_bready;
         end
     endtask
 
     //task to drive signals for read
     task read();
-        `DR_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr; //For read address channel
+        // `DR_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr; //For read address channel
+        `DR_AX.s_axi_ctrl_araddr <= 'h0C; //For read address channel
+        
         if (axi4_tr.s_axi_ctrl_arvalid) begin                 //Drive further if valid
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
             `DR_AX.s_axi_ctrl_arvalid <= axi4_tr.s_axi_ctrl_arvalid;
