@@ -29,7 +29,7 @@ class i2s_tx_10xe_axi4_lite_agent extends uvm_component;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         axi_sqnr = i2s_tx_10xe_axi4_lite_sequencer::type_id::create("axi_sqnr", this);
-        axi_driv = i2s_tx_10xe_axi4_lite_monitor::type_id::create("axi_driv", this);
+        axi_driv = i2s_tx_10xe_axi4_lite_driver::type_id::create("axi_driv", this);
         axi_mon  = i2s_tx_10xe_axi4_lite_monitor::type_id::create("axi_mon", this);
         
     endfunction: build_phase
@@ -37,7 +37,7 @@ class i2s_tx_10xe_axi4_lite_agent extends uvm_component;
     //Connect Phase
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        axi_driv.seq_item_port.connect(axi_sqnr.seq_item_export)  //Connect axi driver with sequencer
+        axi_driv.seq_item_port.connect(axi_sqnr.seq_item_export);  //Connect axi driver with sequencer
     endfunction: connect_phase
     
     

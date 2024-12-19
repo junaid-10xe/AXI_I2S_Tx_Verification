@@ -14,6 +14,18 @@
 
   	// include the UVM macros
   	`include "uvm_macros.svh"
+
+    //Include files 
+    `include "i2s_tx_10xe_seq_item.sv"
+    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_seq.sv"
+    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_sequencer.sv"
+    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_monitor.sv"
+    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv"
+    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_agent.sv"
+
+    `include "i2s_tx_10xe_env.sv"
+    `include "i2s_tx_10xe_base_test.sv"
+
  
 module i2s_tx_10xe_tb_top;
     bit clk;
@@ -82,7 +94,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test();
+    run_test("read_reg_test");
 end
 
 endmodule

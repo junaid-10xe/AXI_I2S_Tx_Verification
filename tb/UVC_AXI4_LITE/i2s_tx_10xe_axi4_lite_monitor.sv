@@ -20,7 +20,8 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
     uvm_analysis_port #(i2s_tx_10xe_seq_item) axi_a_port;
     //Interface handle of axi4-lite
     virtual i2s_tx_10xe_axi4_lite_intf axi4_lite_vif;
-
+    //Handle of transaction
+    i2s_tx_10xe_seq_item axi4_tr;
     //  Constructor: new
     function new(string name = "i2s_tx_10xe_axi4_lite_monitor", uvm_component parent);
         super.new(name, parent);
@@ -30,6 +31,7 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         axi_a_port = new("axi_a_port", this);
+        axi4_tr    = i2s_tx_10xe_seq_item::type_id::create("axi4_tr", this);
         if(!uvm_config_db#(virtual i2s_tx_10xe_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
@@ -38,9 +40,9 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
     //run phase to monitor signals
     task run_phase(uvm_phase phase);
        forever begin
-            i2s_tx_10xe_seq_item axi4_tr;
-            axi4_tr = i2s_tx_10xe_seq_item::type_id::create("axi4_tr", this);
-            repeat(2) @(posedge `MON_AX.s_axi_ctrl_aclk);
+            
+            
+            repeat(2) @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
                 //For address write channel
               axi4_tr.s_axi_ctrl_awaddr     = `MON_AX.s_axi_ctrl_awaddr;
               axi4_tr.s_axi_ctrl_awvalid    = `MON_AX.s_axi_ctrl_awvalid;

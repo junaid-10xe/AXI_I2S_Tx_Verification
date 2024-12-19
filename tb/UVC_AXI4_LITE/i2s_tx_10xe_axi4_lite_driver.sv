@@ -15,6 +15,9 @@
 class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
     `uvm_component_utils(i2s_tx_10xe_axi4_lite_driver)
 
+    //handle of transaction
+    i2s_tx_10xe_seq_item axi4_tr;
+
     //Constructor 
     function new(string name = "i2s_tx_10xe_axi4_lite_driver", uvm_component parent);
         super.new(name, parent);
@@ -34,7 +37,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
     //Run phase to drive signals to DUT
     task run_phase(uvm_phase phase);
         forever begin
-            i2s_tx_10xe_seq_item axi4_tr;
+            
             seq_item_port.get_next_item(axi4_tr);
             fork
                 write();
@@ -49,11 +52,11 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
     task write();
         `DR_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;      //For Address channel
         if (axi4_tr.s_axi_ctrl_awvalid) begin
-            @(posedge `DR_AX.s_axi_ctrl_aclk)
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
             `DR_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
             wait(`DR_AX.s_axi_ctrl_awready);                         //Wait to complete handshake
             if (axi4_tr.s_axi_ctrl_wvalid) begin                    //For Write data channel
-                @(posedge `DR_AX.s_axi_ctrl_aclk)
+                @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
                 `DR_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
                 wait(`DR_AX.s_axi_ctrl_wready);                      //Wait to complete Handshake
                 `DR_AX.s_axi_ctrl_wdata <= axi4_tr.s_axi_ctrl_wdata;
@@ -66,11 +69,11 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_seq_item);
     task read();
         `DR_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr; //For read address channel
         if (axi4_tr.s_axi_ctrl_arvalid) begin                 //Drive further if valid
-            @(posedge `DR_AX.s_axi_ctrl_aclk)
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
             `DR_AX.s_axi_ctrl_arvalid <= axi4_tr.s_axi_ctrl_arvalid;
             wait(`DR_AX.s_axi_ctrl_arready);                     //wait for ready to complete handshake
             if(axi4_tr.s_axi_ctrl_rready) begin
-                @(posedge `DR_AX.s_axi_ctrl_aclk)                 
+                @(posedge axi4_lite_vif.s_axi_ctrl_aclk)                 
                 `DR_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
             end
 
