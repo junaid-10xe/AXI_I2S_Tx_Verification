@@ -15,20 +15,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="150.970 ns"></ZoomEndTime>
-      <Cursor1Time time="881.579 ns"></Cursor1Time>
+      <ZoomEndTime time="1,558.592 ns"></ZoomEndTime>
+      <Cursor1Time time="150.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="519"></NameColumnWidth>
-      <ValueColumnWidth column_width="256"></ValueColumnWidth>
+      <NameColumnWidth column_width="327"></NameColumnWidth>
+      <ValueColumnWidth column_width="156"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="30" />
-   <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aclk">
-      <obj_property name="ElementShortName">s_axi_ctrl_aclk</obj_property>
-      <obj_property name="ObjectShortName">s_axi_ctrl_aclk</obj_property>
-      <obj_property name="CustomSignalColor">#008080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aresetn">
       <obj_property name="ElementShortName">s_axi_ctrl_aresetn</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_aresetn</obj_property>
@@ -111,6 +105,13 @@
       <obj_property name="ElementShortName">s_axi_ctrl_bresp[1:0]</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_bresp[1:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aclk">
+      <obj_property name="ElementShortName">s_axi_ctrl_aclk</obj_property>
+      <obj_property name="ObjectShortName">s_axi_ctrl_aclk</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_arvalid">

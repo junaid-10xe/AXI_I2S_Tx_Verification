@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi4_lite_driver.sv
+   > File Name: i2s_tx_10xe_axis_driver.sv
    > Description: This file drives the signals to dut using axi4-lite specifications.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan

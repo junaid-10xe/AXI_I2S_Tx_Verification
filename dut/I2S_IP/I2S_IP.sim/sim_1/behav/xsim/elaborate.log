@@ -20,14 +20,14 @@ WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical r
 WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_monitor.sv:64]
 WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_monitor.sv:65]
 WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_monitor.sv:66]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:53]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:56]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:60]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:62]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:64]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:55]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:61]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:65]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:67]
 WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:70]
-WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:73]
 WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:77]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:81]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv:85]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "/proj/xbuilds/SWIP/9999.0_1117_2127/installs/lin64/Vivado/2022.1/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 4356. Module uvm_pkg doesn't have a timescale but at least one module in design has a timescale.
