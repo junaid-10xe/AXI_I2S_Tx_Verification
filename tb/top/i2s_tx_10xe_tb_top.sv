@@ -16,15 +16,15 @@
   	`include "uvm_macros.svh"
 
     //Include files 
-    `include "i2s_tx_10xe_seq_item.sv"
-    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_seq.sv"
-    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_sequencer.sv"
-    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_monitor.sv"
-    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_driver.sv"
-    `include "UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_agent.sv"
+    `include "../env/i2s_tx_10xe_seq_item.sv"
+    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_seq.sv"
+    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_sequencer.sv"
+    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_monitor.sv"
+    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_driver.sv"
+    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_agent.sv"
 
-    `include "i2s_tx_10xe_env.sv"
-    `include "i2s_tx_10xe_base_test.sv"
+    `include "../env/i2s_tx_10xe_env.sv"
+    `include "../test_top/i2s_tx_10xe_base_test.sv"
 
  
 module i2s_tx_10xe_tb_top;

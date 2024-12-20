@@ -43,30 +43,13 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
             
             
             repeat(2) @(posedge axis_vif.s_axis_aud_aclk);
-                //For address write channel
-              axi4_tr.s_axi_ctrl_awaddr     = `MON_AXS.s_axi_ctrl_awaddr;
-              axi4_tr.s_axi_ctrl_awvalid    = `MON_AXS.s_axi_ctrl_awvalid;
-              axi4_tr.s_axi_ctrl_awready    = `MON_AXS.s_axi_ctrl_awready;
-            //For data write channel
-              axi4_tr.s_axi_ctrl_wdata      = `MON_AXS.s_axi_ctrl_wdata;
-              axi4_tr.s_axi_ctrl_wvalid     = `MON_AXS.s_axi_ctrl_wvalid; 
-              axi4_tr.s_axi_ctrl_wready     = `MON_AXS.s_axi_ctrl_wready;
-            //For write response channel
-              axi4_tr.s_axi_ctrl_bready     = `MON_AXS.s_axi_ctrl_bready;
-              axi4_tr.s_axi_ctrl_bresp      = `MON_AXS.s_axi_ctrl_bresp;
-              axi4_tr.s_axi_ctrl_bvalid     = `MON_AXS.s_axi_ctrl_bvalid;
-            //For read address channel
-              axi4_tr.s_axi_ctrl_araddr     = `MON_AXS.s_axi_ctrl_araddr;
-              axi4_tr.s_axi_ctrl_arvalid    = `MON_AXS.s_axi_ctrl_arvalid;
-              axi4_tr.s_axi_ctrl_arready    = `MON_AXS.s_axi_ctrl_arready;
-            //For read data channel
-              axi4_tr.s_axi_ctrl_rready     = `MON_AXS.s_axi_ctrl_rready;
-              axi4_tr.s_axi_ctrl_rdata      = `MON_AXS.s_axi_ctrl_rdata;
-              axi4_tr.s_axi_ctrl_rresp      = `MON_AXS.s_axi_ctrl_rresp;
-              axi4_tr.s_axi_ctrl_rvalid     = `MON_AXS.s_axi_ctrl_rvalid;
-            //Broadcast data to analysis port
-              axi_a_port.write(axi4_tr);
-              `uvm_info(get_name(),$sformatf(" Printing transaction in AXI4-Lite Monitor, \n  %s",axi4_tr.sprint()),UVM_LOW)
+              axis_tr.    = `MON_AXS.s_axis_aud_tvalid;
+              axis_tr.    = `MON_AXS.s_axis_aud_tready;
+              axis_tr.    = `MON_AXS.s_axis_aud_tid;
+              axis_tr.    = `MON_AXS.s_axis_aud_tdata;
+            //   Broadcast data to analysis port
+              axi_a_port.write(axis_tr);
+              `uvm_info(get_name(),$sformatf(" Printing transaction in AXI-Stream Monitor, \n  %s",axis_tr.sprint()),UVM_LOW)
        end
     endtask: run_phase
     

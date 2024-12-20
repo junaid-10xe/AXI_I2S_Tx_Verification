@@ -1,7 +1,7 @@
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/I2S_IP.gen/sources_1/ip/i2s_transmitter_0/sim/i2s_transmitter_0.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module i2s_transmitter_0
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv" into library xil_defaultlib
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv" into library xil_defaultlib
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_dut_intf.sv" into library xil_defaultlib
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/i2s_tx_10xe_tb_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/include/i2s_tx_10xe_axi4_lite_intf.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/include/i2s_tx_10xe_axi_stream_intf.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/include/i2s_tx_10xe_dut_intf.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/lpt-10xe/10xTraining/TCP/tb/top/i2s_tx_10xe_tb_top.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module i2s_tx_10xe_tb_top
