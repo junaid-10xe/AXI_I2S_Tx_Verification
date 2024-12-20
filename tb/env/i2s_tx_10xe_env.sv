@@ -17,6 +17,8 @@ class i2s_tx_10xe_env extends uvm_env;
 
     //Handle for axi4-lite agent
     i2s_tx_10xe_axi4_lite_agent         axi_agt;
+    //Handle fior axi-stream agent
+    i2s_tx_10xe_axis_agent              axis_agt;
 
     //  Constructor: new
     function new(string name = "i2s_tx_10xe_env", uvm_component parent);
@@ -26,7 +28,8 @@ class i2s_tx_10xe_env extends uvm_env;
     //Build Phase
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        axi_agt = i2s_tx_10xe_axi4_lite_agent::type_id::create("axi_agt", this);
+        axi_agt     = i2s_tx_10xe_axi4_lite_agent::type_id::create("axi_agt", this);
+        axis_agt    = i2s_tx_10xe_axis_agent::type_id::create("axis_agt", this);
     endfunction: build_phase
     
 
