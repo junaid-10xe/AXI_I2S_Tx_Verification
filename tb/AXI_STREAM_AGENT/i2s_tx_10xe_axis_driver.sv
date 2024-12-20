@@ -20,7 +20,7 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_seq_item);
     //Handle for transaction 
     i2s_tx_10xe_seq_item            axis_tr;
     //Handle for interface
-    i2s_tx_10xe_axi_stream_intf     axis_vif;
+    virtual i2s_tx_10xe_axi_stream_intf     axis_vif;
     //  Constructor: new
     function new(string name = "i2s_tx_10xe_axis_driver", uvm_component parent);
         super.new(name, parent);
@@ -40,7 +40,7 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_seq_item);
     task run_phase(uvm_phase phase);
         forever begin
             
-            seq_item_port.get_next_item(axi4_tr);
+            seq_item_port.get_next_item(axis_tr);
             axis_drive();
             `uvm_info(get_name(),$sformatf(" Data Driven to DUT from Axi-Stream Driver, \n  %s",axis_tr.sprint()),UVM_LOW)
             seq_item_port.item_done();

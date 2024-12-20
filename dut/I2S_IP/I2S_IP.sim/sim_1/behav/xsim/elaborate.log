@@ -28,6 +28,13 @@ WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical re
 WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_driver.sv:76]
 WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_driver.sv:81]
 WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_driver.sv:86]
+WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_monitor.sv:46]
+WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_monitor.sv:47]
+WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_monitor.sv:48]
+WARNING: [VRFC 10-9175] modport 'MONITOR' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_monitor.sv:49]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_driver.sv:54]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_driver.sv:55]
+WARNING: [VRFC 10-9175] modport 'DRIVER' should not be used in a hierarchical reference [/home/lpt-10xe/10xTraining/TCP/tb/top/../AXI_STREAM_AGENT/i2s_tx_10xe_axis_driver.sv:58]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "/proj/xbuilds/SWIP/9999.0_1117_2127/installs/lin64/Vivado/2022.1/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 4356. Module uvm_pkg doesn't have a timescale but at least one module in design has a timescale.
@@ -41,6 +48,8 @@ Compiling package std.std
 Compiling module xil_defaultlib.axi4_lite_driver
 Compiling module xil_defaultlib.axi4_lite_monitor
 Compiling module xil_defaultlib.i2s_tx_10xe_axi4_lite_intf
+Compiling module xil_defaultlib.axi_stream_driver
+Compiling module xil_defaultlib.axi_stream_monitor
 Compiling module xil_defaultlib.i2s_tx_10xe_axi_stream_intf
 Compiling module xil_defaultlib.i2s_tx_10xe_dut_intf
 Compiling module xpm.xpm_cdc_array_single(DEST_SYNC_F...

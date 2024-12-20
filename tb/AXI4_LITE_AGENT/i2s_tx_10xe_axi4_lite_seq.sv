@@ -79,4 +79,37 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
     
 endclass: read_reg_seq
 
+
+//Class: To reset signals before driving them
+class axi_rst_seq extends i2s_tx_10xe_axi4_lite_seq;
+    `uvm_object_utils(axi_rst_seq);
+
+    i2s_tx_10xe_seq_item    axi_seq;
+
+    //  Constructor: new
+    function new(string name = "axi_rst_seq");
+        super.new(name);
+    endfunction: new
+
+    //task body
+    task body();
+        `uvm_info(get_name(), "Executing Simple Seq", UVM_NONE)
+            //Turn off constraint to avoid overlaping 
+          //  axi_seq.read_reg.constraint_mode(0);
+            `uvm_do_with(axi_seq, {
+                                    
+                                    axi_seq.s_axi_ctrl_awaddr   == 0;
+                                    axi_seq.s_axi_ctrl_awvalid  == 0;
+                                    axi_seq.s_axi_ctrl_wdata    == 0;
+                                    axi_seq.s_axi_ctrl_wvalid   == 0;
+                                    axi_seq.s_axi_ctrl_bready   == 0;
+                                    axi_seq.s_axi_ctrl_araddr   == 0;
+                                    axi_seq.s_axi_ctrl_arvalid  == 0;
+                                    axi_seq.s_axi_ctrl_rready   == 0;
+                                  })
+    
+    endtask: body
+    
+endclass: axi_rst_seq
+
 `endif

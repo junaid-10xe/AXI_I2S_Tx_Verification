@@ -19,7 +19,7 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
    //Analysis Port
     uvm_analysis_port #(i2s_tx_10xe_seq_item) axis_a_port;
     //Interface handle of axi4-lite
-    virtual i2s_tx_10xe_axis_intf axis_vif;
+    virtual i2s_tx_10xe_axi_stream_intf axis_vif;
     //Handle of transaction
     i2s_tx_10xe_seq_item axis_tr;
     //  Constructor: new
@@ -43,12 +43,12 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
             
             
             repeat(2) @(posedge axis_vif.s_axis_aud_aclk);
-              axis_tr.    = `MON_AXS.s_axis_aud_tvalid;
-              axis_tr.    = `MON_AXS.s_axis_aud_tready;
-              axis_tr.    = `MON_AXS.s_axis_aud_tid;
-              axis_tr.    = `MON_AXS.s_axis_aud_tdata;
+              axis_tr.s_axis_aud_tvalid    = `MON_AXS.s_axis_aud_tvalid;
+              axis_tr.s_axis_aud_tready    = `MON_AXS.s_axis_aud_tready;
+              axis_tr.s_axis_aud_tid       = `MON_AXS.s_axis_aud_tid;
+              axis_tr.s_axis_aud_tdata     = `MON_AXS.s_axis_aud_tdata;
             //   Broadcast data to analysis port
-              axi_a_port.write(axis_tr);
+              axis_a_port.write(axis_tr);
               `uvm_info(get_name(),$sformatf(" Printing transaction in AXI-Stream Monitor, \n  %s",axis_tr.sprint()),UVM_LOW)
        end
     endtask: run_phase

@@ -79,4 +79,28 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
     
 endclass: axis_i2s_seq
 
+//Axi-Stream reset Sequence
+class axis_rst_seq extends i2s_tx_10xe_axis_seq;
+    `uvm_object_utils(axis_rst_seq);
+
+    i2s_tx_10xe_seq_item    axis_seq;
+
+    //  Constructor: new
+    function new(string name = "axis_rst_seq");
+        super.new(name);
+    endfunction: new
+        axis_seq.rand_mode(0);
+    //task body
+    task body();
+        `uvm_info(get_name(), "Executing axis rst Seq", UVM_NONE)
+            
+            `uvm_do_with(axis_seq, {axis_seq.s_axis_aud_tdata  == 0;
+                                    axis_seq.s_axis_aud_tvalid == 0;
+                                    axis_seq.s_axis_aud_tid    == 0;
+                                    })
+        
+    endtask: body
+
+endclass: axis_rst_seq
+
 `endif
