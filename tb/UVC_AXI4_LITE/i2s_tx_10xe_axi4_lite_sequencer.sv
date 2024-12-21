@@ -12,7 +12,7 @@
 `define I2S_TX_10XE_AXI4_LITE_SEQUENCER
 //  Class: i2s_tx_10xe_axi4_lite_sequencer
 //
-class i2s_tx_10xe_axi4_lite_sequencer extends uvm_sequencer #(i2s_tx_10xe_seq_item);
+class i2s_tx_10xe_axi4_lite_sequencer extends uvm_sequencer #(i2s_tx_10xe_axi4_lite_seq_item);
     `uvm_component_utils(i2s_tx_10xe_axi4_lite_sequencer);
     
     //  Constructor: new
