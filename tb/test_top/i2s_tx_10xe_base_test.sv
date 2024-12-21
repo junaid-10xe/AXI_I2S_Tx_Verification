@@ -58,8 +58,8 @@ class i2s_tx_10xe_base_test extends uvm_test;
 
     //Reset Phase to reset signals before driving 
     task reset_phase(uvm_phase phase);
-        phase.raise_objection(this);
-        `uvm_info(get_name(), "<reset_phase> started, objection raised.", UVM_NONE)
+        //phase.raise_objection(this);
+       // `uvm_info(get_name(), "<reset_phase> started, objection raised.", UVM_NONE)
         // Run reset sequnces in fork join to reset signals of bot axi and axi-stream
         
             axi_rst.start(env.axi_agt.axi_sqnr);
@@ -71,8 +71,8 @@ class i2s_tx_10xe_base_test extends uvm_test;
             wait(axis_vif.s_axis_aud_aresetn);
             wait(!dut_vif.aud_mrst);
         join
-        phase.drop_objection(this);
-        `uvm_info(get_name(), "<reset_phase> finished, objection dropped.", UVM_NONE)
+        //phase.drop_objection(this);
+        //`uvm_info(get_name(), "<reset_phase> finished, objection dropped.", UVM_NONE)
     endtask: reset_phase
     
     
