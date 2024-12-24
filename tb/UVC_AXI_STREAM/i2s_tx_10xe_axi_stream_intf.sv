@@ -41,6 +41,24 @@ modport DRIVER  (clocking axi_stream_driver,input s_axis_aud_aclk);
 //monitor modport  
 modport MONITOR (clocking axi_stream_monitor,input s_axis_aud_aclk);
 
+//Task for reset 
+task reset();
+  `uvm_info("STREAM_INTF", "Waiting for reset", UVM_NONE)
+  wait(!s_axis_aud_aresetn);
+
+  `uvm_info("STREAM_INTF", "RESET STARTED", UVM_NONE)
+
+  axi_stream_driver.s_axis_aud_tdata  <= 0;
+
+  axi_stream_driver.s_axis_aud_tid    <= 0;
+  
+  axi_stream_driver.s_axis_aud_tvalid <= 0;
+  `uvm_info("STREAM_INTF", "Waiting for reset to be deasserted", UVM_NONE)
+  wait(s_axis_aud_aresetn);
+  `uvm_info("STREAM_INTF", "RESET ENDED", UVM_NONE)
+
+endtask
+
 endinterface
 
 `endif

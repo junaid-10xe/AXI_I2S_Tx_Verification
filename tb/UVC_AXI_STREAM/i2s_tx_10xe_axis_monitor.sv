@@ -55,8 +55,11 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
 
     // Run Phase: Monitors signals and broadcasts transactions
     task run_phase(uvm_phase phase);
+        wait(axis_vif.s_axis_aud_aresetn);
+        
         forever begin
             // Wait for two positive edges of the clock to stabilize signals
+            
             repeat (2) @(posedge axis_vif.s_axis_aud_aclk);
             `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
 

@@ -8,27 +8,24 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-
+// include the UVM macros
+    `include "uvm_macros.svh"
 // import the UVM library
   	import uvm_pkg::*;
 
-  	// include the UVM macros
-  	`include "uvm_macros.svh"
+
+
+    //Include Interface 
+    `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
+    `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
+
+    //Import AXI4-LITE UVC PKG to include files
+    import i2s_tx_10xe_axi4_lite_pkg::*;
+    //Import AXI-STream PKG to include files
+    import i2s_tx_10xe_axis_pkg::*;
 
     //Include files 
     `include "../env/i2s_tx_10xe_seq_item.sv"
-    //AXI4-Lite agent files
-    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_seq.sv"
-    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_sequencer.sv"
-    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_monitor.sv"
-    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_driver.sv"
-    `include "../AXI4_LITE_AGENT/i2s_tx_10xe_axi4_lite_agent.sv"
-    //AXI-Stream Agent Files
-    `include "../AXI_STREAM_AGENT/i2s_tx_10xe_axis_seq.sv"
-    `include "../AXI_STREAM_AGENT/i2s_tx_10xe_axis_sequencer.sv"
-    `include "../AXI_STREAM_AGENT/i2s_tx_10xe_axis_monitor.sv"
-    `include "../AXI_STREAM_AGENT/i2s_tx_10xe_axis_driver.sv"
-    `include "../AXI_STREAM_AGENT/i2s_tx_10xe_axis_agent.sv"
 
     `include "../env/i2s_tx_10xe_env.sv"
     `include "../test_top/i2s_tx_10xe_base_test.sv"
@@ -101,7 +98,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("i2s_tx_10xe_base_test");
+    run_test("read_reg_test");
 end
 
 initial begin 

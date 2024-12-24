@@ -93,6 +93,26 @@ endclocking
   	//monitor modport  
     modport MONITOR (clocking axi4_lite_monitor,input s_axi_ctrl_aclk);
 
+    task reset();
+        `uvm_info("AXI-INTF", "Waiting for reset", UVM_NONE)
+        wait(!s_axi_ctrl_aresetn);
+        `uvm_info("AXI-INTF", "Reset Started", UVM_NONE)
+
+        s_axi_ctrl_awaddr   <= 0;
+        s_axi_ctrl_awvalid  <= 0;
+        s_axi_ctrl_wdata    <= 0;
+        s_axi_ctrl_wvalid   <= 0;
+        s_axi_ctrl_bready   <= 0;
+        s_axi_ctrl_araddr   <= 0;
+        s_axi_ctrl_arvalid  <= 0;
+        s_axi_ctrl_rready   <= 0;
+        `uvm_info("AXI-INTF", "Waiting for reset to be deasserted", UVM_NONE)
+        wait(s_axi_ctrl_aresetn);
+        `uvm_info("AXI-INTF", "Reset ENDED", UVM_NONE)
+
+        
+    endtask
+
 endinterface
 
 `endif

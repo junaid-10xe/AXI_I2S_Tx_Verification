@@ -41,6 +41,8 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
 
     // Run phase to drive signals to DUT
     task run_phase(uvm_phase phase);
+        wait(axis_vif.s_axis_aud_aresetn);
+
         forever begin
             `uvm_info(get_name(), "Waiting for next transaction", UVM_DEBUG)
             seq_item_port.get_next_item(axis_tr);
@@ -60,21 +62,30 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
         // Drive only if tvalid signal is enabled
         if (axis_tr.s_axis_aud_tvalid) begin
             `uvm_info(get_name(), "Driving AXI-Stream signals", UVM_DEBUG)
-
-            @(posedge axis_vif.s_axis_aud_aclk);
             `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
             `DRV_AXS.s_axis_aud_tid    <= axis_tr.s_axis_aud_tid;
-
+            @(posedge axis_vif.s_axis_aud_aclk);
             // Debug message before waiting for tready
             `uvm_info(get_name(), "Waiting for tready signal", UVM_DEBUG)
 
-            wait(`DRV_AXS.s_axis_aud_tready);
+            if(`DRV_AXS.s_axis_aud_tready) begin
+                `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
+                // @(posedge axis_vif.s_axis_aud_aclk);
+                `DRV_AXS.s_axis_aud_tvalid <= 0;
+                `uvm_info(get_name(), "I am in IF ", UVM_MEDIUM)
+                
+            end
+            else begin
+                //  @(posedge axis_vif.s_axis_aud_aclk);
+                // `DRV_AXS.s_axis_aud_tdata  <= 0;
+                `DRV_AXS.s_axis_aud_tvalid <= 0;
+                `uvm_info(get_name(), "I am in Else ", UVM_MEDIUM)
 
-            @(posedge axis_vif.s_axis_aud_aclk);
-            `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
 
+            end   
             `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
-        end else begin
+        end 
+        else begin
             `uvm_info(get_name(), "tvalid signal is low; no data driven", UVM_DEBUG)
         end
     endtask: axis_drive

@@ -21,33 +21,100 @@ class i2s_tx_10xe_axi4_lite_seq extends uvm_sequence;
     function new(string name = "i2s_tx_10xe_axi4_lite_seq");
         super.new(name);
     endfunction: new
+    //TODO(JUNAID) THESE tasks not working will see it later if time allowed
+//     uvm_phase phase;
+//     // // Task: pre_body
+//     task pre_body();
+//         `uvm_info(get_type_name(), "Inside pre_body", UVM_LOW);
+//         phase = get_starting_phase; // Retrieve phase information
+//         if (phase != null) begin 
+//             phase.raise_objection(this);
+//             `uvm_info(get_name(), "<SEQ> Started, objection Raised.", UVM_NONE)
+//         end
+//         else begin
+//             `uvm_error(get_name(), "<SEQ> Started, objection not Raised.")
+//         end
+//   endtask
 
-    // Task: pre_body
-    // Description: Optional code to execute before the main sequence body.
-    virtual task pre_body();
-        `uvm_info("BASE_SEQ", $sformatf("Optional code can be placed here in pre_body()"), UVM_MEDIUM)
-        
-        // Raise objection to indicate the start of the sequence
-        if (starting_phase != null) begin
-            starting_phase.raise_objection(this);
-            `uvm_info(get_name(), "<SEQ> Started, objection raised.", UVM_NONE)
-        end
-    endtask: pre_body
-
-    // Task: post_body
-    // Description: Optional code to execute after the main sequence body.
-    virtual task post_body();
-        `uvm_info("BASE_SEQ", $sformatf("Optional code can be placed here in post_body()"), UVM_MEDIUM)
-        
-        // Drop objection to indicate the end of the sequence
-        if (starting_phase != null) begin
-            starting_phase.drop_objection(this);
-            `uvm_info(get_name(), "<SEQ> Finished, objection dropped.", UVM_NONE)
-        end
-    endtask: post_body
+//     // // Task: post_body
+//     // // Description: Optional code to execute after the main sequence body.
+//     task post_body();
+//         `uvm_info(get_type_name(), "Inside post_body", UVM_LOW);
+//         if (phase != null) begin 
+//             phase.drop_objection(this);
+//             `uvm_info(get_name(), "<SEQ> Finished, objection Dropped.", UVM_NONE)
+//         end
+//         else begin
+//             `uvm_error(get_name(), "<SEQ> Finished, objection not Dropped.")
+//         end
+//     endtask
     
 endclass: i2s_tx_10xe_axi4_lite_seq
 
+//  Class: config_reg_seq
+//  Description: Sequence to configure core registers
+class config_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
+    `uvm_object_utils(config_reg_seq);
+
+    i2s_tx_10xe_axi4_lite_seq_item    axi_seq;  // Sequence item for AXI operations
+
+    // Constructor: new
+    // Description: Initializes the read_reg_seq class with the provided name.
+    function new(string name = "config_reg_seq");
+        super.new(name);
+    endfunction: new
+
+    // Task: body
+    // Description: Main execution body of the read register sequence.
+    task body();
+        `uvm_info(get_name(), "Executing Config Register Sequence", UVM_NONE)
+        axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
+        axi_seq.read_reg.constraint_mode(0);
+        repeat(1) begin
+        axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
+        axi_seq.read_reg.constraint_mode(0);
+        `uvm_info(get_name(), "Executing Control Register Sequence", UVM_NONE)
+        start_item(axi_seq);
+        assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h08;
+                               axi_seq.s_axi_ctrl_awvalid  == 1;
+                               axi_seq.s_axi_ctrl_wvalid   == 1;
+                               axi_seq.s_axi_ctrl_wdata    == 1;
+                               axi_seq.s_axi_ctrl_arvalid  == 0; 
+
+                              });
+        finish_item(axi_seq);
+        `uvm_info(get_name(), "Core Enabled", UVM_NONE)
+        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        start_item(axi_seq);
+        assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h0c;
+                              axi_seq.s_axi_ctrl_awvalid  == 1;
+                              axi_seq.s_axi_ctrl_wvalid   == 1;
+                              axi_seq.s_axi_ctrl_wdata    == 1;
+                              axi_seq.s_axi_ctrl_arvalid  == 0; 
+                               
+
+                             });
+        `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        finish_item(axi_seq);
+        `uvm_info(get_name(), "Executed validity Register Sequence", UVM_NONE)
+        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        start_item(axi_seq);
+        assert(axi_seq.randomize() with {
+                              axi_seq.s_axi_ctrl_awaddr   == 'h10;
+                              axi_seq.s_axi_ctrl_awvalid  == 1;
+                              axi_seq.s_axi_ctrl_wvalid   == 1;
+                              axi_seq.s_axi_ctrl_wdata    == 'h80000007;
+                              axi_seq.s_axi_ctrl_arvalid  == 0; 
+
+                             });
+        `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        finish_item(axi_seq);
+        end
+    endtask: body
+    
+endclass: config_reg_seq
 
 //  Class: read_reg_seq
 //  Description: Sequence to read from registers
@@ -68,48 +135,40 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
         `uvm_info(get_name(), "Executing Read Register Sequence", UVM_NONE)
 
         // Repeating the AXI transaction 50 times
-        repeat(50) begin
-            `uvm_do(axi_seq)  // Execute the AXI sequence
+        axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
+
+        repeat(10) begin
+            // `uvm_do(axi_seq)  // Execute the AXI sequence
+            start_item(axi_seq);
+            axi_seq.read_reg.constraint_mode(1);
+            assert(axi_seq.randomize()with {
+                // Allow read address valid signal to be active
+                axi_seq.s_axi_ctrl_arvalid == 1;
+            
+                // Restrict read address to specific register addresses
+                axi_seq.s_axi_ctrl_araddr inside {
+                    'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                    'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                    'h54, 'h58, 'h5C, 'h60, 'h64
+                };
+                 // Ensure read ready signal is active
+                axi_seq.s_axi_ctrl_rready == 1;
+            
+                // Ensure write operations are not active
+                axi_seq.s_axi_ctrl_awvalid == 0;
+                axi_seq.s_axi_ctrl_wvalid == 0;
+                }); 
+        `uvm_info(get_name(), "Executing Sequence", UVM_NONE)
+        
+        finish_item(axi_seq);
+        `uvm_info(get_name(), "Executed Read Sequence", UVM_NONE)
+
         end
     endtask: body
     
 endclass: read_reg_seq
 
 
-//  Class: axi_rst_seq
-//  Description: Sequence to reset signals before driving them in AXI interface
-class axi_rst_seq extends i2s_tx_10xe_axi4_lite_seq;
-    `uvm_object_utils(axi_rst_seq);
 
-    i2s_tx_10xe_axi4_lite_seq_item    axi_seq;  // Sequence item for AXI operations
-
-    // Constructor: new
-    // Description: Initializes the axi_rst_seq class with the provided name.
-    function new(string name = "axi_rst_seq");
-        super.new(name);
-    endfunction: new
-
-    // Task: body
-    // Description: Main execution body of the reset sequence.
-    task body();
-        `uvm_info(get_name(), "Executing AXI Reset Sequence", UVM_NONE)
-
-        // Optional: Turn off constraint to avoid overlapping signals
-        // axi_seq.read_reg.constraint_mode(0);  // Uncomment if required
-
-        // Drive signals to reset values using uvm_do_with
-        `uvm_do_with(axi_seq, {
-            axi_seq.s_axi_ctrl_awaddr   == 0;
-            axi_seq.s_axi_ctrl_awvalid  == 0;
-            axi_seq.s_axi_ctrl_wdata    == 0;
-            axi_seq.s_axi_ctrl_wvalid   == 0;
-            axi_seq.s_axi_ctrl_bready   == 0;
-            axi_seq.s_axi_ctrl_araddr   == 0;
-            axi_seq.s_axi_ctrl_arvalid  == 0;
-            axi_seq.s_axi_ctrl_rready   == 0;
-        })
-    endtask: body
-    
-endclass: axi_rst_seq
 
 `endif

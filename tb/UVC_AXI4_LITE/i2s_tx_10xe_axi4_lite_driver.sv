@@ -39,6 +39,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
     
     // Run Phase: Executes the transaction by calling write and read tasks in parallel.
     task run_phase(uvm_phase phase);
+        wait(axi4_lite_vif.s_axi_ctrl_aresetn);
         forever begin
             // Get next transaction item from sequencer
             seq_item_port.get_next_item(axi4_tr);
@@ -57,57 +58,58 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
 
     // Task: Write operation for AXI4-Lite signals
     task write();
-        `uvm_info(get_name(), "Starting Write Task...", UVM_DEBUG)
-
-        // Drive the write address signal (AWADDR)
-        `DRV_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;
-        // Check if AWVALID is set for address write
+        `uvm_info(get_name(), "Starting Write Task...", UVM_LOW)
         if (axi4_tr.s_axi_ctrl_awvalid) begin
-            @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
-            `DRV_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
-            // Wait for AWREADY signal (acknowledgment from DUT)
-            wait(`DRV_AX.s_axi_ctrl_awready);  
-            `uvm_info(get_name(), $sformatf("Write Address Handshake: AWADDR = %h, AWVALID = %b, AWREADY = %b", 
-                axi4_tr.s_axi_ctrl_awaddr, axi4_tr.s_axi_ctrl_awvalid, `DRV_AX.s_axi_ctrl_awready), UVM_DEBUG)
+            `uvm_info(get_name(), "Before Address Channel...", UVM_HIGH)
 
-            // If WVALID is set, write the data
-            if (axi4_tr.s_axi_ctrl_wvalid) begin
-                @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
-                `DRV_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
-                // Wait for WREADY (acknowledgment from DUT)
-                wait(`DRV_AX.s_axi_ctrl_wready);  
-                `DRV_AX.s_axi_ctrl_wdata <= axi4_tr.s_axi_ctrl_wdata;
-                `uvm_info(get_name(), $sformatf("Write Data Channel: WVALID = %b, WDATA = %h", 
-                    axi4_tr.s_axi_ctrl_wvalid, axi4_tr.s_axi_ctrl_wdata), UVM_DEBUG)
-            end
-            // Set the write response ready (BREADY)
-            `DRV_AX.s_axi_ctrl_bready  <= axi4_tr.s_axi_ctrl_bready;
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            //Write Address Channel
+            `DRV_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
+            `DRV_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;
+            `uvm_info(get_name(), "After Address Channel...", UVM_HIGH)
+
+            wait(`DRV_AX.s_axi_ctrl_awready);  
+            // Check if AWVALID is set for address write
+            // Wait for AWREADY signal (acknowledgment from DUT)
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            `DRV_AX.s_axi_ctrl_awvalid <= 0;
+            //Write DATA Channel
+            `uvm_info(get_name(), "BEFORE DATA Channel...", UVM_HIGH)
+            `DRV_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
+            `DRV_AX.s_axi_ctrl_wdata   <= axi4_tr.s_axi_ctrl_wdata;
+            // Wait for WREADY (acknowledgment from DUT)
+            wait(`DRV_AX.s_axi_ctrl_wready);
+            `uvm_info(get_name(), "After DATA Channel...", UVM_HIGH)
+            // Wait for BVALID (acknowledgment from DUT)
+            wait(`DRV_AX.s_axi_ctrl_bvalid);
+            `DRV_AX.s_axi_ctrl_bready  <= 1;
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            `DRV_AX.s_axi_ctrl_bready  <= 0;
+            `DRV_AX.s_axi_ctrl_wvalid  <= 0;  
+            `uvm_info(get_name(), "After RESP Channel...", UVM_LOW)
         end
+
+        
     endtask: write
 
     // Task: Read operation for AXI4-Lite signals
     task read();
         `uvm_info(get_name(), "Starting Read Task...", UVM_DEBUG)
-
+        //Read Address Channel
         // Drive the read address signal (ARADDR)
-        `DRV_AX.s_axi_ctrl_araddr <= axi4_tr.s_axi_ctrl_araddr;
-        // If ARVALID is set, start read operation
         if (axi4_tr.s_axi_ctrl_arvalid) begin
-            @(posedge axi4_lite_vif.s_axi_ctrl_aclk)
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            `DRV_AX.s_axi_ctrl_araddr  <= axi4_tr.s_axi_ctrl_araddr;
             `DRV_AX.s_axi_ctrl_arvalid <= axi4_tr.s_axi_ctrl_arvalid;
             // Wait for ARREADY (acknowledgment from DUT)
             wait(`DRV_AX.s_axi_ctrl_arready);  
-            `uvm_info(get_name(), $sformatf("Read Address Handshake: ARADDR = %h, ARVALID = %b, ARREADY = %b", 
-                axi4_tr.s_axi_ctrl_araddr, axi4_tr.s_axi_ctrl_arvalid, `DRV_AX.s_axi_ctrl_arready), UVM_DEBUG)
-
+            @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            `DRV_AX.s_axi_ctrl_arvalid <= 0;
+            //Read Data Channel
+            `DRV_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
             // Wait for RVALID signal indicating data is ready
             wait(`DRV_AX.s_axi_ctrl_rvalid);
-            // If RREADY is set, complete the read operation
-            if(axi4_tr.s_axi_ctrl_rready) begin
-                @(posedge axi4_lite_vif.s_axi_ctrl_aclk)                 
-                `DRV_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
-                `uvm_info(get_name(), $sformatf("Read Data Channel: RREADY = %b", axi4_tr.s_axi_ctrl_rready), UVM_DEBUG)
-            end
+            `DRV_AX.s_axi_ctrl_rready <= 0;               
         end    
     endtask: read
 

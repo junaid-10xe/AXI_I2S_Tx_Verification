@@ -21,7 +21,6 @@ package i2s_tx_10xe_axis_pkg;
     //TODO
 
     //include UVC files
-    `include "i2s_tx_10xe_axi_stream_intf.sv"
     `include "i2s_tx_10xe_axis_seq_item.sv"
     `include "i2s_tx_10xe_axis_seq.sv"
     `include "i2s_tx_10xe_axis_sequencer.sv"

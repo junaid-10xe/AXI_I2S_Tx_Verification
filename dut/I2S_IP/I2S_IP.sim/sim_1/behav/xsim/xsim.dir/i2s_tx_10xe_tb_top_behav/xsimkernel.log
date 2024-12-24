@@ -1,4 +1,4 @@
-Running: xsim.dir/i2s_tx_10xe_tb_top_behav/xsimk -simmode gui -wdb i2s_tx_10xe_tb_top_behav.wdb -simrunnum 0 -socket 59151
+Running: xsim.dir/i2s_tx_10xe_tb_top_behav/xsimk -simmode gui -wdb i2s_tx_10xe_tb_top_behav.wdb -simrunnum 0 -socket 41539
 Design successfully loaded
-Design Loading Memory Usage: 44088 KB (Peak: 44096 KB)
-Design Loading CPU Usage: 60 ms
+Design Loading Memory Usage: 45540 KB (Peak: 45540 KB)
+Design Loading CPU Usage: 80 ms

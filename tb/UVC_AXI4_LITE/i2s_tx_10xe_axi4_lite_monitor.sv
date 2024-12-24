@@ -39,44 +39,35 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
     
     //run phase to monitor signals
     task run_phase(uvm_phase phase);
+      wait(axi4_lite_vif.s_axi_ctrl_aresetn);
        forever begin
             
-            repeat(2) @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            repeat(3) @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
                 //For address write channel
               axi4_tr.s_axi_ctrl_awaddr     = `MON_AX.s_axi_ctrl_awaddr;
               axi4_tr.s_axi_ctrl_awvalid    = `MON_AX.s_axi_ctrl_awvalid;
               axi4_tr.s_axi_ctrl_awready    = `MON_AX.s_axi_ctrl_awready;
-              `uvm_info(get_name(), $sformatf("Address Write Channel: AWADDR = %h, AWVALID = %b, AWREADY = %b", 
-                axi4_tr.s_axi_ctrl_awaddr, axi4_tr.s_axi_ctrl_awvalid, axi4_tr.s_axi_ctrl_awready), UVM_DEBUG);
               
             //For data write channel
               axi4_tr.s_axi_ctrl_wdata      = `MON_AX.s_axi_ctrl_wdata;
               axi4_tr.s_axi_ctrl_wvalid     = `MON_AX.s_axi_ctrl_wvalid; 
               axi4_tr.s_axi_ctrl_wready     = `MON_AX.s_axi_ctrl_wready;
-              `uvm_info(get_name(), $sformatf("Data Write Channel: WDATA = %h, WVALID = %b, WREADY = %b", 
-                axi4_tr.s_axi_ctrl_wdata, axi4_tr.s_axi_ctrl_wvalid, axi4_tr.s_axi_ctrl_wready), UVM_DEBUG);
-
+             
             //For write response channel
               axi4_tr.s_axi_ctrl_bready     = `MON_AX.s_axi_ctrl_bready;
               axi4_tr.s_axi_ctrl_bresp      = `MON_AX.s_axi_ctrl_bresp;
               axi4_tr.s_axi_ctrl_bvalid     = `MON_AX.s_axi_ctrl_bvalid;
-              `uvm_info(get_name(), $sformatf("Write Response Channel: BREADY = %b, BRESP = %b, BVALID = %b", 
-                axi4_tr.s_axi_ctrl_bready, axi4_tr.s_axi_ctrl_bresp, axi4_tr.s_axi_ctrl_bvalid), UVM_DEBUG);
-
+              
             //For read address channel
               axi4_tr.s_axi_ctrl_araddr     = `MON_AX.s_axi_ctrl_araddr;
               axi4_tr.s_axi_ctrl_arvalid    = `MON_AX.s_axi_ctrl_arvalid;
               axi4_tr.s_axi_ctrl_arready    = `MON_AX.s_axi_ctrl_arready;
-              `uvm_info(get_name(), $sformatf("Read Address Channel: ARADDR = %h, ARVALID = %b, ARREADY = %b", 
-                axi4_tr.s_axi_ctrl_araddr, axi4_tr.s_axi_ctrl_arvalid, axi4_tr.s_axi_ctrl_arready), UVM_DEBUG);
-
+              
             //For read data channel
               axi4_tr.s_axi_ctrl_rready     = `MON_AX.s_axi_ctrl_rready;
               axi4_tr.s_axi_ctrl_rdata      = `MON_AX.s_axi_ctrl_rdata;
               axi4_tr.s_axi_ctrl_rresp      = `MON_AX.s_axi_ctrl_rresp;
               axi4_tr.s_axi_ctrl_rvalid     = `MON_AX.s_axi_ctrl_rvalid;
-              `uvm_info(get_name(), $sformatf("Read Data Channel: RREADY = %b, RDATA = %h, RRESP = %b, RVALID = %b", 
-                axi4_tr.s_axi_ctrl_rready, axi4_tr.s_axi_ctrl_rdata, axi4_tr.s_axi_ctrl_rresp, axi4_tr.s_axi_ctrl_rvalid), UVM_DEBUG);
               
             //Broadcast data to analysis port
               axi_a_port.write(axi4_tr);
