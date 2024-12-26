@@ -62,32 +62,24 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
         // Drive only if tvalid signal is enabled
         if (axis_tr.s_axis_aud_tvalid) begin
             `uvm_info(get_name(), "Driving AXI-Stream signals", UVM_DEBUG)
+            @(posedge axis_vif.s_axis_aud_aclk);
             `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
             `DRV_AXS.s_axis_aud_tid    <= axis_tr.s_axis_aud_tid;
-            @(posedge axis_vif.s_axis_aud_aclk);
+            `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
             // Debug message before waiting for tready
             `uvm_info(get_name(), "Waiting for tready signal", UVM_DEBUG)
 
-            if(`DRV_AXS.s_axis_aud_tready) begin
-                `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
-                // @(posedge axis_vif.s_axis_aud_aclk);
-                `DRV_AXS.s_axis_aud_tvalid <= 0;
-                `uvm_info(get_name(), "I am in IF ", UVM_MEDIUM)
+
+            wait(`DRV_AXS.s_axis_aud_tready);
+            // @(posedge axis_vif.s_axis_aud_aclk);
+
+            // @(posedge axis_vif.s_axis_aud_aclk);
+            // `DRV_AXS.s_axis_aud_tvalid <= 0;
+            // `uvm_info(get_name(), "I am in IF ", UVM_MEDIUM)
                 
-            end
-            else begin
-                //  @(posedge axis_vif.s_axis_aud_aclk);
-                // `DRV_AXS.s_axis_aud_tdata  <= 0;
-                `DRV_AXS.s_axis_aud_tvalid <= 0;
-                `uvm_info(get_name(), "I am in Else ", UVM_MEDIUM)
-
-
-            end   
-            `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
-        end 
-        else begin
-            `uvm_info(get_name(), "tvalid signal is low; no data driven", UVM_DEBUG)
         end
+        `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
+        
     endtask: axis_drive
 endclass: i2s_tx_10xe_axis_driver
 

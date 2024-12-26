@@ -11,107 +11,135 @@
 `ifndef I2S_TX_10XE_AXI4_LITE_INTF
 `define I2S_TX_10XE_AXI4_LITE_INTF
 
-interface i2s_tx_10xe_axi4_lite_intf (input s_axi_ctrl_aclk, input s_axi_ctrl_aresetn );
+interface i2s_tx_10xe_axi4_lite_intf #(parameter AWIDTH = 8, parameter DWIDTH = 32) (input s_axi_ctrl_aclk, input s_axi_ctrl_aresetn);
 
-//for address write channel 
-logic                  s_axi_ctrl_awvalid;
-logic                  s_axi_ctrl_awready;
-logic [7:0]            s_axi_ctrl_awaddr;
-//for write data channel
-logic                    s_axi_ctrl_wvalid;
-logic                    s_axi_ctrl_wready;
-logic [31:0]             s_axi_ctrl_wdata;
-//for write response channel
-logic                    s_axi_ctrl_bvalid;
-logic                    s_axi_ctrl_bready;
-logic [1:0]              s_axi_ctrl_bresp;
-//for read address channel
-logic                    s_axi_ctrl_arvalid;
-logic                    s_axi_ctrl_arready;
-logic [7:0]              s_axi_ctrl_araddr;
-//for read data channel
-logic                    s_axi_ctrl_rvalid;
-logic                    s_axi_ctrl_rready;
-logic [1:0]              s_axi_ctrl_rresp;
-logic [31:0]             s_axi_ctrl_rdata;
+  // AXI4-Lite Address Write Channel
+  logic                  s_axi_ctrl_awvalid;
+  logic                  s_axi_ctrl_awready;
+  logic [AWIDTH-1:0]     s_axi_ctrl_awaddr;
 
+  // AXI4-Lite Write Data Channel
+  logic                  s_axi_ctrl_wvalid;
+  logic                  s_axi_ctrl_wready;
+  logic [DWIDTH-1:0]     s_axi_ctrl_wdata;
 
-//Signals for Axi4_Lite driver
-clocking axi4_lite_driver @(posedge s_axi_ctrl_aclk);
-    //For address write channel
+  // AXI4-Lite Write Response Channel
+  logic                  s_axi_ctrl_bvalid;
+  logic                  s_axi_ctrl_bready;
+  logic [1:0]            s_axi_ctrl_bresp;
+
+  // AXI4-Lite Read Address Channel
+  logic                  s_axi_ctrl_arvalid;
+  logic                  s_axi_ctrl_arready;
+  logic [AWIDTH-1:0]     s_axi_ctrl_araddr;
+
+  // AXI4-Lite Read Data Channel
+  logic                  s_axi_ctrl_rvalid;
+  logic                  s_axi_ctrl_rready;
+  logic [1:0]            s_axi_ctrl_rresp;
+  logic [DWIDTH-1:0]     s_axi_ctrl_rdata;
+
+//   //Clk and reset signals
+//   logic s_axi_ctrl_aclk; 
+//   logic s_axi_ctrl_aresetn;
+
+//    // Automated clock generation
+//   initial begin
+//     s_axi_ctrl_aclk = 0;
+//     forever #(CLK_PERIOD / 2) s_axi_ctrl_aclk = ~s_axi_ctrl_aclk;
+//   end
+
+//   // Automated reset generation
+//   initial begin
+//     s_axi_ctrl_aresetn = 0;
+//     #(10 * CLK_PERIOD); // Hold reset for a few clock cycles
+//     s_axi_ctrl_aresetn = 1;
+//   end
+
+  // AXI4-Lite Driver Signals
+  clocking axi4_lite_driver @(posedge s_axi_ctrl_aclk);
+    // Address Write Channel
     output s_axi_ctrl_awaddr;
     output s_axi_ctrl_awvalid;
     input  s_axi_ctrl_awready;
-    //For data write channel
+
+    // Write Data Channel
     output s_axi_ctrl_wdata;
     output s_axi_ctrl_wvalid;
     input  s_axi_ctrl_wready;
-    //For write response channel
+
+    // Write Response Channel
     output s_axi_ctrl_bready;
     input  s_axi_ctrl_bresp;
     input  s_axi_ctrl_bvalid;
-    //For read address channel
+
+    // Read Address Channel
     output s_axi_ctrl_araddr;
     output s_axi_ctrl_arvalid;
     input  s_axi_ctrl_arready;
-    //For read data channel
+
+    // Read Data Channel
     output s_axi_ctrl_rready;
     input  s_axi_ctrl_rdata;
     input  s_axi_ctrl_rresp;
     input  s_axi_ctrl_rvalid;
+  endclocking
 
-endclocking
-
-//Signals for Axi4_Lite Monitor
-clocking axi4_lite_monitor @(posedge s_axi_ctrl_aclk);
-    //For address write channel
+  // AXI4-Lite Monitor Signals
+  clocking axi4_lite_monitor @(posedge s_axi_ctrl_aclk);
+    // Address Write Channel
     input  s_axi_ctrl_awaddr;
     input  s_axi_ctrl_awvalid;
     input  s_axi_ctrl_awready;
-    //For data write channel
+
+    // Write Data Channel
     input  s_axi_ctrl_wdata;
     input  s_axi_ctrl_wvalid;
     input  s_axi_ctrl_wready;
-    //For write response channel
+
+    // Write Response Channel
     input  s_axi_ctrl_bready;
     input  s_axi_ctrl_bresp;
     input  s_axi_ctrl_bvalid;
-    //For read address channel
+
+    // Read Address Channel
     input  s_axi_ctrl_araddr;
     input  s_axi_ctrl_arvalid;
     input  s_axi_ctrl_arready;
-    //For read data channel
+
+    // Read Data Channel
     input  s_axi_ctrl_rready;
     input  s_axi_ctrl_rdata;
     input  s_axi_ctrl_rresp;
     input  s_axi_ctrl_rvalid;
-endclocking
+  endclocking
 
-	//driver modport
-  	modport DRIVER  (clocking axi4_lite_driver,input s_axi_ctrl_aclk);
-  
-  	//monitor modport  
-    modport MONITOR (clocking axi4_lite_monitor,input s_axi_ctrl_aclk);
+  // Driver Modport
+  modport DRIVER (clocking axi4_lite_driver, input s_axi_ctrl_aclk);
 
-    task reset();
-        `uvm_info("AXI-INTF", "Waiting for reset", UVM_NONE)
-        wait(!s_axi_ctrl_aresetn);
-        `uvm_info("AXI-INTF", "Reset Started", UVM_NONE)
+  // Monitor Modport
+  modport MONITOR (clocking axi4_lite_monitor, input s_axi_ctrl_aclk);
 
-        s_axi_ctrl_awaddr   <= 0;
-        s_axi_ctrl_awvalid  <= 0;
-        s_axi_ctrl_wdata    <= 0;
-        s_axi_ctrl_wvalid   <= 0;
-        s_axi_ctrl_bready   <= 0;
-        s_axi_ctrl_araddr   <= 0;
-        s_axi_ctrl_arvalid  <= 0;
-        s_axi_ctrl_rready   <= 0;
-        `uvm_info("AXI-INTF", "Waiting for reset to be deasserted", UVM_NONE)
-        wait(s_axi_ctrl_aresetn);
-        `uvm_info("AXI-INTF", "Reset ENDED", UVM_NONE)
+  // Reset Task
+  task reset();
+    `uvm_info("AXI4-LITE_INTF", "Waiting for reset", UVM_NONE)
+    wait(!s_axi_ctrl_aresetn);
 
-        
-    endtask
+    `uvm_info("AXI4-LITE_INTF", "Reset Started", UVM_NONE)
+    axi4_lite_driver.s_axi_ctrl_awaddr  <= 0;
+    axi4_lite_driver.s_axi_ctrl_awvalid <= 0;
+    axi4_lite_driver.s_axi_ctrl_wdata   <= 0;
+    axi4_lite_driver.s_axi_ctrl_wvalid  <= 0;
+    axi4_lite_driver.s_axi_ctrl_bready  <= 0;
+    axi4_lite_driver.s_axi_ctrl_araddr  <= 0;
+    axi4_lite_driver.s_axi_ctrl_arvalid <= 0;
+    axi4_lite_driver.s_axi_ctrl_rready  <= 0;
+
+    `uvm_info("AXI4-LITE_INTF", "Waiting for reset deassertion", UVM_NONE)
+    wait(s_axi_ctrl_aresetn);
+
+    `uvm_info("AXI4-LITE_INTF", "Reset Ended", UVM_NONE)
+  endtask
 
 endinterface
 

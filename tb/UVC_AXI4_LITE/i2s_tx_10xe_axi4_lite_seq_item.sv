@@ -45,7 +45,7 @@ class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
     // Address Write Channel
     rand bit                    s_axi_ctrl_awvalid;   // Address write valid
     bit                         s_axi_ctrl_awready;   // Address write ready
-    rand bit [7:0]              s_axi_ctrl_awaddr;    // Write address
+    randc bit [7:0]              s_axi_ctrl_awaddr;    // Write address
 
     // Write Data Channel
     rand bit                    s_axi_ctrl_wvalid;    // Write data valid
@@ -60,7 +60,7 @@ class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
     // Read Address Channel
     rand bit                    s_axi_ctrl_arvalid;   // Read address valid
     bit                         s_axi_ctrl_arready;   // Read address ready
-    rand bit [7:0]              s_axi_ctrl_araddr;    // Read address
+    randc bit [7:0]              s_axi_ctrl_araddr;    // Read address
 
     // Read Data Channel
     bit                         s_axi_ctrl_rvalid;    // Read data valid

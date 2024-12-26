@@ -61,8 +61,64 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
     // Description: Executes the main sequence logic
     task body();
         `uvm_info(get_name(), "Executing axis_i2s Seq", UVM_NONE)
-        repeat (10) begin
-            `uvm_do_with(axis_seq, {axis_seq.s_axis_aud_tdata==1;})
+        axis_seq = i2s_tx_10xe_axis_seq_item::type_id::create("axis_seq");
+        axis_seq.data_tid.constraint_mode(0);
+        start_item(axis_seq);
+        assert(axis_seq.randomize() with {
+                                        axis_seq.s_axis_aud_tvalid       == 1;
+                                        axis_seq.s_axis_aud_tdata[31]    == 0;  // Parity
+                                        axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
+                                        axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
+                                        axis_seq.s_axis_aud_tdata[28]    == 0;  // Validity Bit
+                                        axis_seq.s_axis_aud_tdata[27:0]   == 1;//, 4'b0011};  // Specific valid values
+                                        axis_seq.s_axis_aud_tid          == 3'b000; 
+   
+             
+                                        });
+        finish_item(axis_seq);
+        start_item(axis_seq);
+        assert(axis_seq.randomize() with {
+                                        axis_seq.s_axis_aud_tvalid       == 1;
+                                        axis_seq.s_axis_aud_tdata[31]    == 0;  // Parity
+                                        axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
+                                        axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
+                                        axis_seq.s_axis_aud_tdata[28]    == 0;  // Validity Bit
+                                        axis_seq.s_axis_aud_tdata[27:0]   == 3;//, 4'b0011};  // Specific valid values
+                                        axis_seq.s_axis_aud_tid          == 3'b001; 
+   
+             
+                                        });
+        finish_item(axis_seq);
+        // axis_seq.data_tid.constraint_mode(1);
+        repeat (100) begin
+            // `uvm_do(axis_seq)
+
+            start_item(axis_seq);
+            assert(axis_seq.randomize() with {
+                axis_seq.s_axis_aud_tvalid       == 1;
+                axis_seq.s_axis_aud_tdata[31]    == 0;  // Parity
+                // axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
+                axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
+                // axis_seq.s_axis_aud_tdata[28]    == 1;  // Validity Bit
+                axis_seq.s_axis_aud_tdata[3:0]   == 4'b0010;//, 4'b0011};  // Specific valid values
+                axis_seq.s_axis_aud_tid          == 3'b000; 
+
+
+                });
+            finish_item(axis_seq);
+            start_item(axis_seq);
+            assert(axis_seq.randomize() with {
+                axis_seq.s_axis_aud_tvalid       == 1;
+                axis_seq.s_axis_aud_tdata[31]    == 0;  // Parity
+                // axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
+                axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
+                // axis_seq.s_axis_aud_tdata[28]    == 1;  // Validity Bit
+                axis_seq.s_axis_aud_tdata[3:0]   == 4'b0011;//, 4'b0011};  // Specific valid values
+                axis_seq.s_axis_aud_tid          == 3'b001; 
+
+
+                });
+            finish_item(axis_seq);
         end
     endtask: body
 

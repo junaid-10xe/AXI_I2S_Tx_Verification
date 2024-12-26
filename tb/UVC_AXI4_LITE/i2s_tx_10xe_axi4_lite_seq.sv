@@ -73,6 +73,93 @@ class config_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
         repeat(1) begin
         axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
         axi_seq.read_reg.constraint_mode(0);
+        
+        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h0c;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 0;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+                               
+
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
+        // `uvm_info(get_name(), "Executed validity Register Sequence", UVM_NONE)
+        // `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {
+        //                       axi_seq.s_axi_ctrl_awaddr   == 'h10;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 'h80000000;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
+        // `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h0c;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 0;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+                               
+
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
+        // `uvm_info(get_name(), "Executed validity Register Sequence", UVM_NONE)
+        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
+        start_item(axi_seq);
+        assert(axi_seq.randomize() with {
+                              axi_seq.s_axi_ctrl_awaddr   == 'h20;
+                              axi_seq.s_axi_ctrl_awvalid  == 1;
+                              axi_seq.s_axi_ctrl_wvalid   == 1;
+                              axi_seq.s_axi_ctrl_wdata    == 'h02;
+                              axi_seq.s_axi_ctrl_arvalid  == 0; 
+                             });
+        `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        finish_item(axi_seq);
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {
+        //                       axi_seq.s_axi_ctrl_awaddr   == 'h34;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 0;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {
+        //                       axi_seq.s_axi_ctrl_awaddr   == 'h38;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 0;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
+        // start_item(axi_seq);
+        // assert(axi_seq.randomize() with {
+        //                       axi_seq.s_axi_ctrl_awaddr   == 'h3C;
+        //                       axi_seq.s_axi_ctrl_awvalid  == 1;
+        //                       axi_seq.s_axi_ctrl_wvalid   == 1;
+        //                       axi_seq.s_axi_ctrl_wdata    == 0;
+        //                       axi_seq.s_axi_ctrl_arvalid  == 0; 
+        //                      });
+        // `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
+        
+        // finish_item(axi_seq);
         `uvm_info(get_name(), "Executing Control Register Sequence", UVM_NONE)
         start_item(axi_seq);
         assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h08;
@@ -84,33 +171,6 @@ class config_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
                               });
         finish_item(axi_seq);
         `uvm_info(get_name(), "Core Enabled", UVM_NONE)
-        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
-        start_item(axi_seq);
-        assert(axi_seq.randomize() with {axi_seq.s_axi_ctrl_awaddr   == 'h0c;
-                              axi_seq.s_axi_ctrl_awvalid  == 1;
-                              axi_seq.s_axi_ctrl_wvalid   == 1;
-                              axi_seq.s_axi_ctrl_wdata    == 1;
-                              axi_seq.s_axi_ctrl_arvalid  == 0; 
-                               
-
-                             });
-        `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
-        
-        finish_item(axi_seq);
-        `uvm_info(get_name(), "Executed validity Register Sequence", UVM_NONE)
-        `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
-        start_item(axi_seq);
-        assert(axi_seq.randomize() with {
-                              axi_seq.s_axi_ctrl_awaddr   == 'h10;
-                              axi_seq.s_axi_ctrl_awvalid  == 1;
-                              axi_seq.s_axi_ctrl_wvalid   == 1;
-                              axi_seq.s_axi_ctrl_wdata    == 'h80000007;
-                              axi_seq.s_axi_ctrl_arvalid  == 0; 
-
-                             });
-        `uvm_info(get_name(), "Executing validity Register Sequence", UVM_NONE)
-        
-        finish_item(axi_seq);
         end
     endtask: body
     
@@ -137,7 +197,7 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
         // Repeating the AXI transaction 50 times
         axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
 
-        repeat(10) begin
+        repeat(34) begin
             // `uvm_do(axi_seq)  // Execute the AXI sequence
             start_item(axi_seq);
             axi_seq.read_reg.constraint_mode(1);
@@ -146,11 +206,13 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
                 axi_seq.s_axi_ctrl_arvalid == 1;
             
                 // Restrict read address to specific register addresses
-                axi_seq.s_axi_ctrl_araddr inside {
-                    'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
-                    'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                    'h54, 'h58, 'h5C, 'h60, 'h64
-                };
+                // axi_seq.s_axi_ctrl_araddr inside {
+                //     'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                //     'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                //     'h54, 'h58, 'h5C, 'h60, 'h64
+                // };
+                axi_seq.s_axi_ctrl_araddr == 'h14;
+
                  // Ensure read ready signal is active
                 axi_seq.s_axi_ctrl_rready == 1;
             

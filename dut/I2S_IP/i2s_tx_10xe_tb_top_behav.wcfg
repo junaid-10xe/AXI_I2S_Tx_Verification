@@ -17,14 +17,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,090.001 ns"></ZoomEndTime>
-      <Cursor1Time time="310.000 ns"></Cursor1Time>
+      <ZoomEndTime time="3,510.001 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="352"></NameColumnWidth>
-      <ValueColumnWidth column_width="172"></ValueColumnWidth>
+      <NameColumnWidth column_width="298"></NameColumnWidth>
+      <ValueColumnWidth column_width="278"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="31" />
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aresetn">
       <obj_property name="ElementShortName">s_axi_ctrl_aresetn</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_aresetn</obj_property>
@@ -43,6 +43,18 @@
       <obj_property name="CustomSignalColor">#808080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aclk">
+      <obj_property name="ElementShortName">s_axi_ctrl_aclk</obj_property>
+      <obj_property name="ObjectShortName">s_axi_ctrl_aclk</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_awaddr">
+      <obj_property name="ElementShortName">s_axi_ctrl_awaddr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_ctrl_awaddr[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_awvalid">
       <obj_property name="ElementShortName">s_axi_ctrl_awvalid</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_awvalid</obj_property>
@@ -52,12 +64,6 @@
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_awready">
       <obj_property name="ElementShortName">s_axi_ctrl_awready</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_awready</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_awaddr">
-      <obj_property name="ElementShortName">s_axi_ctrl_awaddr[7:0]</obj_property>
-      <obj_property name="ObjectShortName">s_axi_ctrl_awaddr[7:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -104,6 +110,13 @@
       <obj_property name="CustomSignalColor">#008080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_araddr">
+      <obj_property name="ElementShortName">s_axi_ctrl_araddr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_ctrl_araddr[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_arvalid">
       <obj_property name="ElementShortName">s_axi_ctrl_arvalid</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_arvalid</obj_property>
@@ -113,13 +126,6 @@
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_arready">
       <obj_property name="ElementShortName">s_axi_ctrl_arready</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_arready</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_araddr">
-      <obj_property name="ElementShortName">s_axi_ctrl_araddr[7:0]</obj_property>
-      <obj_property name="ObjectShortName">s_axi_ctrl_araddr[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -182,6 +188,7 @@
       <obj_property name="ObjectShortName">s_axis_aud_tdata[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axis_aud_tid">
       <obj_property name="ElementShortName">s_axis_aud_tid[2:0]</obj_property>

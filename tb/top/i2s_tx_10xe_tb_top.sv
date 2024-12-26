@@ -8,6 +8,7 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
+`timescale 1ns/1ps
 // include the UVM macros
     `include "uvm_macros.svh"
 // import the UVM library
@@ -35,13 +36,17 @@ module i2s_tx_10xe_tb_top;
     bit clk;
     bit rst;
     bit rst_n;
+    bit m_clk;
+
+    bit [31:0] CLK_PERIOD;
+    bit [31:0] CLK_FREQ;
 
     //axi4 lite interface handle
     i2s_tx_10xe_axi4_lite_intf axi4_lite_intf(clk, rst_n);
     //axi stream interface handle
     i2s_tx_10xe_axi_stream_intf axis_intf(clk, rst_n);
     //Dut Interface handle
-    i2s_tx_10xe_dut_intf dut_intf(clk, rst);
+    i2s_tx_10xe_dut_intf dut_intf(m_clk, rst);
 
 
     //DUT instantiation 
@@ -91,6 +96,15 @@ initial begin
     rst   = 0;
 end
 
+initial begin
+    CLK_FREQ = 96;
+    m_clk_gen();
+end
+
+task m_clk_gen ();
+     CLK_PERIOD = 1/(CLK_FREQ*1000);
+     forever #14 m_clk = ~m_clk;
+endtask
 //Set interfaces in config db and start test
 initial begin
     `uvm_info("tb_top", "Setting Interfaces", UVM_NONE)
@@ -98,7 +112,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("read_reg_test");
+    run_test("sanity_test");
 end
 
 initial begin 

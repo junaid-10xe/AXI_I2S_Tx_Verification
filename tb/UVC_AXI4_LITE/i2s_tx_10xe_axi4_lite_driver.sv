@@ -55,7 +55,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
             seq_item_port.item_done();
         end
     endtask: run_phase
-
+    //TODO :: Divide into three subtasks use them in fork join
     // Task: Write operation for AXI4-Lite signals
     task write();
         `uvm_info(get_name(), "Starting Write Task...", UVM_LOW)
@@ -92,6 +92,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
         
     endtask: write
 
+    //TODO :: Divide into two subtasks and use them in fork join
     // Task: Read operation for AXI4-Lite signals
     task read();
         `uvm_info(get_name(), "Starting Read Task...", UVM_DEBUG)

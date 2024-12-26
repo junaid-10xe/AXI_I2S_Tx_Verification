@@ -106,6 +106,7 @@ class read_reg_test extends i2s_tx_10xe_base_test;
         join
         phase.drop_objection(this);
         `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
     endtask: main_phase
 
 endclass: read_reg_test

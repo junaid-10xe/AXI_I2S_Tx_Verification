@@ -12,8 +12,7 @@
 `ifndef I2S_TX_10XE_DUT_INTF
 `define I2S_TX_10XE_DUT_INTF
 
-interface i2s_tx_10xe_dut_intf (input aud_mclk, input aud_mrst);
-
+interface i2s_tx_10xe_dut_intf (input aud_mclk, input aud_mrst); // Parameter for clock period
   // Interrupt signal indicating an event
   logic irq;
 
@@ -25,6 +24,28 @@ interface i2s_tx_10xe_dut_intf (input aud_mclk, input aud_mrst);
 
   // Serial data output
   logic sdata_0_out;
+
+  // Internal clock signal
+  // logic aud_mclk;
+
+  // // Internal reset signal
+  // logic aud_mrst;
+
+  // // Clock generation process
+  // //Calculate Time Period
+  // localparam T = 1.0 / (CLK_FREQ*1000);
+  // initial begin
+
+  //   aud_mclk = 0;
+  //   forever #(T/2) aud_mclk = ~aud_mclk; // Generate clock
+  // end
+
+  // // Reset initialization
+  // initial begin
+  //   aud_mrst = 1;
+  //   #(10 * T); // Hold reset for a few clock cycles
+  //   aud_mrst = 0;
+  // end
 
 endinterface
 
