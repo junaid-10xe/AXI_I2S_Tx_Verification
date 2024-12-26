@@ -206,12 +206,11 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
                 axi_seq.s_axi_ctrl_arvalid == 1;
             
                 // Restrict read address to specific register addresses
-                // axi_seq.s_axi_ctrl_araddr inside {
-                //     'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
-                //     'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                //     'h54, 'h58, 'h5C, 'h60, 'h64
-                // };
-                axi_seq.s_axi_ctrl_araddr == 'h14;
+                axi_seq.s_axi_ctrl_araddr inside {
+                    'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                    'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                    'h54, 'h58, 'h5C, 'h60, 'h64
+                };
 
                  // Ensure read ready signal is active
                 axi_seq.s_axi_ctrl_rready == 1;
