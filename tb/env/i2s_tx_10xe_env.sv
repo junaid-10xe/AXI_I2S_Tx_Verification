@@ -25,6 +25,14 @@ class i2s_tx_10xe_env extends uvm_env;
     i2s_tx_10xe_axi4_lite_agent         axi_agt;  // AXI4-Lite agent handle
     i2s_tx_10xe_axis_agent              axis_agt; // AXI-Stream agent handle
 
+    //handle for reg block
+    i2s_tx_10xe_reg_block               reg_block;
+    //handle for adapter
+    i2s_tx_10xe_adapter                  adapter;
+    //Handle for predictor 
+    uvm_reg_predictor #(i2s_tx_10xe_axi4_lite_seq_item) predictor;
+
+
     //  Constructor: new
     //  Initializes the environment component by calling the parent constructor
     function new(string name = "i2s_tx_10xe_env", uvm_component parent);
@@ -48,10 +56,31 @@ class i2s_tx_10xe_env extends uvm_env;
         if (axis_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create AXI-Stream agent")
         end
-
+        //Create Reg block 
+        reg_block = i2s_tx_10xe_reg_block::type_id::create("reg_block", this);
+        reg_block.build();
+        //Create Adapter
+        adapter = i2s_tx_10xe_adapter::type_id::create("adapter",, get_full_name());
+        //Create Predictor
+        predictor = uvm_reg_predictor#(i2s_tx_10xe_axi4_lite_seq_item)::type_id::create::("predictor", this);
         // Log successful creation of agents
         `uvm_info(get_name(), "AXI4-Lite and AXI-Stream agents created successfully", UVM_DEBUG);
     endfunction: build_phase
+
+    //Connect Phase
+    function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+        //Connect predictor to analysis port of monitor
+        axi_agent.axi_mon.axi_a_port.connect(predictor.bus_in);
+        //Set sequencer for regblock and base address
+        reg_block.default_map.set_sequencer(.sequencer(axi_agt.axi_sqnr), .adapter(adapter));
+        reg_block.default_map.set_base_address(0);
+        //Set adapter and address map for predictor
+        predictor.adapter = adapter;
+        predictor.map     = reg_block.default_map;
+        
+    endfunction: connect_phase
+    
 
 endclass: i2s_tx_10xe_env
 
