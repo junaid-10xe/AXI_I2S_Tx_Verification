@@ -24,6 +24,8 @@
     import i2s_tx_10xe_axi4_lite_pkg::*;
     //Import AXI-STream PKG to include files
     import i2s_tx_10xe_axis_pkg::*;
+    //Import RAL PKG to include files
+    import i2s_tx_10xe_ral_pkg::*;
 
     //Include files 
     `include "../env/i2s_tx_10xe_seq_item.sv"
