@@ -16,15 +16,19 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="3,510.001 ns"></ZoomEndTime>
-      <Cursor1Time time="0.000 ns"></Cursor1Time>
+      <ZoomStartTime time="12,504.729 ns"></ZoomStartTime>
+      <ZoomEndTime time="15,112.730 ns"></ZoomEndTime>
+      <Cursor1Time time="29,641.497 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="298"></NameColumnWidth>
-      <ValueColumnWidth column_width="278"></ValueColumnWidth>
+      <ValueColumnWidth column_width="274"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="31" />
+   <wave_markers>
+      <marker label="" time="13624729" />
+      <marker label="" time="13510000" />
+   </wave_markers>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aresetn">
       <obj_property name="ElementShortName">s_axi_ctrl_aresetn</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_aresetn</obj_property>
