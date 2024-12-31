@@ -8,7 +8,9 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`timescale 1ns/1ps
+`ifndef I2S_TX_10XE_TB_TOP
+`define I2S_TX_10XE_TB_TOP
+`timescale 1ns/1ns
 // include the UVM macros
     `include "uvm_macros.svh"
 // import the UVM library
@@ -19,13 +21,16 @@
     //Include Interface 
     `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
     `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
-
+    
     //Import AXI4-LITE UVC PKG to include files
     import i2s_tx_10xe_axi4_lite_pkg::*;
     //Import AXI-STream PKG to include files
     import i2s_tx_10xe_axis_pkg::*;
     //Import RAL PKG to include files
-    import i2s_tx_10xe_ral_pkg::*;
+    // import i2s_tx_10xe_ral_pkg::*;
+    `include "../UVM_RAL/i2s_tx_10xe_reg.sv"
+    `include "../UVM_RAL/i2s_tx_10xe_reg_blk.sv"
+    `include "../UVM_RAL/i2s_tx_10xe_adapter.sv"
 
     //Include files 
     `include "../env/i2s_tx_10xe_seq_item.sv"
@@ -83,6 +88,8 @@ i2s_transmitter_0 DUT (
   .s_axis_aud_tid(axis_intf.s_axis_aud_tid),          // input wire [2 : 0] s_axis_aud_tid
   .s_axis_aud_tvalid(axis_intf.s_axis_aud_tvalid),    // input wire s_axis_aud_tvalid
   .s_axis_aud_tready(axis_intf.s_axis_aud_tready)    // output wire s_axis_aud_tready
+//   .fifo_wrdata_count(dut_intf.fifo_wrdata_count),
+//   .fifo_rdata_count(dut_intf.fifo_rdata_count)
 );
 
 initial begin
@@ -114,7 +121,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("sanity_test");
+    run_test("reset_reg_test");
 end
 
 initial begin 
@@ -123,3 +130,5 @@ initial begin
 end
 
 endmodule
+
+`endif

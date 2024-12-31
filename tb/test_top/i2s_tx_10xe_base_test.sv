@@ -142,5 +142,34 @@ class sanity_test extends i2s_tx_10xe_base_test;
 
 endclass: sanity_test
 
+//  Class: read_ral_test
+//
+class read_ral_test extends i2s_tx_10xe_base_test;
+    `uvm_component_utils(read_ral_test);
+
+    // uvm_reg_hw_reset_seq  rst_seq; //instance of pre defined reset sequence
+    
+    //  Constructor: new
+    function new(string name = "read_ral_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    //BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        // rst_seq     = uvm_reg_hw_reset_seq::type_id::create("rst_seq", this);
+        
+    endfunction: build_phase
+    //Run Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        rst_seq.model = env.reg_block;
+        rst_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: read_ral_test
+
 
 `endif

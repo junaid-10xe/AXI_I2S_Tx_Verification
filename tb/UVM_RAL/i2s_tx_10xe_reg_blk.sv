@@ -19,7 +19,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
     `uvm_object_utils(i2s_tx_10xe_reg_blk)
 
     //handle of all registers
-    core_ver_reg            core_ver_reg_h;
+    core_version_reg        core_version_reg_h;
     core_cfg_reg            core_cfg_reg_h;
     control_reg             control_reg_h;
     validity_reg            validity_reg_h;
@@ -45,9 +45,10 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
     //build function
     virtual function void build();
         default_map = create_map("default_map", 0, 1, UVM_LITTLE_ENDIAN);
+        `uvm_info(get_name(), "Creating registers", UVM_NONE)
         
         //Create build and configure registers
-        core_ver_reg_h          = core_ver_reg::type_id::create("core_ver_reg_h");
+        core_version_reg_h          = core_version_reg::type_id::create("core_version_reg_h");
         core_cfg_reg_h          = core_cfg_reg::type_id::create("core_cfg_reg_h");
         control_reg_h           = control_reg::type_id::create("control_reg_h");
         validity_reg_h          = validity_reg::type_id::create("validity_reg_h");
@@ -64,9 +65,10 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg3_h    = aes_chan_stat_reg3::type_id::create("aes_chan_stat_reg3_h");
         aes_chan_stat_reg4_h    = aes_chan_stat_reg4::type_id::create("aes_chan_stat_reg4_h");
         aes_chan_stat_reg5_h    = aes_chan_stat_reg5::type_id::create("aes_chan_stat_reg5_h");
+        `uvm_info(get_name(), "Created now building registers", UVM_NONE)
 
         //build registers
-        core_ver_reg_h.build();
+        core_version_reg_h.build();
         core_cfg_reg_h.build();
         control_reg_h.build();
         validity_reg_h.build();
@@ -83,9 +85,10 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg3_h.build();
         aes_chan_stat_reg4_h.build();
         aes_chan_stat_reg5_h.build();
+        `uvm_info(get_name(), "Built now configuring registers", UVM_NONE)
 
         //Configure registers
-        core_ver_reg_h.configure(this, null);
+        core_version_reg_h.configure(this, null);
         core_cfg_reg_h.configure(this, null);
         control_reg_h.configure(this, null);
         validity_reg_h.configure(this, null);
@@ -104,7 +107,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg5_h.configure(this, null);
 
         //Add addresses of registers to map 
-        default_map.add_reg(core_ver_reg_h, 'h00, "RO");
+        default_map.add_reg(core_version_reg_h, 'h00, "RO");
         default_map.add_reg(core_cfg_reg_h, 'h04, "RO");
         default_map.add_reg(control_reg_h, 'h08, "RW");
         default_map.add_reg(validity_reg_h, 'h0C, "RW");
@@ -115,12 +118,12 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         default_map.add_reg(chan_23_ctrl_reg_h, 'h34, "RW");
         default_map.add_reg(chan_45_ctrl_reg_h, 'h38, "RW");
         default_map.add_reg(chan_67_ctrl_reg_h, 'h3C, "RW");
-        default_map.add_reg(aes_chan_stat_reg0_h, 'h50, "RWC");
-        default_map.add_reg(aes_chan_stat_reg1_h, 'h54, "RWC");
-        default_map.add_reg(aes_chan_stat_reg2_h, 'h58, "RWC");
-        default_map.add_reg(aes_chan_stat_reg3_h, 'h5C, "RWC");
-        default_map.add_reg(aes_chan_stat_reg4_h, 'h60, "RWC");
-        default_map.add_reg(aes_chan_stat_reg5_h, 'h64, "RWC");
+        default_map.add_reg(aes_chan_stat_reg0_h, 'h50, "RW");
+        default_map.add_reg(aes_chan_stat_reg1_h, 'h54, "RW");
+        default_map.add_reg(aes_chan_stat_reg2_h, 'h58, "RW");
+        default_map.add_reg(aes_chan_stat_reg3_h, 'h5C, "RW");
+        default_map.add_reg(aes_chan_stat_reg4_h, 'h60, "RW");
+        default_map.add_reg(aes_chan_stat_reg5_h, 'h64, "RW");
         
         //lock the model
         lock_model(); 

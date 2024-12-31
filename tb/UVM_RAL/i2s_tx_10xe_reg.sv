@@ -11,16 +11,16 @@
 `ifndef I2S_TX_10XE_REG
 `define I2S_TX_10XE_REG
 
-//Class Core_ver_reg
+//Class Core_version_reg
 // Description:: This class contains the register fileds of coreversion class whose base address is 0x00
-class core_ver_reg extends uvm_reg;
-    `uvm_object_utils(core_ver_reg)
+class core_version_reg extends uvm_reg;
+    `uvm_object_utils(core_version_reg)
     //Register fields
     rand uvm_reg_field major_rev;  //This is the IP major revision value. If the IP version is 1.2, then this will return a value of 1.
     rand uvm_reg_field minor_rev;  //This is the IP minor revision value. If the IP version is 1.2, then this will return a value of 2.
 
     //Constructor
-    function new(string name = "core_ver_reg");
+    function new(string name = "core_version_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
     endfunction: new
 
@@ -30,12 +30,12 @@ class core_ver_reg extends uvm_reg;
         minor_rev = uvm_reg_field::type_id::create("minor_rev");
         //Configure fileds 
         major_rev.configure(this, 16, 16, "RO", 0, 1, 1, 0, 1);
-        major_rev.configure(this, 16, 0,  "RO", 0, 1, 1, 0, 1);
+        minor_rev.configure(this, 16, 0,  "RO", 0, 0, 1, 0, 1);
 
     endfunction
 
 
-endclass: core_ver_reg
+endclass: core_version_reg
 
 
 //Class core_cfg_reg
@@ -45,10 +45,10 @@ class core_cfg_reg extends uvm_reg;
     //Register fields
     rand uvm_reg_field rsvd;        //[31:17] Reserved
     rand uvm_reg_field data_width;  //[16] I2S Data Width: Indicates the I2S data width of the core  1 = 24-bit    0 = 16-bit
-    rand uvm_reg_field rsvd1:       //[15:12] Reserved
+    rand uvm_reg_field rsvd1;       //[15:12] Reserved
     rand uvm_reg_field n_channel;   //[11:8] Number of audio channels: Indicates the number of audio channels supported. Valid values are 2, 4, 6, and 8.
-    rand uvm_reg_field rsvd2:       //[7:1] Reserved
-    rand uvm_reg_field master:        //[0] I2S master: Indicates if the core has been generated as an I2S master or slave. 1 = I2S master
+    rand uvm_reg_field rsvd2;       //[7:1] Reserved
+    rand uvm_reg_field master;        //[0] I2S master: Indicates if the core has been generated as an I2S master or slave. 1 = I2S master
     //Constructor
     function new(string name = "core_cfg_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
@@ -83,9 +83,9 @@ class control_reg extends uvm_reg;
     //Register fields
     rand uvm_reg_field rsvd;        //[31:4] Reserved
     rand uvm_reg_field lr_mode;     //[3] Selected 32-bit LRCLK mode
-    rand uvm_reg_field lr_just:     //[2] Valid when bit 1 is set. Selects left/right justification 0: Left justification 1: Right justification
+    rand uvm_reg_field lr_just;     //[2] Valid when bit 1 is set. Selects left/right justification 0: Left justification 1: Right justification
     rand uvm_reg_field lr_just_en;  //[1] Enable left/right justification
-    rand uvm_reg_field core_en:     //[0] Enable core operations. Setting this bit to '1' will enable the core operations.
+    rand uvm_reg_field core_en;     //[0] Enable core operations. Setting this bit to '1' will enable the core operations.
     //Constructor
     function new(string name = "control_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
@@ -117,7 +117,7 @@ class validity_reg extends uvm_reg;
     `uvm_object_utils(validity_reg)
     //Register fields
     rand uvm_reg_field rsvd;        //[31:1] Reserved
-    rand uvm_reg_field valid:      //[0] 1: The audio input sample is always valid 0: The Validity bit in the incoming stream decides the validity of the sample
+    rand uvm_reg_field valid;      //[0] 1: The audio input sample is always valid 0: The Validity bit in the incoming stream decides the validity of the sample
     //Constructor
     function new(string name = "validity_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
@@ -408,7 +408,7 @@ class aes_chan_stat_reg0 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 
@@ -429,7 +429,7 @@ class aes_chan_stat_reg1 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 
@@ -450,7 +450,7 @@ class aes_chan_stat_reg2 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 
@@ -471,7 +471,7 @@ class aes_chan_stat_reg3 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 
@@ -493,7 +493,7 @@ class aes_chan_stat_reg4 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 
@@ -514,7 +514,7 @@ class aes_chan_stat_reg5 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RWC", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 
 

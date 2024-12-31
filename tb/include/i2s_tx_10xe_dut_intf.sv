@@ -25,6 +25,10 @@ interface i2s_tx_10xe_dut_intf (input aud_mclk, input aud_mrst); // Parameter fo
   // Serial data output
   logic sdata_0_out;
 
+  //temp signals 
+  // logic [15:0] fifo_wrdata_count;
+  // logic [15:0] fifo_rdata_count;
+
   // Internal clock signal
   // logic aud_mclk;
 

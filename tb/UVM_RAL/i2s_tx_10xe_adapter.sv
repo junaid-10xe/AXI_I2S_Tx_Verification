@@ -33,21 +33,10 @@ class i2s_tx_10xe_adapter extends uvm_reg_adapter;
         if(tr.s_axi_ctrl_awvalid) begin
             tr.s_axi_ctrl_awaddr = rw.addr;            
             tr.s_axi_ctrl_wdata  = rw.data;
-            tr.s_axi_ctrl_wvalid = 1'b1;
-            tr.s_axi_ctrl_bready = 1'b1;
         end
-        else begin
-            tr.s_axi_ctrl_wvalid = 1'b0;
-            tr.s_axi_ctrl_bready = 1'b0;
-        end
-
         //For read
         if(tr.s_axi_ctrl_arvalid) begin
             tr.s_axi_ctrl_araddr = rw.addr;
-            tr.s_axi_ctrl_rready = 1'b1;
-        end
-        else begin
-            tr.s_axi_ctrl_rready = 1'b0;
         end
         return tr;
     endfunction
@@ -56,7 +45,28 @@ class i2s_tx_10xe_adapter extends uvm_reg_adapter;
     function void bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
         i2s_tx_10xe_axi4_lite_seq_item tr;
         assert($cast(tr, bus_item));
-        rw.kind = 
+        // for write
+        if (tr.s_axi_ctrl_awvalid) begin
+            rw.kind = UVM_WRITE;
+            rw.addr = tr.s_axi_ctrl_awaddr;
+            rw.data = tr.s_axi_ctrl_wdata;
+            if(tr.s_axi_ctrl_bresp == 00) begin
+                rw.status = UVM_IS_OK;
+            end
+            else rw.status = UVM_NOT_OK;
+        end
+        // for read
+        else if (tr.s_axi_ctrl_arvalid) begin
+            rw.kind = UVM_READ;
+            rw.addr = tr.s_axi_ctrl_araddr;
+            rw.data = tr.s_axi_ctrl_rdata;
+            if(tr.s_axi_ctrl_rresp == 00) begin
+                rw.status = UVM_IS_OK;        
+            end
+            else begin
+                rw.status = UVM_NOT_OK;
+            end
+        end
     endfunction
 
 endclass
