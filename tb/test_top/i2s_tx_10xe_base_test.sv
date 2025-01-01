@@ -23,10 +23,10 @@ class i2s_tx_10xe_base_test extends uvm_test;
     virtual i2s_tx_10xe_axi4_lite_intf      axi4_lite_vif;
     //Handle of sut interface
     virtual i2s_tx_10xe_dut_intf            dut_vif;
-
-    //handle for reg configuration seq
-    config_reg_seq                              config_seq;
-
+    //Handle for RAl SEQ to read registers in reset 
+    ral_rst_rd_seq                            rst_ral_seq;
+    //Handle for RAl SEQ to Configure registers
+    ral_cfg_seq                                cfg_ral_seq;
     //  Constructor: new
     function new(string name = "i2s_tx_10xe_base_test", uvm_component parent);
         super.new(name, parent);
@@ -34,8 +34,9 @@ class i2s_tx_10xe_base_test extends uvm_test;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        env     = i2s_tx_10xe_env::type_id::create("env", this);
-        config_seq = config_reg_seq::type_id::create("config_seq", this);
+        env             = i2s_tx_10xe_env::type_id::create("env", this);
+        rst_ral_seq     = ral_rst_rd_seq::type_id::create("rst_ral_seq", this);
+        cfg_ral_seq     = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
         if(!uvm_config_db#(virtual i2s_tx_10xe_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
@@ -63,19 +64,23 @@ class i2s_tx_10xe_base_test extends uvm_test;
             axis_vif.reset();
             axi4_lite_vif.reset();
         join
-
+        rst_ral_seq.reg_blk = env.reg_block;
+        rst_ral_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);
+        // ral_seq.rd_regs_in_rst = 0;
         `uvm_info(get_name(), "<reset_phase> finished, objection dropped.", UVM_NONE)
     endtask: reset_phase
 
-    // task configure_phase(uvm_phase phase);
-    //     phase.raise_objection(this);
-    //     `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
-    //     config_seq.start(env.axi_agt.axi_sqnr);
-    //     phase.drop_objection(this);
-    //     `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
-    //     phase.phase_done.set_drain_time(this, 100);
-    // endtask: configure_phase
+    task configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        cfg_ral_seq.reg_blk = env.reg_block;
+        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+
+        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+    endtask: configure_phase
 
     
 endclass: i2s_tx_10xe_base_test
@@ -142,47 +147,36 @@ class sanity_test extends i2s_tx_10xe_base_test;
 
 endclass: sanity_test
 
-//  Class: read_ral_test
+//  Class: ral_test
 //
-class read_ral_test extends i2s_tx_10xe_base_test;
-    `uvm_component_utils(read_ral_test);
+class ral_test extends i2s_tx_10xe_base_test;
+    `uvm_component_utils(ral_test);
 
-    uvm_reg_hw_reset_seq  rst_seq; //instance of pre defined reset sequence
-    read_ral_seq read_seq;
-    //handle for write read 
-    wr_rd_reg_seq wr_rd_seq;
-
+   //Handle of ral sequence to read and write registers
+    ral_rd_wr_seq   rd_wr_seq;
     
     //  Constructor: new
-    function new(string name = "read_ral_test", uvm_component parent);
+    function new(string name = "ral_test", uvm_component parent);
         super.new(name, parent);
     endfunction: new
     //BUILD PHASE
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        rst_seq     = uvm_reg_hw_reset_seq::type_id::create("rst_seq", this);
-        read_seq    = read_ral_seq::type_id::create("read_seq", this);
-        wr_rd_seq   = wr_rd_reg_seq::type_id::create("wr_rd_seq", this);
-
-        
+        rd_wr_seq    = ral_rd_wr_seq::type_id::create("rd_wr_seq", this);        
     endfunction: build_phase
     //Run Phase
     task main_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
-        // rst_seq.model = env.reg_block;
-        // rst_seq.start(env.axi_agt.axi_sqnr);
-        // read_seq.reg_blk = env.reg_block;
-        // read_seq.start(env.axi_agt.axi_sqnr);
-        wr_rd_seq.reg_blk = env.reg_block;
-        wr_rd_seq.start(env.axi_agt.axi_sqnr);
+        rd_wr_seq.reg_blk = env.reg_block;
+        rd_wr_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);
         `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
         phase.phase_done.set_drain_time(this, 100);
 
     endtask: main_phase
 
-endclass: read_ral_test
+endclass: ral_test
 
 
 `endif

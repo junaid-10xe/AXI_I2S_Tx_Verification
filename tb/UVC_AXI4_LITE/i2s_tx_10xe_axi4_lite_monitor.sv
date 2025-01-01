@@ -70,10 +70,8 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
               axi4_tr.s_axi_ctrl_rvalid     = `MON_AX.s_axi_ctrl_rvalid;
               
             //Broadcast only valid data to analysis port
-               if(`MON_AX.s_axi_ctrl_awvalid || `MON_AX.s_axi_ctrl_arvalid) begin
                 axi_a_port.write(axi4_tr);
-                `uvm_info(get_name(), $sformatf("Printing transaction in AXI4-Lite Monitor: \n%s", axi4_tr.sprint()), UVM_LOW);
-            end
+                `uvm_info(get_name(), $sformatf("Printing transaction in AXI4-Lite Monitor: \n%s", axi4_tr.sprint()), UVM_HIGH);
           end
     endtask: run_phase
 endclass: i2s_tx_10xe_axi4_lite_monitor

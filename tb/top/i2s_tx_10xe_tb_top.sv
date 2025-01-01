@@ -30,6 +30,8 @@
     //Import RAL PKG to include files
     // import i2s_tx_10xe_ral_pkg::*;
     `include "../include/i2s_tx_10xe_defines.sv"
+    `include "../include/i2s_tx_10xe_config.sv"
+
     import i2s_tx_10xe_defines::*;
     `include "../UVM_RAL/i2s_tx_10xe_reg.sv"
     `include "../UVM_RAL/i2s_tx_10xe_reg_blk.sv"
@@ -92,8 +94,6 @@ i2s_transmitter_0 DUT (
   .s_axis_aud_tid(axis_intf.s_axis_aud_tid),          // input wire [2 : 0] s_axis_aud_tid
   .s_axis_aud_tvalid(axis_intf.s_axis_aud_tvalid),    // input wire s_axis_aud_tvalid
   .s_axis_aud_tready(axis_intf.s_axis_aud_tready)    // output wire s_axis_aud_tready
-//   .fifo_wrdata_count(dut_intf.fifo_wrdata_count),
-//   .fifo_rdata_count(dut_intf.fifo_rdata_count)
 );
 
 initial begin
@@ -125,7 +125,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("read_ral_test");
+    run_test("ral_test");
 end
 
 initial begin 
