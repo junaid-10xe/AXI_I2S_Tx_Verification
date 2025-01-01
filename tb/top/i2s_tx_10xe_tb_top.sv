@@ -22,15 +22,18 @@
     //Include Interfaces
     // `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
     // `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
+    // `include "../DUT_RSP_AGENT/i2s_tx_10xe_dut_intf.sv"
+
     
     //Import AXI4-LITE UVC PKG to include files
     import i2s_tx_10xe_axi4_lite_pkg::*;
     
     //Import AXI-STream PKG to include files
     import i2s_tx_10xe_axis_pkg::*;
+    //Import DUT PKG to include files
+    import i2s_tx_10xe_dut_rsp_pkg::*;
     
-    //Include files 
-    `include "../env/i2s_tx_10xe_seq_item.sv"
+    //Include files
     `include "../env/i2s_tx_10xe_env.sv"
     `include "../test_top/i2s_tx_10xe_base_test.sv"
  

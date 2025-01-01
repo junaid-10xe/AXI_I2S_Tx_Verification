@@ -22,8 +22,9 @@ class i2s_tx_10xe_env extends uvm_env;
     `uvm_component_utils(i2s_tx_10xe_env);
 
     // Handles for the agents
-    i2s_tx_10xe_axi4_lite_agent         axi_agt;  // AXI4-Lite agent handle
-    i2s_tx_10xe_axis_agent              axis_agt; // AXI-Stream agent handle
+    i2s_tx_10xe_axi4_lite_agent         axi_agt;    // AXI4-Lite agent handle
+    i2s_tx_10xe_axis_agent              axis_agt;   // AXI-Stream agent handle
+    i2s_tx_10xe_dut_agent               dut_agt;    //DUT AGENT HANDLE
 
     //handle for reg block
     i2s_tx_10xe_reg_blk               reg_block;
@@ -55,6 +56,11 @@ class i2s_tx_10xe_env extends uvm_env;
         axis_agt = i2s_tx_10xe_axis_agent::type_id::create("axis_agt", this);
         if (axis_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create AXI-Stream agent")
+        end
+        // Create AXI-Stream agent
+        dut_agt = i2s_tx_10xe_dut_agent::type_id::create("dut_agt", this);
+        if (dut_agt == null) begin
+            `uvm_fatal(get_name(), "Failed to create DUT agent")
         end
         //Create Reg block 
         reg_block = i2s_tx_10xe_reg_blk::type_id::create("reg_block", this);
