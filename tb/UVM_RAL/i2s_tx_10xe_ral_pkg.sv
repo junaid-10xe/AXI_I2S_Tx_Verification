@@ -22,6 +22,7 @@ package i2s_tx_10xe_ral_pkg;
 
     //include UVC files
     `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_seq_item.sv"
+    `include "i2s_tx_10xe_reg_seqs.sv"
     `include "i2s_tx_10xe_reg.sv"
     `include "i2s_tx_10xe_reg_blk.sv"
     `include "i2s_tx_10xe_adapter.sv"

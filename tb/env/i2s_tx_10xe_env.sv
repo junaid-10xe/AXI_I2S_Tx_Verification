@@ -59,6 +59,7 @@ class i2s_tx_10xe_env extends uvm_env;
         //Create Reg block 
         reg_block = i2s_tx_10xe_reg_blk::type_id::create("reg_block", this);
         reg_block.build();
+        reg_block.print();
         //Create Predictor
         predictor = uvm_reg_predictor #(i2s_tx_10xe_axi4_lite_seq_item) :: type_id:: create("predictor", this);
         //Create Adapter
@@ -70,14 +71,17 @@ class i2s_tx_10xe_env extends uvm_env;
     //Connect Phase
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        //Connect predictor to analysis port of monitor
-        axi_agt.axi_mon.axi_a_port.connect(predictor.bus_in);
+        
         //Set sequencer for regblock and base address
         reg_block.default_map.set_sequencer(.sequencer(axi_agt.axi_sqnr), .adapter(adapter));
         reg_block.default_map.set_base_addr('h0);
+
         //Set adapter and address map for predictor
-        predictor.adapter = adapter;
         predictor.map     = reg_block.default_map;
+        predictor.adapter = adapter;
+        //Connect predictor to analysis port of monitor
+        axi_agt.axi_mon.axi_a_port.connect(predictor.bus_in);
+
         
     endfunction: connect_phase
     

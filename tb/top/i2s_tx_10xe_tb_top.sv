@@ -21,15 +21,19 @@
     //Include Interface 
     `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
     `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
-    
+    //Import defines
+    // import i2s_tx_10xe_defines::*;
     //Import AXI4-LITE UVC PKG to include files
     import i2s_tx_10xe_axi4_lite_pkg::*;
     //Import AXI-STream PKG to include files
     import i2s_tx_10xe_axis_pkg::*;
     //Import RAL PKG to include files
     // import i2s_tx_10xe_ral_pkg::*;
+    `include "../include/i2s_tx_10xe_defines.sv"
+    import i2s_tx_10xe_defines::*;
     `include "../UVM_RAL/i2s_tx_10xe_reg.sv"
     `include "../UVM_RAL/i2s_tx_10xe_reg_blk.sv"
+    `include "../UVM_RAL/i2s_tx_10xe_reg_seqs.sv"
     `include "../UVM_RAL/i2s_tx_10xe_adapter.sv"
 
     //Include files 
@@ -121,7 +125,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_10xe_dut_intf) :: set(null, "*", "dut_vif", dut_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("reset_reg_test");
+    run_test("read_ral_test");
 end
 
 initial begin 

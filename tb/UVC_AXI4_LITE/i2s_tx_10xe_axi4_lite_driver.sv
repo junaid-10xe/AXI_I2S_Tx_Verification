@@ -48,13 +48,13 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
                 write();
                 read();
             join
-
-            // Log the transaction data sent to the DUT
-            `uvm_info(get_name(), $sformatf("Data Driven to DUT from AXI4-Lite Driver, \n%s", axi4_tr.sprint()), UVM_LOW)
             // Mark the item as completed
             seq_item_port.item_done();
+
         end
+        
     endtask: run_phase
+    
     //TODO :: Divide into three subtasks use them in fork join
     // Task: Write operation for AXI4-Lite signals
     task write();
@@ -87,7 +87,10 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
             `DRV_AX.s_axi_ctrl_bready  <= 0;
             `DRV_AX.s_axi_ctrl_wvalid  <= 0;  
             `uvm_info(get_name(), "After RESP Channel...", UVM_LOW)
+            `uvm_info(get_name(), $sformatf("Data Driven to DUT IN WRITE, \n%s", axi4_tr.sprint()), UVM_LOW);               
+
         end
+        `uvm_info(get_name(), "Leaving Write Task...", UVM_LOW)
 
         
     endtask: write
@@ -95,7 +98,7 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
     //TODO :: Divide into two subtasks and use them in fork join
     // Task: Read operation for AXI4-Lite signals
     task read();
-        `uvm_info(get_name(), "Starting Read Task...", UVM_DEBUG)
+        `uvm_info(get_name(), "Starting Read Task...", UVM_LOW)
         //Read Address Channel
         // Drive the read address signal (ARADDR)
         if (axi4_tr.s_axi_ctrl_arvalid) begin
@@ -110,8 +113,13 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
             `DRV_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
             // Wait for RVALID signal indicating data is ready
             wait(`DRV_AX.s_axi_ctrl_rvalid);
-            `DRV_AX.s_axi_ctrl_rready <= 0;               
-        end    
+            axi4_tr.s_axi_ctrl_rdata = `DRV_AX.s_axi_ctrl_rdata; // Capture read data
+            `DRV_AX.s_axi_ctrl_rready <= 0;
+            `uvm_info(get_name(), $sformatf("Data Driven to DUT IN READ, \n%s", axi4_tr.sprint()), UVM_LOW);               
+        end 
+        `uvm_info(get_name(), "Leaving Read Task...", UVM_LOW)
+
+
     endtask: read
 
 endclass : i2s_tx_10xe_axi4_lite_driver

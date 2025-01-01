@@ -42,7 +42,7 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
       wait(axi4_lite_vif.s_axi_ctrl_aresetn);
        forever begin
             
-            repeat(3) @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
+            repeat(1) @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
                 //For address write channel
               axi4_tr.s_axi_ctrl_awaddr     = `MON_AX.s_axi_ctrl_awaddr;
               axi4_tr.s_axi_ctrl_awvalid    = `MON_AX.s_axi_ctrl_awvalid;
@@ -69,10 +69,12 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
               axi4_tr.s_axi_ctrl_rresp      = `MON_AX.s_axi_ctrl_rresp;
               axi4_tr.s_axi_ctrl_rvalid     = `MON_AX.s_axi_ctrl_rvalid;
               
-            //Broadcast data to analysis port
-              axi_a_port.write(axi4_tr);
-              `uvm_info(get_name(), $sformatf("Printing transaction in AXI4-Lite Monitor: \n%s", axi4_tr.sprint()), UVM_LOW);
-       end
+            //Broadcast only valid data to analysis port
+               if(`MON_AX.s_axi_ctrl_awvalid || `MON_AX.s_axi_ctrl_arvalid) begin
+                axi_a_port.write(axi4_tr);
+                `uvm_info(get_name(), $sformatf("Printing transaction in AXI4-Lite Monitor: \n%s", axi4_tr.sprint()), UVM_LOW);
+            end
+          end
     endtask: run_phase
 endclass: i2s_tx_10xe_axi4_lite_monitor
 

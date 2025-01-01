@@ -27,48 +27,59 @@ class i2s_tx_10xe_adapter extends uvm_reg_adapter;
         //Create a i2s_tx_10xe_axi4_lite_seq_item
         tr = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("tr");
         //Assign values to i2s_tx_10xe_axi4_lite_seq_item
-        tr.s_axi_ctrl_awvalid = (rw.kind == UVM_WRITE) ? 1'b1 :1'b0;
-        tr.s_axi_ctrl_arvalid = (rw.kind == UVM_READ) ? 1'b1 :1'b0;
         //For write 
-        if(tr.s_axi_ctrl_awvalid) begin
-            tr.s_axi_ctrl_awaddr = rw.addr;            
-            tr.s_axi_ctrl_wdata  = rw.data;
+        if(rw.kind == UVM_WRITE) begin
+            tr.s_axi_ctrl_awvalid = 1'b1;
+            tr.s_axi_ctrl_wvalid  = 1'b1;
+            tr.s_axi_ctrl_awaddr  = rw.addr;            
+            tr.s_axi_ctrl_wdata   = rw.data;
         end
         //For read
-        if(tr.s_axi_ctrl_arvalid) begin
-            tr.s_axi_ctrl_araddr = rw.addr;
+        else begin
+            tr.s_axi_ctrl_arvalid = 1'b1;
+            tr.s_axi_ctrl_araddr  = rw.addr;
+            tr.s_axi_ctrl_rready  = 1'b1;
         end
+        `uvm_info(get_type_name(), $sformatf("reg2bus: addr = %0h, data = %0h, kind = %s",  rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
         return tr;
-    endfunction
+    endfunction: reg2bus
 
-    //Function to convert bus txn to reg txn
     function void bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
         i2s_tx_10xe_axi4_lite_seq_item tr;
         assert($cast(tr, bus_item));
-        // for write
+        
+        // Handle write operation
         if (tr.s_axi_ctrl_awvalid) begin
             rw.kind = UVM_WRITE;
             rw.addr = tr.s_axi_ctrl_awaddr;
             rw.data = tr.s_axi_ctrl_wdata;
-            if(tr.s_axi_ctrl_bresp == 00) begin
+            // Check the write response
+            if (tr.s_axi_ctrl_bresp == 2'b00) begin
                 rw.status = UVM_IS_OK;
+            end else begin
+                rw.status = UVM_NOT_OK;
             end
-            else rw.status = UVM_NOT_OK;
+            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
+            `uvm_info("bus2reg", $sformatf("IN WRITE IF, \n%s", tr.sprint()), UVM_DEBUG)
         end
-        // for read
+    
+        // Handle read operation
         else if (tr.s_axi_ctrl_arvalid) begin
             rw.kind = UVM_READ;
             rw.addr = tr.s_axi_ctrl_araddr;
             rw.data = tr.s_axi_ctrl_rdata;
-            if(tr.s_axi_ctrl_rresp == 00) begin
-                rw.status = UVM_IS_OK;        
-            end
-            else begin
+            // Check the read response
+            if (tr.s_axi_ctrl_rresp == 2'b00) begin
+                rw.status = UVM_IS_OK;
+            end else begin
                 rw.status = UVM_NOT_OK;
             end
+            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
+            `uvm_info("bus2reg", $sformatf("IN READ IF, \n%s", tr.sprint()), UVM_DEBUG)
         end
-    endfunction
-
+    
+    endfunction: bus2reg
+    
 endclass
 
 `endif
