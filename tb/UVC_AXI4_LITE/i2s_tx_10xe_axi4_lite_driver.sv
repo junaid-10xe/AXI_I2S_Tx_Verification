@@ -10,7 +10,7 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_AXI4_LITE_DRIVER
 `define I2S_TX_10XE_AXI4_LITE_DRIVER
-`define DRV_AX axi4_lite_vif.DRIVER.axi4_lite_driver
+`define DRV_AX axi4_lite_vif.axi4_lite_driver
 
 // Class: i2s_tx_10xe_axi4_lite_driver
 // This driver class handles the AXI4-Lite transactions, sending write and read operations to the DUT using the AXI4-Lite interface.

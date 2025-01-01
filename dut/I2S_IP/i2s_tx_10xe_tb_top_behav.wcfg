@@ -9,6 +9,7 @@
             <top_module name="glbl" />
             <top_module name="i2s_tx_10xe_axi4_lite_pkg" />
             <top_module name="i2s_tx_10xe_axis_pkg" />
+            <top_module name="i2s_tx_10xe_defines" />
             <top_module name="i2s_tx_10xe_tb_top" />
             <top_module name="std" />
             <top_module name="uvm_pkg" />
@@ -16,13 +17,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="65.600001 us"></ZoomEndTime>
-      <Cursor1Time time="1,000.000000 us"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="2,090.001 ns"></ZoomEndTime>
+      <Cursor1Time time="266.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="298"></NameColumnWidth>
-      <ValueColumnWidth column_width="266"></ValueColumnWidth>
+      <ValueColumnWidth column_width="262"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="31" />
    <wave_markers>
@@ -149,7 +150,7 @@
       <obj_property name="ObjectShortName">s_axi_ctrl_rdata[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_rresp">
       <obj_property name="ElementShortName">s_axi_ctrl_rresp[1:0]</obj_property>

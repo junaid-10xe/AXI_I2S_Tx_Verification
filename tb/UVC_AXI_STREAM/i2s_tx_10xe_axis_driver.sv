@@ -10,7 +10,7 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_AXIS_DRIVER
 `define I2S_TX_10XE_AXIS_DRIVER
-`define DRV_AXS axis_vif.DRIVER.axi_stream_driver
+`define DRV_AXS axis_vif.axi_stream_driver
 
 //  Class: i2s_tx_10xe_axis_driver
 //

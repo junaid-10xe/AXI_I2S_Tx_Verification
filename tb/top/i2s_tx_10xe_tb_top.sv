@@ -10,56 +10,38 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_TB_TOP
 `define I2S_TX_10XE_TB_TOP
-`timescale 1ns/1ns
-// include the UVM macros
+    `timescale 1ns/1ns
+    // include the UVM macros
     `include "uvm_macros.svh"
-// import the UVM library
+    // import the UVM library
   	import uvm_pkg::*;
 
-
-
-    //Include Interface 
-    `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
-    `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
     //Import defines
-    // import i2s_tx_10xe_defines::*;
+    import i2s_tx_10xe_defines::*;
+
+    //Include Interfaces
+    // `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
+    // `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
+    
     //Import AXI4-LITE UVC PKG to include files
     import i2s_tx_10xe_axi4_lite_pkg::*;
+    
     //Import AXI-STream PKG to include files
     import i2s_tx_10xe_axis_pkg::*;
-    //Import RAL PKG to include files
-    // import i2s_tx_10xe_ral_pkg::*;
-    `include "../include/i2s_tx_10xe_defines.sv"
-    `include "../include/i2s_tx_10xe_config.sv"
-
-    import i2s_tx_10xe_defines::*;
-    `include "../UVM_RAL/i2s_tx_10xe_reg.sv"
-    `include "../UVM_RAL/i2s_tx_10xe_reg_blk.sv"
-    `include "../UVM_RAL/i2s_tx_10xe_reg_seqs.sv"
-    `include "../UVM_RAL/i2s_tx_10xe_adapter.sv"
-
+    
     //Include files 
     `include "../env/i2s_tx_10xe_seq_item.sv"
-
     `include "../env/i2s_tx_10xe_env.sv"
     `include "../test_top/i2s_tx_10xe_base_test.sv"
-
  
 module i2s_tx_10xe_tb_top;
-    bit clk;
-    bit rst;
-    bit rst_n;
-    bit m_clk;
-
-    bit [31:0] CLK_PERIOD;
-    bit [31:0] CLK_FREQ;
 
     //axi4 lite interface handle
-    i2s_tx_10xe_axi4_lite_intf axi4_lite_intf(clk, rst_n);
+    i2s_tx_10xe_axi4_lite_intf axi4_lite_intf();
     //axi stream interface handle
-    i2s_tx_10xe_axi_stream_intf axis_intf(clk, rst_n);
+    i2s_tx_10xe_axi_stream_intf axis_intf();
     //Dut Interface handle
-    i2s_tx_10xe_dut_intf dut_intf(m_clk, rst);
+    i2s_tx_10xe_dut_intf dut_intf();
 
 
     //DUT instantiation 
@@ -96,28 +78,6 @@ i2s_transmitter_0 DUT (
   .s_axis_aud_tready(axis_intf.s_axis_aud_tready)    // output wire s_axis_aud_tready
 );
 
-initial begin
-    clk = 0;
-    forever #10 clk = ~clk;
-end
-
-initial begin
-    rst_n = 0;
-    rst   = 1;
-    #100;
-    rst_n = 1;
-    rst   = 0;
-end
-
-initial begin
-    CLK_FREQ = 96;
-    m_clk_gen();
-end
-
-task m_clk_gen ();
-     CLK_PERIOD = 1/(CLK_FREQ*1000);
-     forever #14 m_clk = ~m_clk;
-endtask
 //Set interfaces in config db and start test
 initial begin
     `uvm_info("tb_top", "Setting Interfaces", UVM_NONE)

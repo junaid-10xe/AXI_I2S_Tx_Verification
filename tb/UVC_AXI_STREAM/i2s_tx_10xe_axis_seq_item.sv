@@ -31,10 +31,10 @@ class i2s_tx_10xe_axis_seq_item extends uvm_sequence_item;
     endfunction: new
 
     // AXI-Stream signals for audio data transfer
-    rand bit [31:0] s_axis_aud_tdata;       // Audio data
-    rand bit [2:0]  s_axis_aud_tid;         // Transaction ID
-    rand bit        s_axis_aud_tvalid;      // Valid signal
-    bit             s_axis_aud_tready;      // Ready signal
+    rand i2s_tx_10xe_defines::axi_stream_data s_axis_aud_tdata;       // Audio data
+    rand i2s_tx_10xe_defines::axi_stream_tid  s_axis_aud_tid;         // Transaction ID
+    rand bit                                  s_axis_aud_tvalid;      // Valid signal
+    bit                                       s_axis_aud_tready;      // Ready signal
 
 // Constraint for valid TDATA and TID
     constraint data_tid {

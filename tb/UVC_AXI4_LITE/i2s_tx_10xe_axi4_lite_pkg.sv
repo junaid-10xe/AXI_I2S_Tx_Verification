@@ -22,6 +22,11 @@ package i2s_tx_10xe_axi4_lite_pkg;
 
     //include UVC files
     `include "i2s_tx_10xe_axi4_lite_seq_item.sv"
+    `include "UVM_RAL/i2s_tx_10xe_reg.sv"
+    `include "UVM_RAL/i2s_tx_10xe_reg_blk.sv"
+    `include "UVM_RAL/i2s_tx_10xe_reg_seqs.sv"
+    `include "UVM_RAL/i2s_tx_10xe_adapter.sv"
+
     `include "i2s_tx_10xe_axi4_lite_seq.sv"
     `include "i2s_tx_10xe_axi4_lite_sequencer.sv"
     `include "i2s_tx_10xe_axi4_lite_monitor.sv"

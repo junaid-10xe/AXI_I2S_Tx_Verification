@@ -1,6 +1,6 @@
 /*************************************************************************
    > File Name: i2s_tx_10xe_defines.sv
-   > Description: This file defines the  input/ouput signals of DUT that are not the part of axi4-lite and axi-stream 
+   > Description: This file defines the  parameters and variables to control the testbench environment  
    for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -13,7 +13,12 @@
 `define I2S_TX_10XE_DEFINES
 
 package i2s_tx_10xe_defines;
-    
+    // FOR AXI-STREAM
+    localparam int AXI_STREAM_DATA_WIDTH    = 32;
+    localparam int AXI_STREAM_TID_WIDTH     = 3;
+    typedef bit [AXI_STREAM_DATA_WIDTH-1:0] axi_stream_data;
+    typedef bit [AXI_STREAM_TID_WIDTH-1:0]  axi_stream_tid;
+    //FOR REGISTER 
     localparam int REG_DATA_WIDTH       = 32;
     localparam int REG_ADDR_WIDTH       = 8;
     localparam int DATA_PATTERN         = 2;
@@ -30,15 +35,12 @@ package i2s_tx_10xe_defines;
 
     //Parameters to control sequences of RAL
     localparam data_pattern_e RAL_DATA_PATTERN  = ALL_ONES;
-    localparam bit CORE_CFG                     = 1;   //Bit to cinfugure core
-    localparam bit AXI_STREAM_DATA_VALID        = 1; //Optional if we want to make data valid on stream 
-    localparam bit EN_DIS_INT                   = 1;//BIT to enable disable interrupt
-    localparam bit RD_REGS                      = 1;//Bit to READ RAL REGISTERS
-    localparam bit RD_REGS_IN_RST               = 1;//BIT to read registers in reset phase
-    localparam bit WR_RD_REGS                   = 1;//Bit to write and read RAL REGISTERS
-    
-    
-
+    localparam bit CORE_CFG                     = 1;    //Bit to cinfugure core
+    localparam bit AXI_STREAM_DATA_VALID        = 0;    //Optional if we want to make data valid on stream 
+    localparam bit EN_DIS_INT                   = 1;    //BIT to enable disable interrupt
+    localparam bit RD_REGS                      = 1;    //Bit to READ RAL REGISTERS
+    localparam bit RD_REGS_IN_RST               = 0;    //BIT to read registers in reset phase
+    localparam bit WR_RD_REGS                   = 0;    //Bit to write and read RAL REGISTERS
 
 endpackage
 

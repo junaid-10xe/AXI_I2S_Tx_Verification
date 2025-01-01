@@ -11,30 +11,16 @@
 `ifndef I2S_TX_10XE_AXI_STREAM_INTF
 `define I2S_TX_10XE_AXI_STREAM_INTF
 
-interface i2s_tx_10xe_axi_stream_intf  (input s_axis_aud_aclk, input s_axis_aud_aresetn);
+interface i2s_tx_10xe_axi_stream_intf  ();
 
   // AXI-Stream signals for audio data transfer
-  logic [31:0] s_axis_aud_tdata;
-  logic [2:0]  s_axis_aud_tid;
-  logic        s_axis_aud_tvalid;
-  logic        s_axis_aud_tready;
+  i2s_tx_10xe_defines::axi_stream_data  s_axis_aud_tdata;
+  i2s_tx_10xe_defines::axi_stream_tid   s_axis_aud_tid;
+  logic                                 s_axis_aud_tvalid;
+  logic                                 s_axis_aud_tready;
 
-  // Internal clock and reset signals
-  // logic s_axis_aud_aclk;
-  // logic s_axis_aud_aresetn;
-
-  // // Automated clock generation
-  // initial begin
-  //   s_axis_aud_aclk = 0;
-  //   forever #(CLK_PERIOD / 2) s_axis_aud_aclk = ~s_axis_aud_aclk;
-  // end
-
-  // // Automated reset generation
-  // initial begin
-  //   s_axis_aud_aresetn = 0;
-  //   #(10 * CLK_PERIOD); // Hold reset for a few clock cycles
-  //   s_axis_aud_aresetn = 1;
-  // end
+  logic s_axis_aud_aclk;
+  logic s_axis_aud_aresetn;
 
   // Signals for AXI-stream driver
   clocking axi_stream_driver @(posedge s_axis_aud_aclk);
@@ -75,6 +61,26 @@ interface i2s_tx_10xe_axi_stream_intf  (input s_axis_aud_aclk, input s_axis_aud_
     `uvm_info("STREAM_INTF", "RESET ENDED", UVM_NONE)
   endtask
 
+  //task to generate clk 
+  task generate_clk();
+    s_axis_aud_aclk = 0;
+    forever
+    #10 s_axis_aud_aclk = ~s_axis_aud_aclk;
+  endtask
+
+  //task to generate reset for 10 clock cycle
+  task generate_reset();
+    s_axis_aud_aresetn = 0;
+    repeat(10) @(posedge s_axis_aud_aclk);
+    s_axis_aud_aresetn = 1;
+  endtask
+
+  initial begin
+    fork
+      generate_clk();
+      generate_reset();
+    join
+  end
 endinterface
 
 `endif

@@ -10,7 +10,7 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_AXI4_LITE_MONITOR
 `define I2S_TX_10XE_AXI4_LITE_MONITOR
-`define MON_AX axi4_lite_vif.MONITOR.axi4_lite_monitor
+`define MON_AX axi4_lite_vif.axi4_lite_monitor
 //  Class: i2s_tx_10xe_axi4_lite_monitor
 //
 class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;

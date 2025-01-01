@@ -11,7 +11,7 @@
 
 `ifndef I2S_TX_10XE_AXIS_MONITOR
 `define I2S_TX_10XE_AXIS_MONITOR
-`define MON_AXS axis_vif.MONITOR.axi_stream_monitor
+`define MON_AXS axis_vif.axi_stream_monitor
 
 // Class: i2s_tx_10xe_axis_monitor
 // Monitors AXI-Stream signals and broadcasts transactions to an analysis port.

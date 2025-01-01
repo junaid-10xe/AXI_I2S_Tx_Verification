@@ -11,50 +11,38 @@
 `ifndef I2S_TX_10XE_AXI4_LITE_INTF
 `define I2S_TX_10XE_AXI4_LITE_INTF
 
-interface i2s_tx_10xe_axi4_lite_intf #(parameter AWIDTH = 8, parameter DWIDTH = 32) (input s_axi_ctrl_aclk, input s_axi_ctrl_aresetn);
+interface i2s_tx_10xe_axi4_lite_intf();
 
   // AXI4-Lite Address Write Channel
-  logic                  s_axi_ctrl_awvalid;
-  logic                  s_axi_ctrl_awready;
-  logic [AWIDTH-1:0]     s_axi_ctrl_awaddr;
+  logic                             s_axi_ctrl_awvalid;
+  logic                             s_axi_ctrl_awready;
+  i2s_tx_10xe_defines::reg_addr     s_axi_ctrl_awaddr;
 
   // AXI4-Lite Write Data Channel
-  logic                  s_axi_ctrl_wvalid;
-  logic                  s_axi_ctrl_wready;
-  logic [DWIDTH-1:0]     s_axi_ctrl_wdata;
+  logic                             s_axi_ctrl_wvalid;
+  logic                             s_axi_ctrl_wready;
+  i2s_tx_10xe_defines::reg_data     s_axi_ctrl_wdata;
 
   // AXI4-Lite Write Response Channel
-  logic                  s_axi_ctrl_bvalid;
-  logic                  s_axi_ctrl_bready;
-  logic [1:0]            s_axi_ctrl_bresp;
+  logic                             s_axi_ctrl_bvalid;
+  logic                             s_axi_ctrl_bready;
+  logic [1:0]                       s_axi_ctrl_bresp;
 
   // AXI4-Lite Read Address Channel
-  logic                  s_axi_ctrl_arvalid;
-  logic                  s_axi_ctrl_arready;
-  logic [AWIDTH-1:0]     s_axi_ctrl_araddr;
+  logic                             s_axi_ctrl_arvalid;
+  logic                             s_axi_ctrl_arready;
+  i2s_tx_10xe_defines::reg_addr     s_axi_ctrl_araddr;
 
   // AXI4-Lite Read Data Channel
-  logic                  s_axi_ctrl_rvalid;
-  logic                  s_axi_ctrl_rready;
-  logic [1:0]            s_axi_ctrl_rresp;
-  logic [DWIDTH-1:0]     s_axi_ctrl_rdata;
+  logic                             s_axi_ctrl_rvalid;
+  logic                             s_axi_ctrl_rready;
+  logic [1:0]                       s_axi_ctrl_rresp;
+  i2s_tx_10xe_defines::reg_data     s_axi_ctrl_rdata;
 
 //   //Clk and reset signals
-//   logic s_axi_ctrl_aclk; 
-//   logic s_axi_ctrl_aresetn;
+  logic s_axi_ctrl_aclk; 
+  logic s_axi_ctrl_aresetn;
 
-//    // Automated clock generation
-//   initial begin
-//     s_axi_ctrl_aclk = 0;
-//     forever #(CLK_PERIOD / 2) s_axi_ctrl_aclk = ~s_axi_ctrl_aclk;
-//   end
-
-//   // Automated reset generation
-//   initial begin
-//     s_axi_ctrl_aresetn = 0;
-//     #(10 * CLK_PERIOD); // Hold reset for a few clock cycles
-//     s_axi_ctrl_aresetn = 1;
-//   end
 
   // AXI4-Lite Driver Signals
   clocking axi4_lite_driver @(posedge s_axi_ctrl_aclk);
@@ -140,6 +128,27 @@ interface i2s_tx_10xe_axi4_lite_intf #(parameter AWIDTH = 8, parameter DWIDTH = 
 
     `uvm_info("AXI4-LITE_INTF", "Reset Ended", UVM_NONE)
   endtask
+
+    //task to generate clk
+  task generate_clk();
+    s_axi_ctrl_aclk = 0;
+    forever
+    #10 s_axi_ctrl_aclk = ~s_axi_ctrl_aclk;
+  endtask
+
+  //task to generate reset for 10 clock cycle
+  task generate_reset();
+    s_axi_ctrl_aresetn = 0;
+    repeat(10) @(posedge s_axi_ctrl_aclk);
+    s_axi_ctrl_aresetn = 1;
+  endtask
+
+  initial begin
+    fork
+      generate_clk();
+      generate_reset();
+    join
+  end
 
 endinterface
 
