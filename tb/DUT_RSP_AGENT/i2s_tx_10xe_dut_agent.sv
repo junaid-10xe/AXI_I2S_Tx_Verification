@@ -34,3 +34,4 @@ class i2s_tx_10xe_dut_agent extends uvm_agent;
     endfunction: build_phase
 
 endclass: i2s_tx_10xe_dut_agent
+`endif

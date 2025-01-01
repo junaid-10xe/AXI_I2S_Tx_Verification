@@ -20,9 +20,9 @@
     import i2s_tx_10xe_defines::*;
 
     //Include Interfaces
-    // `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
-    // `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
-    // `include "../DUT_RSP_AGENT/i2s_tx_10xe_dut_intf.sv"
+    `include "../UVC_AXI4_LITE/i2s_tx_10xe_axi4_lite_intf.sv"
+    `include "../UVC_AXI_STREAM/i2s_tx_10xe_axi_stream_intf.sv"
+    `include "../DUT_RSP_AGENT/i2s_tx_10xe_dut_intf.sv"
 
     
     //Import AXI4-LITE UVC PKG to include files
@@ -97,5 +97,4 @@ initial begin
 end
 
 endmodule
-
 `endif

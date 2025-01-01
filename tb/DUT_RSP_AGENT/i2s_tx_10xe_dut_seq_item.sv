@@ -19,6 +19,11 @@ class i2s_tx_10xe_dut_seq_item extends uvm_sequence_item;
         `uvm_field_int(sclk_out, UVM_DEFAULT)
         `uvm_field_int(sdata_0_out, UVM_DEFAULT)
     `uvm_object_utils_end
+
+    //Constructor
+    function new(string name = "i2s_tx_10xe_dut_seq_item");
+        super.new(name);
+    endfunction
     //Signal :: i2s_tx_10xe_dut_seq_item
     
     bit     irq;            // Interrupt signal indicating an event

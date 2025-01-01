@@ -54,7 +54,7 @@ class i2s_tx_10xe_dut_monitor extends uvm_monitor;
         
         forever begin
             
-            @(posedge axis_vif.aud_mclk);
+            @(posedge dut_vif.aud_mclk);
             `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
 
             // Capture DUT signals into transaction object
