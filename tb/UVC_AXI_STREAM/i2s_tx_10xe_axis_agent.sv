@@ -11,7 +11,7 @@
 `ifndef I2S_TX_10XE_AXIS_AGENT
 `define I2S_TX_10XE_AXIS_AGENT
 
-//  Class: i2s_tx_10xe_axis_agent
+// Class: i2s_tx_10xe_axis_agent
 //  This class represents the agent in UVM, responsible for creating and 
 //  connecting the driver, monitor, and sequencer components.
 class i2s_tx_10xe_axis_agent extends uvm_component;

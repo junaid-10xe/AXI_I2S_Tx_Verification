@@ -12,8 +12,7 @@
 `define I2S_TX_10XE_AXIS_DRIVER
 `define DRV_AXS axis_vif.axi_stream_driver
 
-//  Class: i2s_tx_10xe_axis_driver
-//
+// Class: i2s_tx_10xe_axis_driver
 class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
     `uvm_component_utils(i2s_tx_10xe_axis_driver);
 
@@ -72,11 +71,7 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
 
             wait(`DRV_AXS.s_axis_aud_tready);
             // @(posedge axis_vif.s_axis_aud_aclk);
-
-            // @(posedge axis_vif.s_axis_aud_aclk);
             // `DRV_AXS.s_axis_aud_tvalid <= 0;
-            // `uvm_info(get_name(), "I am in IF ", UVM_MEDIUM)
-                
         end
         `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
         

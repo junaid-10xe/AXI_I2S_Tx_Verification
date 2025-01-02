@@ -13,13 +13,8 @@
 package i2s_tx_10xe_axis_pkg;
     // import the UVM library
   	import uvm_pkg::*;
-
   	// include the UVM macros
   	`include "uvm_macros.svh"
-
-    //import param package
-    //TODO
-
     //include UVC files
     `include "i2s_tx_10xe_axis_seq_item.sv"
     `include "i2s_tx_10xe_axis_seq.sv"

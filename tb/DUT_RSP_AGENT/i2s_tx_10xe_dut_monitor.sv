@@ -10,8 +10,8 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_DUT_MONITOR
 `define I2S_TX_10XE_DUT_MONITOR
-//Class :: i2s_tx_10xe_dut_monitor
-//Description :: This class monitors the output signals from DUT.
+// Class :: i2s_tx_10xe_dut_monitor
+// Description :: This class monitors the output signals from DUT.
 class i2s_tx_10xe_dut_monitor extends uvm_monitor;
     `uvm_component_utils(i2s_tx_10xe_dut_monitor)
     // Analysis Port to broadcast transactions to subscribers

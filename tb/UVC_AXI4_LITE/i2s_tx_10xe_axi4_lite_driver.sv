@@ -17,8 +17,8 @@
 class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_seq_item);
     `uvm_component_utils(i2s_tx_10xe_axi4_lite_driver)
 
-    // Transaction handle
-    i2s_tx_10xe_axi4_lite_seq_item axi4_tr;
+    
+    i2s_tx_10xe_axi4_lite_seq_item axi4_tr;                     // Transaction handle
 
     // Constructor: Initializes the driver component with the given name and parent.
     function new(string name = "i2s_tx_10xe_axi4_lite_driver", uvm_component parent);
@@ -54,9 +54,8 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
         end
         
     endtask: run_phase
-    
-    //TODO :: Divide into three subtasks use them in fork join
-    // Task: Write operation for AXI4-Lite signals
+
+    // Write task: Sends a write operation to the DUT using the AXI4-Lit
     task write();
         `uvm_info(get_name(), "Starting Write Task...", UVM_LOW)
         if (axi4_tr.s_axi_ctrl_awvalid) begin
@@ -95,11 +94,10 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
         
     endtask: write
 
-    //TODO :: Divide into two subtasks and use them in fork join
-    // Task: Read operation for AXI4-Lite signals
+    // Read task: Sends a read operation to the DUT using the AXI4-Lit
     task read();
         `uvm_info(get_name(), "Starting Read Task...", UVM_LOW)
-        //Read Address Channel
+        // Read Address Channel
         // Drive the read address signal (ARADDR)
         if (axi4_tr.s_axi_ctrl_arvalid) begin
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk);

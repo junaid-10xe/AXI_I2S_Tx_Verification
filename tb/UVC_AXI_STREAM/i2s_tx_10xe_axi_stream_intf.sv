@@ -18,9 +18,9 @@ interface i2s_tx_10xe_axi_stream_intf  ();
   i2s_tx_10xe_defines::axi_stream_tid   s_axis_aud_tid;
   logic                                 s_axis_aud_tvalid;
   logic                                 s_axis_aud_tready;
-
-  logic s_axis_aud_aclk;
-  logic s_axis_aud_aresetn;
+  // Rset and clock signals of axi-stream
+  logic                                 s_axis_aud_aclk;
+  logic                                 s_axis_aud_aresetn;
 
   // Signals for AXI-stream driver
   clocking axi_stream_driver @(posedge s_axis_aud_aclk);
@@ -61,14 +61,14 @@ interface i2s_tx_10xe_axi_stream_intf  ();
     `uvm_info("STREAM_INTF", "RESET ENDED", UVM_NONE)
   endtask
 
-  //task to generate clk 
+  // task to generate clk 
   task generate_clk();
     s_axis_aud_aclk = 0;
     forever
     #10 s_axis_aud_aclk = ~s_axis_aud_aclk;
   endtask
 
-  //task to generate reset for 10 clock cycle
+  // task to generate reset for 10 clock cycle
   task generate_reset();
     s_axis_aud_aresetn = 0;
     repeat(10) @(posedge s_axis_aud_aclk);

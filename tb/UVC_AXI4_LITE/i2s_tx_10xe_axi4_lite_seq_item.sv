@@ -43,51 +43,30 @@ class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
     // AXI4-Lite signals for different channels
 
     // Address Write Channel
-    rand bit                    s_axi_ctrl_awvalid;   // Address write valid
-    bit                         s_axi_ctrl_awready;   // Address write ready
-    randc bit [7:0]              s_axi_ctrl_awaddr;    // Write address
+    rand bit                    s_axi_ctrl_awvalid;     // Address write valid
+    bit                         s_axi_ctrl_awready;     // Address write ready
+    randc bit [7:0]              s_axi_ctrl_awaddr;     // Write address
 
     // Write Data Channel
-    rand bit                    s_axi_ctrl_wvalid;    // Write data valid
-    bit                         s_axi_ctrl_wready;    // Write data ready
-    rand bit [31:0]             s_axi_ctrl_wdata;     // Write data
+    rand bit                    s_axi_ctrl_wvalid;      // Write data valid
+    bit                         s_axi_ctrl_wready;      // Write data ready
+    rand bit [31:0]             s_axi_ctrl_wdata;       // Write data
 
     // Write Response Channel
-    bit                         s_axi_ctrl_bvalid;    // Write response valid
-    rand bit                    s_axi_ctrl_bready;    // Write response ready
-    bit [1:0]                   s_axi_ctrl_bresp;     // Write response
+    bit                         s_axi_ctrl_bvalid;      // Write response valid
+    rand bit                    s_axi_ctrl_bready;      // Write response ready
+    bit [1:0]                   s_axi_ctrl_bresp;       // Write response
 
     // Read Address Channel
-    rand bit                    s_axi_ctrl_arvalid;   // Read address valid
-    bit                         s_axi_ctrl_arready;   // Read address ready
-    randc bit [7:0]              s_axi_ctrl_araddr;    // Read address
+    rand bit                    s_axi_ctrl_arvalid;     // Read address valid
+    bit                         s_axi_ctrl_arready;     // Read address ready
+    randc bit [7:0]              s_axi_ctrl_araddr;     // Read address
 
     // Read Data Channel
-    bit                         s_axi_ctrl_rvalid;    // Read data valid
-    rand bit                    s_axi_ctrl_rready;    // Read data ready
-    bit [1:0]                   s_axi_ctrl_rresp;     // Read response
-    bit [31:0]                  s_axi_ctrl_rdata;     // Read data
-
-       //Constraints 
-    // Constraint to ensure only relevant registers are read during AXI transactions
-     constraint read_reg {
-        // Allow read address valid signal to be active
-        s_axi_ctrl_arvalid == 1;
-    
-        // Restrict read address to specific register addresses
-        s_axi_ctrl_araddr inside {
-            'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
-            'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-            'h54, 'h58, 'h5C, 'h60, 'h64
-        };
-    
-        // Ensure read ready signal is active
-        s_axi_ctrl_rready == 1;
-    
-        // Ensure write operations are not active
-        s_axi_ctrl_awvalid == 0;
-        s_axi_ctrl_wvalid == 0;
-    }
+    bit                         s_axi_ctrl_rvalid;      // Read data valid
+    rand bit                    s_axi_ctrl_rready;      // Read data ready
+    bit [1:0]                   s_axi_ctrl_rresp;       // Read response
+    bit [31:0]                  s_axi_ctrl_rdata;       // Read data
     
 endclass: i2s_tx_10xe_axi4_lite_seq_item
 

@@ -10,8 +10,8 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_DUT_SEQ_ITEM
 `define I2S_TX_10XE_DUT_SEQ_ITEM
-//Class :: i2s_tx_10xe_dut_seq_item
-//Description :: This class contains all transaction signals of that are the output of DUT
+// Class :: i2s_tx_10xe_dut_seq_item
+// Description :: This class contains all transaction signals of that are the output of DUT
 class i2s_tx_10xe_dut_seq_item extends uvm_sequence_item;
     `uvm_object_utils_begin(i2s_tx_10xe_dut_seq_item)
         `uvm_field_int(irq, UVM_DEFAULT)
@@ -20,11 +20,11 @@ class i2s_tx_10xe_dut_seq_item extends uvm_sequence_item;
         `uvm_field_int(sdata_0_out, UVM_DEFAULT)
     `uvm_object_utils_end
 
-    //Constructor
+    // Constructor
     function new(string name = "i2s_tx_10xe_dut_seq_item");
         super.new(name);
     endfunction
-    //Signal :: i2s_tx_10xe_dut_seq_item
+    // Signal :: i2s_tx_10xe_dut_seq_item
     
     bit     irq;            // Interrupt signal indicating an event
     bit     lrclk_out;      // Left-right clock signal for audio synchronization

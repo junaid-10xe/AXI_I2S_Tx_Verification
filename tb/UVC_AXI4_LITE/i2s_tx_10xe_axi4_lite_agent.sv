@@ -11,11 +11,10 @@
 `ifndef I2S_TX_10XE_AXI4_LITE_AGENT
 `define I2S_TX_10XE_AXI4_LITE_AGENT
 
-//  Class: i2s_tx_10xe_axi4_lite_agent
-//  This class represents the agent that contains and connects the driver, monitor, and sequencer for the I2S TX AXI4-Lite interface.
+// Class: i2s_tx_10xe_axi4_lite_agent
+// This class represents the agent that contains and connects the driver, monitor, and sequencer for the I2S TX AXI4-Lite interface.
 class i2s_tx_10xe_axi4_lite_agent extends uvm_component;
     `uvm_component_utils(i2s_tx_10xe_axi4_lite_agent);
-
     // Handles for monitor, driver, and sequencer components
     i2s_tx_10xe_axi4_lite_driver        axi_driv;    // Driver to send AXI4-Lite transactions to the DUT
     i2s_tx_10xe_axi4_lite_monitor       axi_mon;     // Monitor to observe the AXI4-Lite signals

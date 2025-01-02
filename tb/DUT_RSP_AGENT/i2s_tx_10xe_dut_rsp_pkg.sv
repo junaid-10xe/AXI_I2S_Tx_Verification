@@ -16,7 +16,7 @@ package i2s_tx_10xe_dut_rsp_pkg;
   	// include the UVM macros
   	`include "uvm_macros.svh"
 
-    //include  files
+    // include  files
     `include "i2s_tx_10xe_dut_seq_item.sv"
     `include "i2s_tx_10xe_dut_monitor.sv"
     `include "i2s_tx_10xe_dut_agent.sv"

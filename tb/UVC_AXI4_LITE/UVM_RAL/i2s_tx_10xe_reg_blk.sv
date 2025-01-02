@@ -11,14 +11,14 @@
 `ifndef I2S_TX_10XE_REG_BLK
 `define I2S_TX_10XE_REG_BLK
 
-//Class: i2s_tx_10xe_reg_blk
+// Class: i2s_tx_10xe_reg_blk
 // Description: This class is used to build and configure all the registers used in I2S transmitter functionality.
 
 class i2s_tx_10xe_reg_blk extends uvm_reg_block;
     // register with factory
     `uvm_object_utils(i2s_tx_10xe_reg_blk)
 
-    //handle of all registers
+    // handle of all registers
     core_version_reg        core_version_reg_h;
     core_cfg_reg            core_cfg_reg_h;
     control_reg             control_reg_h;
@@ -37,17 +37,17 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
     aes_chan_stat_reg4      aes_chan_stat_reg4_h;
     aes_chan_stat_reg5      aes_chan_stat_reg5_h;
 
-    //Constructor
+    // Constructor
     function new(string name = "i2s_tx_10xe_reg_blk");
         super.new(name, build_coverage(UVM_NO_COVERAGE));
     endfunction: new
 
-    //build function
+    // build function
     virtual function void build();
         default_map = create_map("default_map", 0, 4, UVM_LITTLE_ENDIAN, 0);
         `uvm_info(get_name(), "Creating registers", UVM_NONE)
         
-        //Create build and configure registers
+        // Create build and configure registers
         core_version_reg_h      = core_version_reg::type_id::create("core_version_reg_h");
         core_cfg_reg_h          = core_cfg_reg::type_id::create("core_cfg_reg_h");
         control_reg_h           = control_reg::type_id::create("control_reg_h");
@@ -67,7 +67,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg5_h    = aes_chan_stat_reg5::type_id::create("aes_chan_stat_reg5_h");
         `uvm_info(get_name(), "Built now configuring registers", UVM_NONE)
 
-        //Configure registers
+        // Configure registers
         core_version_reg_h.configure(this, null);
         core_cfg_reg_h.configure(this, null);
         control_reg_h.configure(this, null);
@@ -87,7 +87,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg5_h.configure(this, null);
         `uvm_info(get_name(), "Created now building registers", UVM_NONE)
 
-        //build registers
+        // build registers
         core_version_reg_h.build();
         core_cfg_reg_h.build();
         control_reg_h.build();
@@ -107,7 +107,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg5_h.build();
 
 
-        //Add addresses of registers to map 
+        // Add addresses of registers to map 
         this.default_map.add_reg(core_version_reg_h, 'h00, "RW");
         this.default_map.add_reg(core_cfg_reg_h, 'h04, "RW");
         this.default_map.add_reg(control_reg_h, 'h08, "RW");
@@ -128,7 +128,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
 
         default_map.set_auto_predict(1);
         
-        //lock the model
+        // lock the model
         lock_model(); 
     endfunction
 endclass

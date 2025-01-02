@@ -17,9 +17,6 @@ package i2s_tx_10xe_axi4_lite_pkg;
   	// include the UVM macros
   	`include "uvm_macros.svh"
 
-    //TODO import param package
-    //
-
     //include UVC files
     `include "i2s_tx_10xe_axi4_lite_seq_item.sv"
     `include "UVM_RAL/i2s_tx_10xe_reg.sv"

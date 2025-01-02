@@ -11,7 +11,7 @@
 `ifndef I2S_TX_10XE_REG
 `define I2S_TX_10XE_REG
 
-//Class Core_version_reg
+// Class Core_version_reg
 // Description:: This class contains the register fileds of coreversion class whose base address is 0x00
 class core_version_reg extends uvm_reg;
     `uvm_object_utils(core_version_reg)
@@ -33,12 +33,9 @@ class core_version_reg extends uvm_reg;
         minor_rev.configure(this, 16, 0,  "RO", 0, 0, 1, 0, 1);
 
     endfunction
-
-
 endclass: core_version_reg
 
-
-//Class core_cfg_reg
+// Class core_cfg_reg
 // Description:: This class contains the register fields of core configuration reg  whose base address is 0x04
 class core_cfg_reg extends uvm_reg;
     `uvm_object_utils(core_cfg_reg)
@@ -72,8 +69,6 @@ class core_cfg_reg extends uvm_reg;
         master.configure(this, 1, 0, "RO", 0, 1, 1, 0, 1);
 
     endfunction
-
-
 endclass: core_cfg_reg 
 
 //Class control_reg
@@ -107,8 +102,6 @@ class control_reg extends uvm_reg;
         core_en.configure(this, 1, 0, "RW", 0, 0, 1, 0, 1);
 
     endfunction
-
-
 endclass: control_reg 
 
 //Class: validity_reg
@@ -117,7 +110,7 @@ class validity_reg extends uvm_reg;
     `uvm_object_utils(validity_reg)
     //Register fields
     rand uvm_reg_field rsvd;        //[31:1] Reserved
-    rand uvm_reg_field valid;      //[0] 1: The audio input sample is always valid 0: The Validity bit in the incoming stream decides the validity of the sample
+    rand uvm_reg_field valid;       //[0] 1: The audio input sample is always valid 0: The Validity bit in the incoming stream decides the validity of the sample
     //Constructor
     function new(string name = "validity_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
@@ -132,10 +125,7 @@ class validity_reg extends uvm_reg;
         rsvd.configure(this, 30, 1, "RO", 0, 0, 1, 0, 1);
         valid.configure(this, 1, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: validity_reg 
-
 
 //Class: intrpt_ctrl_reg
 // Description:: This class contains the register fields to that are allowed to generate an interrupt. 
@@ -144,7 +134,7 @@ class intrpt_ctrl_reg extends uvm_reg;
     `uvm_object_utils(intrpt_ctrl_reg)
     //Register fields
     rand uvm_reg_field glbl_intrp_en;           //[31] :Global Interrupt Enable: Enables the global interrupt
-    rand uvm_reg_field rsvd;                 //[30:4] Reserved
+    rand uvm_reg_field rsvd;                    //[30:4] Reserved
     rand uvm_reg_field undr_flow_intrp_en;      //[3] 1: Underflow Interrupt Enable: Enables the underflow interrupt
     rand uvm_reg_field aes_chan_stat_intrp_en;  //[2] 1: AES Channel Status Updated Interrupt Enable: Enables the AES channel status updated interrupt
     rand uvm_reg_field aes_sync_intrp_en;       //[1] 1: AES Block Sync Error Interrupt Enable: Enables the AES block sync interrupt
@@ -171,8 +161,6 @@ class intrpt_ctrl_reg extends uvm_reg;
         aes_sync_intrp_en.configure(this, 1, 1, "RW", 0, 0, 1, 0, 1);
         aes_cmplt_intrp_en.configure(this, 1, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: intrpt_ctrl_reg 
 
 //Class: intrpt_stat_reg
@@ -209,8 +197,6 @@ class intrpt_stat_reg extends uvm_reg;
         aes_sync_intrp.configure(this, 1, 1, "RW", 0, 0, 1, 0, 1);
         aes_cmplt_intrp.configure(this, 1, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: intrpt_stat_reg 
 
 //Class: i2s_tim_ctrl_reg
@@ -236,11 +222,9 @@ class i2s_tim_ctrl_reg extends uvm_reg;
         rsvd.configure(this, 24, 8, "RO", 0, 0, 0, 0, 0);
         sclk_div_val.configure(this, 8, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: i2s_tim_ctrl_reg 
 
-//Class: chan_01_ctrl_reg
+// Class: chan_01_ctrl_reg
 /* Description:: The IP provides a mechanism to route the audio channels onto any I2S output. For example,
                  audio received on channels 2/3 can be routed to the output on any of the four I2S ports.
                  Similarly, audio received on channels 0/1 can be routed to all of the four I2S ports. whose base address is 0x30
@@ -257,33 +241,30 @@ class chan_01_ctrl_reg extends uvm_reg;
                                                          0x4: I2S channel 0 outputs the audio received on channel 6 /7
                                                          All other values are reserved.
                                                          */
-    //Constructor
+    // Constructor
     function new(string name = "chan_01_ctrl_reg");
         super.new(name, 32, build_coverage(UVM_NO_COVERAGE));
     endfunction: new
 
-    //Build function 
+    // Build function 
     virtual function void build();
-        //Create Fields
+        // Create Fields
         rsvd = uvm_reg_field::type_id::create("rsvd");
         chan_mux_val = uvm_reg_field::type_id::create("chan_mux_val");
-        //Configure fileds 
+        // Configure fileds 
         rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 1, 1, 0, 1);
     endfunction
-
-
 endclass: chan_01_ctrl_reg 
 
-
-//Class: chan_23_ctrl_reg
+// Class: chan_23_ctrl_reg
 /* Description:: The IP provides a mechanism to route the audio channels onto any I2S output. For example,
                  audio received on channels 2/3 can be routed to the output on any of the four I2S ports.
                  Similarly, audio received on channels 0/1 can be routed to all of the four I2S ports. whose base address is 0x34
                   */
 class chan_23_ctrl_reg extends uvm_reg;
     `uvm_object_utils(chan_23_ctrl_reg)
-    //Register fields
+    // Register fields
     rand uvm_reg_field rsvd;                    //[31:3] Reserved
     rand uvm_reg_field chan_mux_val;            /*[ 2:0] Channel MUX Value: Specify a value to multiplex the audio channel output.
                                                             0x0: Output on I2S channel 1 is disabled
@@ -307,10 +288,7 @@ class chan_23_ctrl_reg extends uvm_reg;
         rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 2, 1, 0, 1);
     endfunction
-
-
 endclass: chan_23_ctrl_reg 
-
 
 //Class: chan_45_ctrl_reg
 /* Description:: The IP provides a mechanism to route the audio channels onto any I2S output. For example,
@@ -343,10 +321,7 @@ class chan_45_ctrl_reg extends uvm_reg;
         rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 3, 1, 0, 1);
     endfunction
-
-
 endclass: chan_45_ctrl_reg 
-
 
 //Class: chan_67_ctrl_reg
 /* Description:: The IP provides a mechanism to route the audio channels onto any I2S output. For example,
@@ -380,10 +355,7 @@ class chan_67_ctrl_reg extends uvm_reg;
         chan_mux_val.configure(this, 3, 0, "RW", 0, 4, 1, 0, 1);
     endfunction
 
-
 endclass: chan_67_ctrl_reg 
-
-
 
 //AES Channel Status (0x50-0x64)
 /* Description:: These 6 registers together give the 192-bit channel status information that is received over the
@@ -410,8 +382,6 @@ class aes_chan_stat_reg0 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg0 
 
 //Class: aes_chan_stat_reg1 :: Base addr:: 0x54
@@ -431,8 +401,6 @@ class aes_chan_stat_reg1 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg1 
 
 //Class: aes_chan_stat_reg2 :: Base addr:: 0x58
@@ -452,8 +420,6 @@ class aes_chan_stat_reg2 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg2 
 
 //Class: aes_chan_stat_reg3 :: Base addr:: 0x5C
@@ -473,10 +439,7 @@ class aes_chan_stat_reg3 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg3 
-
 
 //Class: aes_chan_stat_reg4 :: Base addr:: 0x60
 class aes_chan_stat_reg4 extends uvm_reg;
@@ -495,8 +458,6 @@ class aes_chan_stat_reg4 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg4
 
 //Class: aes_chan_stat_reg5 :: Base addr:: 0x64
@@ -516,8 +477,6 @@ class aes_chan_stat_reg5 extends uvm_reg;
         //Configure fileds 
         aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
-
-
 endclass: aes_chan_stat_reg5 
 
 `endif

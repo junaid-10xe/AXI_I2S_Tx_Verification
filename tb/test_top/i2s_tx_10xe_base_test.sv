@@ -11,27 +11,26 @@
 `ifndef I2S_TX_10XE_BASE_TEST
 `define I2S_TX_10XE_BASE_TEST
 //  Class: i2s_tx_10xe_base_test
-//
 class i2s_tx_10xe_base_test extends uvm_test;
     `uvm_component_utils(i2s_tx_10xe_base_test);
 
-    //environment 
+    // environment 
     i2s_tx_10xe_env     env;
-    //Handle for AXI-Stream interface
+    // Handle for AXI-Stream interface
     virtual i2s_tx_10xe_axi_stream_intf     axis_vif;
-     //Interface handle of axi4-Lite
+    // Interface handle of axi4-Lite
     virtual i2s_tx_10xe_axi4_lite_intf      axi4_lite_vif;
-    //Handle of sut interface
+    // Handle of sut interface
     virtual i2s_tx_10xe_dut_intf            dut_vif;
-    //Handle for RAl SEQ to read registers in reset 
+    // Handle for RAl SEQ to read registers in reset 
     ral_rst_rd_seq                            rst_ral_seq;
-    //Handle for RAl SEQ to Configure registers
+    // Handle for RAl SEQ to Configure registers
     ral_cfg_seq                                cfg_ral_seq;
-    //  Constructor: new
+    // Constructor: new
     function new(string name = "i2s_tx_10xe_base_test", uvm_component parent);
         super.new(name, parent);
     endfunction: new
-
+    // Build_phase
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         env             = i2s_tx_10xe_env::type_id::create("env", this);
@@ -49,17 +48,16 @@ class i2s_tx_10xe_base_test extends uvm_test;
        // env.set_report_verbosity_level(500);
     endfunction: build_phase
 
-    //To print topology
-
+    // To print topology
     function void end_of_elaboration_phase(uvm_phase phase);
         uvm_top.print_topology();
     endfunction: end_of_elaboration_phase
 
-    //Reset Phase to reset signals before driving 
+    // Reset Phase to reset signals before driving 
     task reset_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<reset_phase> started, objection raised.", UVM_NONE)
-         //Run reset sequnces in fork join to reset signals of both axi and axi-stream
+        //  Run reset sequnces in fork join to reset signals of both axi and axi-stream
         fork
             axis_vif.reset();
             axi4_lite_vif.reset();
@@ -67,40 +65,35 @@ class i2s_tx_10xe_base_test extends uvm_test;
         rst_ral_seq.reg_blk = env.reg_block;
         rst_ral_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);
-        // ral_seq.rd_regs_in_rst = 0;
         `uvm_info(get_name(), "<reset_phase> finished, objection dropped.", UVM_NONE)
     endtask: reset_phase
-
+    // Configure Phase to configure core 
     task configure_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
         cfg_ral_seq.reg_blk = env.reg_block;
         cfg_ral_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);
-
         `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
         phase.phase_done.set_drain_time(this, 100);
     endtask: configure_phase
-
-    
 endclass: i2s_tx_10xe_base_test
 
 //  Class: read_reg_test
-//
 class read_reg_test extends i2s_tx_10xe_base_test;
     `uvm_component_utils(read_reg_test);
     read_reg_seq read_seq;
 
-    //  Constructor: new
+    // Constructor: new
     function new(string name = "read_reg_test", uvm_component parent);
         super.new(name, parent);
     endfunction: new
-    //BUILD PHASE
+    // BUILD PHASE
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         read_seq     = read_reg_seq::type_id::create("read_seq", this);
     endfunction: build_phase
-    //Run Phase
+    // MAIN Phase
     task main_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
@@ -117,23 +110,22 @@ class read_reg_test extends i2s_tx_10xe_base_test;
 endclass: read_reg_test
 
 //  Class: sanity_test
-//
 class sanity_test extends i2s_tx_10xe_base_test;
     `uvm_component_utils(sanity_test);
     read_reg_seq read_seq;
     axis_i2s_seq axis_seq;
-    //  Constructor: new
+    // Constructor: new
     function new(string name = "sanity_test", uvm_component parent);
         super.new(name, parent);
     endfunction: new
-    //BUILD PHASE
+    // BUILD PHASE
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         read_seq     = read_reg_seq::type_id::create("read_seq", this);
         axis_seq     = axis_i2s_seq::type_id::create("axis_seq", this);
         
     endfunction: build_phase
-    //Run Phase
+    // MAIN Phase
     task main_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)

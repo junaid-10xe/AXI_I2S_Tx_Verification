@@ -10,7 +10,7 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_DUT_AGENT
 `define I2S_TX_10XE_DUT_AGENT
-//Class:: i2s_tx_10xe_dut_agent
+// Class:: i2s_tx_10xe_dut_agent
 // Description:: This class is used to build the monitor for i2s_tx_10xe_dut.
 class i2s_tx_10xe_dut_agent extends uvm_agent;
     `uvm_component_utils(i2s_tx_10xe_dut_agent)

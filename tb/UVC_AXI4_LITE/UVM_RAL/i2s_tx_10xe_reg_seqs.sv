@@ -10,7 +10,7 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_REG_SEQS
 `define I2S_TX_10XE_REG_SEQS
-//Class :: i2s_tx_reg_base_seq
+// Class :: i2s_tx_reg_base_seq
 
 class i2s_tx_reg_base_seq extends uvm_sequence;
     `uvm_object_utils(i2s_tx_reg_base_seq)
@@ -18,35 +18,35 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     i2s_tx_10xe_reg_blk  reg_blk;
     uvm_status_e         status;
     uvm_reg              reg_h;
-    //declaring variable for configuration of sequence
-    bit core_cfg                = i2s_tx_10xe_defines::CORE_CFG;                //Bit to cinfugure core 
-    bit axi_stream_data_valid   = i2s_tx_10xe_defines::AXI_STREAM_DATA_VALID;   //Optional if we want to make data valid on stream
-    bit en_dis_int              = i2s_tx_10xe_defines::EN_DIS_INT;              //BIT to enable disable interrupt
-    bit rd_regs                 = i2s_tx_10xe_defines::RD_REGS;                 //Bit to READ RAL REGISTERS
-    bit rd_regs_in_rst          = i2s_tx_10xe_defines::RD_REGS_IN_RST;          //BIT to read registers in reset phase
-    bit wr_rd_regs              = i2s_tx_10xe_defines::WR_RD_REGS;              //Bit to write and read RAL REGISTERS
-    //To genrate write data value according to pattern 
+    // declaring variable for configuration of sequence
+    bit core_cfg                = i2s_tx_10xe_defines::CORE_CFG;                // Bit to cinfugure core 
+    bit axi_stream_data_valid   = i2s_tx_10xe_defines::AXI_STREAM_DATA_VALID;   // Optional if we want to make data valid on stream
+    bit en_dis_int              = i2s_tx_10xe_defines::EN_DIS_INT;              // BIT to enable disable interrupt
+    bit rd_regs                 = i2s_tx_10xe_defines::RD_REGS;                 // Bit to READ RAL REGISTERS
+    bit rd_regs_in_rst          = i2s_tx_10xe_defines::RD_REGS_IN_RST;          // BIT to read registers in reset phase
+    bit wr_rd_regs              = i2s_tx_10xe_defines::WR_RD_REGS;              // Bit to write and read RAL REGISTERS
+    // To genrate write data value according to pattern 
     i2s_tx_10xe_defines::data_pattern_e data_pattern  = i2s_tx_10xe_defines::RAL_DATA_PATTERN;
 
-    //Constructor
+    // Constructor
     function new (string name = "i2s_tx_reg_base_seq");
         super.new(name);  
     endfunction
 
-    //task to read register and compare it desired and mirrored value
+    // task to read register and compare it desired and mirrored value
     task read_reg(input uvm_reg reg_h);
 
-        i2s_tx_10xe_defines::reg_data   actual_val; //read value
-        i2s_tx_10xe_defines::reg_data   expected_val; //desired value
+        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
+        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
 
         reg_h.read(status, actual_val, UVM_FRONTDOOR);
         if(status != UVM_IS_OK) begin   
             `uvm_error(get_name(), "GOT status UVM_NOT_OK")
         end
         else begin
-            //get expected val
+            // get expected val
             expected_val = reg_h.get();
-            //compare with read value
+            // compare with read value
             if (expected_val==actual_val) begin
                 `uvm_info(get_name(), $sformatf("TEST PASSED : %s ACTUAL VALUE :: %0h == EXPECTED VALUE :: %0h", reg_h.get_name(), actual_val, expected_val), UVM_NONE)
             end
@@ -59,13 +59,14 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     task write_read_reg(input uvm_reg reg_h,
                         input i2s_tx_10xe_defines::data_pattern_e data_pattern); 
         
-        i2s_tx_10xe_defines::reg_data   actual_val; //read value
-        i2s_tx_10xe_defines::reg_data   expected_val; //desired value
-        i2s_tx_10xe_defines::reg_data   write_val; 
-
-        
+        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
+        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
+        i2s_tx_10xe_defines::reg_data   write_val;
+            
+            // get write value according to pattern
             get_write_val(write_val, data_pattern);
             `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+            // write value to register
             reg_h.write(status, write_val);
             if(status != UVM_IS_OK) begin   
                 `uvm_error(get_name(), "WRITE :: UVM_NOT_OK")
@@ -74,6 +75,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         
     endtask: write_read_reg
 
+    // Task to get write value according to data_pattern want to write on regsiter
     task get_write_val(output i2s_tx_10xe_defines::reg_data   write_val, 
                        input i2s_tx_10xe_defines::data_pattern_e data_pattern);
         case (i2s_tx_10xe_defines::data_pattern_e'(data_pattern))
@@ -89,19 +91,19 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
             default:                       begin
                                                 write_val = 32'b0;
                                            end
-            
         endcase
     endtask: get_write_val
 
     // task to configure core before starting the main phase 
     task configure_core();
         if(core_cfg) begin
-            //configure core
+            // configure core
             `uvm_info(get_name(), "Configuring REGISTERS", UVM_LOW)
-            //Optional if we want to make data valid on stream 
+            // Optional if we want to make data valid on stream 
             if(axi_stream_data_valid) begin
                 reg_blk.validity_reg_h.write(status, 1, UVM_FRONTDOOR); 
             end
+            // Optional if want to enable disable interupts
             if(en_dis_int) begin
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
@@ -112,30 +114,30 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         end
     endtask: configure_core
 
-    //Task to read register in reset phase 
+    // Task to read register in reset phase 
     task read_reg_in_reset();
-        //queue to get registers from reg block
+        // queue to get registers from reg block
         uvm_reg regs[$];
 
         if(rd_regs_in_rst) begin
             `uvm_info(get_name(), "READING REGISTERS IN RESET", UVM_LOW)
 
-            //Get registers from reg block
+            // Get registers from reg block
             reg_blk.get_registers(regs);
-            //Read registers in reset before configuration
+            // Read registers in reset before configuration
             foreach(regs[i]) begin
                 read_reg(regs[i]);
             end
         end
     endtask: read_reg_in_reset
 
-    //Task to generate sequence to read registers
+    // Task to generate sequence to read registers
     task read_registers();
-        //queue to get registers from reg block
+        // queue to get registers from reg block
         uvm_reg regs[$];
 
         if(rd_regs) begin
-            //get registers from reg block
+            // get registers from reg block
             `uvm_info(get_name(), "READING REGISTERS ", UVM_LOW)
             reg_blk.get_registers(regs);
             foreach (regs[i]) begin
@@ -144,19 +146,18 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         end
     endtask: read_registers
 
-    //Task to write and read registers
+    // Task to write and read registers
     task wr_rd_reg_seq();
-        //queue to get registers from reg block
+        // queue to get registers from reg block
         uvm_reg regs[$];
 
         if(wr_rd_regs) begin
-            //get registers from reg block
+            // get registers from reg block
             `uvm_info(get_name(), "WRITING AND READING REGISTERS ", UVM_LOW)
             reg_blk.get_registers(regs);
             
             foreach (regs[i]) begin
-                write_read_reg(regs[i],
-                            data_pattern);
+                write_read_reg(regs[i],data_pattern);
             end
         end
     endtask: wr_rd_reg_seq
@@ -164,54 +165,51 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
 endclass: i2s_tx_reg_base_seq
 
 
-//Sequence to read registers in reset 
+// Sequence to read registers in reset 
 class ral_rst_rd_seq extends i2s_tx_reg_base_seq;
     `uvm_object_utils(ral_rst_rd_seq)
 
-    //Constructor
+    // Constructor
     function new (string name = "ral_rst_rd_seq");
         super.new(name);
     endfunction
 
     task body();
-        //Read registers in reset before configuration
+        // Read registers in reset before configuration
         read_reg_in_reset();
     endtask
-
-
 endclass: ral_rst_rd_seq
 
-//RAL Sequence to configure core 
+// RAL Sequence to configure core 
 class ral_cfg_seq extends i2s_tx_reg_base_seq;
     `uvm_object_utils(ral_cfg_seq)
 
-    //Constructor
+    // Constructor
     function new (string name = "ral_cfg_seq");
         super.new(name);
     endfunction
 
     task body();
-        //Configure core
+        // Configure core
         configure_core();
     endtask
 endclass: ral_cfg_seq
 
-//RAL Sequence to Only read registers or write read registers or both first read then write read based on configuration bits 
+// RAL Sequence to Only read registers or write read registers or both first read then write read based on configuration bits 
 class ral_rd_wr_seq extends i2s_tx_reg_base_seq;
     `uvm_object_utils(ral_rd_wr_seq)
 
-    //Constructor
+    // Constructor
     function new (string name = "ral_rd_wr_seq");
         super.new(name);
     endfunction
 
     task body();
-        //Read registers
+        // Read registers
         read_registers();
-        //Write then read write value base on pattern
+        // Write then read write value base on pattern
         wr_rd_reg_seq();
     endtask
 endclass: ral_rd_wr_seq
-
 
 `endif

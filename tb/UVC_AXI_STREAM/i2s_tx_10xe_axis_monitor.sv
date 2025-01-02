@@ -18,14 +18,9 @@
 class i2s_tx_10xe_axis_monitor extends uvm_monitor;
     `uvm_component_utils(i2s_tx_10xe_axis_monitor)
 
-    // Analysis Port to broadcast transactions to subscribers
-    uvm_analysis_port #(i2s_tx_10xe_axis_seq_item) axis_a_port;
-
-    // Virtual interface handle for AXI-Stream signals
-    virtual i2s_tx_10xe_axi_stream_intf axis_vif;
-
-    // Handle for the transaction object
-    i2s_tx_10xe_axis_seq_item axis_tr;
+    uvm_analysis_port #(i2s_tx_10xe_axis_seq_item) axis_a_port;     // Analysis Port to broadcast transactions to subscribers
+    virtual i2s_tx_10xe_axi_stream_intf axis_vif;                   // Virtual interface handle for AXI-Stream signals
+    i2s_tx_10xe_axis_seq_item axis_tr;                              // Handle for the transaction object
 
     // Constructor: Initializes the monitor
     function new(string name = "i2s_tx_10xe_axis_monitor", uvm_component parent);
@@ -59,17 +54,14 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
         
         forever begin
             // Wait for two positive edges of the clock to stabilize signals
-            
             repeat (2) @(posedge axis_vif.s_axis_aud_aclk);
             `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
-
             // Capture AXI-Stream signals into transaction object
             axis_tr.s_axis_aud_tvalid = `MON_AXS.s_axis_aud_tvalid;
             axis_tr.s_axis_aud_tready = `MON_AXS.s_axis_aud_tready;
             axis_tr.s_axis_aud_tid    = `MON_AXS.s_axis_aud_tid;
             axis_tr.s_axis_aud_tdata  = `MON_AXS.s_axis_aud_tdata;
             `uvm_info(get_name(), "AXI-Stream signals captured into transaction object", UVM_DEBUG)
-
             // Broadcast valid transaction to analysis port
             if(`MON_AXS.s_axis_aud_tvalid) begin
                 axis_a_port.write(axis_tr);

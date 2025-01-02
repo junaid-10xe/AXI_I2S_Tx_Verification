@@ -39,7 +39,7 @@ interface i2s_tx_10xe_axi4_lite_intf();
   logic [1:0]                       s_axi_ctrl_rresp;
   i2s_tx_10xe_defines::reg_data     s_axi_ctrl_rdata;
 
-//   //Clk and reset signals
+  // Clk and reset signals
   logic s_axi_ctrl_aclk; 
   logic s_axi_ctrl_aresetn;
 
@@ -129,14 +129,14 @@ interface i2s_tx_10xe_axi4_lite_intf();
     `uvm_info("AXI4-LITE_INTF", "Reset Ended", UVM_NONE)
   endtask
 
-    //task to generate clk
+  // task to generate clk
   task generate_clk();
     s_axi_ctrl_aclk = 0;
     forever
     #10 s_axi_ctrl_aclk = ~s_axi_ctrl_aclk;
   endtask
 
-  //task to generate reset for 10 clock cycle
+  // task to generate reset for 10 clock cycle
   task generate_reset();
     s_axi_ctrl_aresetn = 0;
     repeat(10) @(posedge s_axi_ctrl_aclk);

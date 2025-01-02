@@ -10,9 +10,8 @@
 ************************************************************************/
 `ifndef I2S_TX_10XE_AXI4_LITE_SEQ
 `define I2S_TX_10XE_AXI4_LITE_SEQ
-
-//  Class: i2s_tx_10xe_axi4_lite_seq
-//  Description: Base sequence class for I2S TX AXI4-Lite interface
+// Class: i2s_tx_10xe_axi4_lite_seq
+// Description: Base sequence class for I2S TX AXI4-Lite interface
 class i2s_tx_10xe_axi4_lite_seq extends uvm_sequence;
     `uvm_object_utils(i2s_tx_10xe_axi4_lite_seq);
 
@@ -21,38 +20,11 @@ class i2s_tx_10xe_axi4_lite_seq extends uvm_sequence;
     function new(string name = "i2s_tx_10xe_axi4_lite_seq");
         super.new(name);
     endfunction: new
-    //TODO(JUNAID) THESE tasks not working will see it later if time allowed
-//     uvm_phase phase;
-//     // // Task: pre_body
-//     task pre_body();
-//         `uvm_info(get_type_name(), "Inside pre_body", UVM_LOW);
-//         phase = get_starting_phase; // Retrieve phase information
-//         if (phase != null) begin 
-//             phase.raise_objection(this);
-//             `uvm_info(get_name(), "<SEQ> Started, objection Raised.", UVM_NONE)
-//         end
-//         else begin
-//             `uvm_error(get_name(), "<SEQ> Started, objection not Raised.")
-//         end
-//   endtask
 
-//     // // Task: post_body
-//     // // Description: Optional code to execute after the main sequence body.
-//     task post_body();
-//         `uvm_info(get_type_name(), "Inside post_body", UVM_LOW);
-//         if (phase != null) begin 
-//             phase.drop_objection(this);
-//             `uvm_info(get_name(), "<SEQ> Finished, objection Dropped.", UVM_NONE)
-//         end
-//         else begin
-//             `uvm_error(get_name(), "<SEQ> Finished, objection not Dropped.")
-//         end
-//     endtask
-    
 endclass: i2s_tx_10xe_axi4_lite_seq
 
-//  Class: config_reg_seq
-//  Description: Sequence to configure core registers
+// Class: config_reg_seq
+// Description: Sequence to configure core registers
 class config_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
     `uvm_object_utils(config_reg_seq);
 
@@ -198,7 +170,6 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
         axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
 
         repeat(34) begin
-            // `uvm_do(axi_seq)  // Execute the AXI sequence
             start_item(axi_seq);
             axi_seq.read_reg.constraint_mode(1);
             assert(axi_seq.randomize()with {
@@ -212,7 +183,7 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
                     'h54, 'h58, 'h5C, 'h60, 'h64
                 };
 
-                 // Ensure read ready signal is active
+                // Ensure read ready signal is active
                 axi_seq.s_axi_ctrl_rready == 1;
             
                 // Ensure write operations are not active

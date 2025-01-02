@@ -14,7 +14,6 @@
 
 // Class: i2s_tx_10xe_axis_seq_item
 // Purpose: Defines transaction signals for AXI-Stream in I2S transmitter
-
 class i2s_tx_10xe_axis_seq_item extends uvm_sequence_item;
     
     // Register the class with UVM factory
@@ -36,7 +35,7 @@ class i2s_tx_10xe_axis_seq_item extends uvm_sequence_item;
     rand bit                                  s_axis_aud_tvalid;      // Valid signal
     bit                                       s_axis_aud_tready;      // Ready signal
 
-// Constraint for valid TDATA and TID
+    // Constraint for valid TDATA and TID
     constraint data_tid {
         s_axis_aud_tvalid       == 1;
         s_axis_aud_tdata[31]    == 1;  // Parity
@@ -59,4 +58,4 @@ class i2s_tx_10xe_axis_seq_item extends uvm_sequence_item;
 
 endclass : i2s_tx_10xe_axis_seq_item
 
-`endif // I2S_TX_10XE_AXIS_SEQ_ITEM
+`endif 
