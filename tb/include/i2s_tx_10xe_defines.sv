@@ -38,7 +38,7 @@ package i2s_tx_10xe_defines;
     // Calculate SCLK FREQUENCY
     localparam int SCLK_DIVIDER_VALUE             = 1;                                                     // MCLK_FREQ/SCLK_FREQ = Divider_val*2
     localparam int SCLK_PERIOD                    = AUD_MCLK_PERIOD*(SCLK_DIVIDER_VALUE*2);                // Time Period of SCLK in ns
-    localparam int SCLK_FREQUENCY                 = 1000000000/SCLK_PERIOD;                       // Frequency of SCLK              
+    localparam int SCLK_FREQUENCY                 = 1000000000/SCLK_PERIOD;                                // Frequency of SCLK              
     // CALCULATE SCLK DIVIDER Value to configure register
     // Parameters to control sequences of RAL
     localparam data_pattern_e RAL_DATA_PATTERN    = ALL_ONES;
