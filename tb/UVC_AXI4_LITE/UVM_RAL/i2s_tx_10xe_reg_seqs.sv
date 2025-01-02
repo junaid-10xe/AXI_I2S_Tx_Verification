@@ -198,6 +198,21 @@ class ral_cfg_seq extends i2s_tx_reg_base_seq;
     endtask
 endclass: ral_cfg_seq
 
+// RAL Sequence to Only read registers 
+class ral_rd_wr_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(ral_rd_wr_seq)
+
+    // Constructor
+    function new (string name = "ral_rd_wr_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        // Read registers
+        read_registers();
+    endtask
+endclass: ral_rd_wr_seq
+
 // RAL Sequence to Only read registers or write read registers or both first read then write read based on configuration bits 
 class ral_rd_wr_seq extends i2s_tx_reg_base_seq;
     `uvm_object_utils(ral_rd_wr_seq)
