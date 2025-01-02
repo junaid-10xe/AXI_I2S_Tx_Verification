@@ -199,8 +199,4 @@
 //     endtask: body
     
 // endclass: read_reg_seq
-
-
-
-
-`endif
+// `endif
