@@ -41,10 +41,10 @@ class config_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
     task body();
         `uvm_info(get_name(), "Executing Config Register Sequence", UVM_NONE)
         axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
-        axi_seq.read_reg.constraint_mode(0);
+        // axi_seq.read_reg.constraint_mode(0);
         repeat(1) begin
         axi_seq = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi_seq");
-        axi_seq.read_reg.constraint_mode(0);
+        // axi_seq.read_reg.constraint_mode(0);
         
         `uvm_info(get_name(), "Starting Validity Register Sequence", UVM_NONE)
         // start_item(axi_seq);
@@ -171,7 +171,7 @@ class read_reg_seq extends i2s_tx_10xe_axi4_lite_seq;
 
         repeat(34) begin
             start_item(axi_seq);
-            axi_seq.read_reg.constraint_mode(1);
+            // axi_seq.read_reg.constraint_mode(1);
             assert(axi_seq.randomize()with {
                 // Allow read address valid signal to be active
                 axi_seq.s_axi_ctrl_arvalid == 1;

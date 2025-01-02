@@ -108,9 +108,12 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider
-            reg_blk.i2s_tim_ctrl_reg_h.write(status, 2, UVM_FRONTDOOR);
+            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_10xe_defines::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
             //Enable core
             reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_10xe_defines::AUD_MCLK_FREQUENCY, i2s_tx_10xe_defines::AUD_MCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_10xe_defines::SCLK_FREQUENCY, i2s_tx_10xe_defines::SCLK_PERIOD), UVM_NONE)
+            
         end
     endtask: configure_core
 
