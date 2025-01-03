@@ -25,6 +25,8 @@ interface i2s_tx_10xe_dut_intf ();
   // Serial data output
   logic sdata_0_out;
 
+  logic fifo_wrdata_count;
+  logic fifo_rdata_count;
   // Signals for clock and reset
   logic aud_mclk;
   logic aud_mrst;

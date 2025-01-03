@@ -78,7 +78,9 @@ i2s_transmitter_0 DUT (
   .s_axis_aud_tdata(axis_intf.s_axis_aud_tdata),            // input wire [31 : 0] s_axis_aud_tdata
   .s_axis_aud_tid(axis_intf.s_axis_aud_tid),                // input wire [2 : 0] s_axis_aud_tid
   .s_axis_aud_tvalid(axis_intf.s_axis_aud_tvalid),          // input wire s_axis_aud_tvalid
-  .s_axis_aud_tready(axis_intf.s_axis_aud_tready)           // output wire s_axis_aud_tready
+  .s_axis_aud_tready(axis_intf.s_axis_aud_tready),           // output wire s_axis_aud_tready
+  .fifo_wrdata_count(dut_intf.fifo_wrdata_count),
+  .fifo_rdata_count(dut_intf.fifo_rdata_count)
 );
 
 // Set interfaces in config db and start test
