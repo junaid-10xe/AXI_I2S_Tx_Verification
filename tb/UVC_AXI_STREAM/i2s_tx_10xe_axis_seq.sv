@@ -47,7 +47,8 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
                                             axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
                                             axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
                                             axis_seq.s_axis_aud_tdata[28]    == 0;  // Validity Bit
-                                            axis_seq.s_axis_aud_tdata[27:0]  == 1;  // Specific valid values
+                                            axis_seq.s_axis_aud_tdata[27:4]  == 24'hFFFFF1;
+                                            axis_seq.s_axis_aud_tdata[ 3:0]  == 1;  // Specific valid values
                                             axis_seq.s_axis_aud_tid          == 3'b000; 
        
                  
@@ -60,7 +61,8 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
                                         axis_seq.s_axis_aud_tdata[30]    == 1;  // Channel Status
                                         axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
                                         axis_seq.s_axis_aud_tdata[28]    == 0;  // Validity Bit
-                                        axis_seq.s_axis_aud_tdata[27:0]  == 3;  // Specific valid values
+                                        axis_seq.s_axis_aud_tdata[27:4]  == 24'hFFFFF1;
+                                        axis_seq.s_axis_aud_tdata[ 3:0]  == 3;  // Specific valid values
                                         axis_seq.s_axis_aud_tid          == 3'b001; 
     
                 

@@ -43,10 +43,10 @@ package i2s_tx_10xe_defines;
     // Parameters to control sequences of RAL
     localparam data_pattern_e RAL_DATA_PATTERN    = ALL_ONES;
     localparam bit CORE_CFG                       = 1;    // Bit to cinfugure core
-    localparam bit AXI_STREAM_DATA_VALID          = 1;    // Optional if we want to make data valid on stream 
+    localparam bit AXI_STREAM_DATA_VALID          = 0;    // Optional if we want to make data valid on stream 
     localparam bit EN_DIS_INT                     = 0;    // BIT to enable disable interrupt
     localparam bit RD_REGS                        = 1;    // Bit to READ RAL REGISTERS
-    localparam bit RD_REGS_IN_RST                 = 0;    // BIT to read registers in reset phase
+    localparam bit RD_REGS_IN_RST                 = 1;    // BIT to read registers in reset phase
     localparam bit WR_RD_REGS                     = 0;    // Bit to write and read RAL REGISTERS
     
     // Typedefs for RAL and AXI-Lite
