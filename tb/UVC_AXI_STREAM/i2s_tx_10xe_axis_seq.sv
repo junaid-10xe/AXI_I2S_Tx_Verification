@@ -48,7 +48,7 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
                                             axis_seq.s_axis_aud_tdata[29]    == 0;  // USER bit
                                             axis_seq.s_axis_aud_tdata[28]    == 0;  // Validity Bit
                                             axis_seq.s_axis_aud_tdata[27:4]  == 24'hFFFFF1;
-                                            axis_seq.s_axis_aud_tdata[ 3:0]  == 1;  // Specific valid values
+                                            axis_seq.s_axis_aud_tdata[ 3:0]  == 3;  // Specific valid values
                                             axis_seq.s_axis_aud_tid          == 3'b000; 
        
                  
@@ -94,34 +94,7 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
 
                 });
             finish_item(axis_seq);
-            // start_item(axis_seq);
-            // assert(axis_seq.randomize() with {
-            //     axis_seq.s_axis_aud_tvalid       == 1;
-            //     axis_seq.s_axis_aud_tdata[31]    == 0;          // Parity
-            //     axis_seq.s_axis_aud_tdata[29]    == 0;          // USER bit
-            //     axis_seq.s_axis_aud_tdata[28]    == 0;          // Validity Bit
-            //     axis_seq.s_axis_aud_tdata[3:0]   == 4'b0010;    // Specific valid values
-            //     axis_seq.s_axis_aud_tid          == 3'b000; 
-
-
-            //     });
-            // finish_item(axis_seq);
-            // start_item(axis_seq);
-            // assert(axis_seq.randomize() with {
-            //     axis_seq.s_axis_aud_tvalid       == 1;
-            //     axis_seq.s_axis_aud_tdata[31]    == 0;          // Parity
-            //     axis_seq.s_axis_aud_tdata[29]    == 0;          // USER bit
-            //     axis_seq.s_axis_aud_tdata[28]    == 0;          // Validity Bit
-            //     axis_seq.s_axis_aud_tdata[3:0]   == 4'b0011;    // Specific valid values
-            //     axis_seq.s_axis_aud_tid          == 3'b001; 
-
-
-            //     });
-            // finish_item(axis_seq);
         end
-        // repeat(100) begin
-            
-        // end
     endtask: body
 
 endclass: axis_i2s_seq
