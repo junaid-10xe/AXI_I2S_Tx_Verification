@@ -70,8 +70,10 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
 
             if(axis_tr.s_axis_aud_tvalid) begin
                 wait(`DRV_AXS.s_axis_aud_tready);
+                axis_tr.s_axis_aud_tready  <= `DRV_AXS.s_axis_aud_tready;
                 @(posedge axis_vif.s_axis_aud_aclk);
                 `DRV_AXS.s_axis_aud_tvalid <= 0;
+                
             end
         // end
         `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)

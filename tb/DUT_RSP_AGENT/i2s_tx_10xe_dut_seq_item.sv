@@ -26,10 +26,10 @@ class i2s_tx_10xe_dut_seq_item extends uvm_sequence_item;
     endfunction
     // Signal :: i2s_tx_10xe_dut_seq_item
     
-    bit     irq;            // Interrupt signal indicating an event
-    bit     lrclk_out;      // Left-right clock signal for audio synchronization
-    bit     sclk_out;       // Serial clock output for audio data transmission
-    bit     sdata_0_out;    // Serial data output
+    bit                                             irq;            // Interrupt signal indicating an event
+    bit                                             lrclk_out;      // Left-right clock signal for audio synchronization
+    bit                                             sclk_out;       // Serial clock output for audio data transmission
+    bit [i2s_tx_10xe_defines::AUD_WIDTH-1:0]        sdata_0_out;    // Serial data output
 endclass: i2s_tx_10xe_dut_seq_item
 
 `endif

@@ -34,6 +34,7 @@
     import i2s_tx_10xe_dut_rsp_pkg::*;
     
     // Include files
+    `include "../scoreboard/i2s_tx_10xe_scoreboard.sv"
     `include "../env/i2s_tx_10xe_env.sv"
     `include "../test_top/i2s_tx_10xe_base_test.sv"
  

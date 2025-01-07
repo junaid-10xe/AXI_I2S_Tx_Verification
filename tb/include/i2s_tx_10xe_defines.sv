@@ -21,6 +21,8 @@ package i2s_tx_10xe_defines;
         DEFAULT  = 2'b11
      } data_pattern_e;
 
+    // Audio data width 
+    localparam AUD_WIDTH = 24;
     // Parameters
     // FOR AXI-STREAM
     localparam int AXI_STREAM_DATA_WIDTH    = 32;

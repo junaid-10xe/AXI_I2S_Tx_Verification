@@ -36,10 +36,6 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
         axis_a_port = new("axis_a_port", this);
         `uvm_info(get_name(), "Analysis port created", UVM_DEBUG)
 
-        // Create transaction object
-        axis_tr = i2s_tx_10xe_axis_seq_item::type_id::create("axis_tr", this);
-        `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
-
         // Retrieve virtual interface from the UVM configuration database
         if (!uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf)::get(this, "*", "axis_vif", axis_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI-Stream Interface from Config DB")
@@ -53,7 +49,12 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
         wait(axis_vif.s_axis_aud_aresetn);
         
         forever begin
+
+            // Create transaction object
+            axis_tr = i2s_tx_10xe_axis_seq_item::type_id::create("axis_tr", this);
+            `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
             // Wait for two positive edges of the clock to stabilize signals
+            @(posedge axis_vif.s_axis_aud_aclk);
             @(posedge axis_vif.s_axis_aud_aclk);
             `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
             // Capture AXI-Stream signals into transaction object
@@ -63,7 +64,7 @@ class i2s_tx_10xe_axis_monitor extends uvm_monitor;
             axis_tr.s_axis_aud_tdata  = `MON_AXS.s_axis_aud_tdata;
             `uvm_info(get_name(), "AXI-Stream signals captured into transaction object", UVM_DEBUG)
             // Broadcast valid transaction to analysis port
-            if(`MON_AXS.s_axis_aud_tvalid && `MON_AXS.s_axis_aud_tready) begin
+            if(axis_tr.s_axis_aud_tvalid && axis_tr.s_axis_aud_tready) begin
                 axis_a_port.write(axis_tr);
                 // Log transaction at the configured verbosity level
                 `uvm_info(get_name(), $sformatf("Printing transaction in AXI-Stream Monitor,\n%s", axis_tr.sprint()), UVM_LOW)

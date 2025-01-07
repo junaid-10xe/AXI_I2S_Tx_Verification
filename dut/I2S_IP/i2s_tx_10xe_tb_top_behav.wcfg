@@ -18,15 +18,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="6,640.001 ns"></ZoomEndTime>
-      <Cursor1Time time="2,010.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="146.370001 us"></ZoomEndTime>
+      <Cursor1Time time="3.351025 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="298"></NameColumnWidth>
-      <ValueColumnWidth column_width="250"></ValueColumnWidth>
+      <ValueColumnWidth column_width="246"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="31" />
+   <WVObjectSize size="33" />
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aresetn">
       <obj_property name="ElementShortName">s_axi_ctrl_aresetn</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_aresetn</obj_property>
@@ -209,5 +209,15 @@
       <obj_property name="ObjectShortName">s_axis_aud_tready</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/fifo_wrdata_count">
+      <obj_property name="ElementShortName">fifo_wrdata_count[15:0]</obj_property>
+      <obj_property name="ObjectShortName">fifo_wrdata_count[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/fifo_rdata_count">
+      <obj_property name="ElementShortName">fifo_rdata_count[15:0]</obj_property>
+      <obj_property name="ObjectShortName">fifo_rdata_count[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

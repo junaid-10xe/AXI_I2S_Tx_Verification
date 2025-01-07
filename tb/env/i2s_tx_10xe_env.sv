@@ -95,9 +95,9 @@ class i2s_tx_10xe_env extends uvm_env;
         // Connect predictor to analysis port of monitor
         axi_agt.axi_mon.axi_a_port.connect(predictor.bus_in);
         // Connect Scoreboard imp ports with relevant analysis ports
-        sco.axi_imp.connect(axi_agt.axi_mon.axi_a_port);
-        sco.axis_imp.connect(axis_agt.axis_mon.axis_a_port);
-        sco.dut_imp.connect(dut_agt.dut_mon.dut_a_port);
+        axi_agt.axi_mon.axi_a_port.connect(sco.axi_imp);
+        axis_agt.axis_mon.axis_a_port.connect(sco.axis_imp);
+        dut_agt.dut_mon.dut_a_port.connect(sco.dut_imp);
 
     endfunction: connect_phase
     

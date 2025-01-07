@@ -37,10 +37,6 @@ class i2s_tx_10xe_dut_monitor extends uvm_monitor;
         dut_a_port = new("dut_a_port", this);
         `uvm_info(get_name(), "Analysis port created", UVM_DEBUG)
 
-        // Create transaction object
-        dut_tr = i2s_tx_10xe_dut_seq_item::type_id::create("dut_tr", this);
-        `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
-
         // Retrieve virtual interface from the UVM configuration database
         if (!uvm_config_db#(virtual i2s_tx_10xe_dut_intf)::get(this, "*", "dut_vif", dut_vif)) begin
             `uvm_fatal(get_name(), "Failed to get DUT Interface from Config DB")
@@ -51,22 +47,29 @@ class i2s_tx_10xe_dut_monitor extends uvm_monitor;
 
     // Run Phase: Monitors signals and broadcasts transactions
     task run_phase(uvm_phase phase);
+        repeat(3) @(posedge dut_vif.lrclk_out);
+        @(negedge dut_vif.lrclk_out);
+        @(posedge dut_vif.sclk_out);
         
         forever begin
-            
-            @(posedge dut_vif.aud_mclk);
-            `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
+            // Create transaction object
+            dut_tr = i2s_tx_10xe_dut_seq_item::type_id::create("dut_tr", this);
+            `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
+            for (int i=0; i<24; ++i) begin
+                @(posedge dut_vif.sclk_out);
+                `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
 
-            // Capture DUT signals into transaction object
-            dut_tr.irq              = dut_vif.irq;
-            dut_tr.lrclk_out        = dut_vif.lrclk_out;
-            dut_tr.sclk_out         = dut_vif.sclk_out;
-            dut_tr.sdata_0_out      = dut_vif.sdata_0_out;
-            `uvm_info(get_name(), "DUT signals captured into transaction object", UVM_DEBUG)
+                // Capture DUT signals into transaction object
+                dut_tr.irq                      = dut_vif.irq;
+                dut_tr.lrclk_out                = dut_vif.lrclk_out;
+                dut_tr.sclk_out                 = dut_vif.sclk_out;
+                dut_tr.sdata_0_out[23-i]        = dut_vif.sdata_0_out;
+            end
+            `uvm_info(get_name(), "DUT signals captured into transaction object", UVM_LOW)
                 
             dut_a_port.write(dut_tr);
             // Log transaction at the configured verbosity level
-            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", dut_tr.sprint()), UVM_LOW)
+            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", dut_tr.sprint()), UVM_LOW)    
         end
     endtask: run_phase
 
