@@ -18,19 +18,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="75.810001 us"></ZoomEndTime>
-      <Cursor1Time time="14.060000 us"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="6,640.001 ns"></ZoomEndTime>
+      <Cursor1Time time="2,010.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="298"></NameColumnWidth>
-      <ValueColumnWidth column_width="254"></ValueColumnWidth>
+      <ValueColumnWidth column_width="250"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="31" />
-   <wave_markers>
-      <marker label="" time="10220000" />
-      <marker label="" time="6380000" />
-   </wave_markers>
    <wvobject type="logic" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axi_ctrl_aresetn">
       <obj_property name="ElementShortName">s_axi_ctrl_aresetn</obj_property>
       <obj_property name="ObjectShortName">s_axi_ctrl_aresetn</obj_property>
@@ -194,7 +190,7 @@
       <obj_property name="ObjectShortName">s_axis_aud_tdata[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/i2s_tx_10xe_tb_top/DUT/s_axis_aud_tid">
       <obj_property name="ElementShortName">s_axis_aud_tid[2:0]</obj_property>
