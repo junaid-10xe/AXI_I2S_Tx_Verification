@@ -31,6 +31,9 @@ class i2s_tx_10xe_env extends uvm_env;
     // Handle for predictor 
     uvm_reg_predictor #(i2s_tx_10xe_axi4_lite_seq_item) predictor;
 
+    //Handle for Scoreboard
+    i2s_tx_10xe_scoreboard               sco;
+
 
     // Constructor: new
     // Initializes the environment component by calling the parent constructor
@@ -70,6 +73,12 @@ class i2s_tx_10xe_env extends uvm_env;
         adapter = i2s_tx_10xe_adapter::type_id::create("adapter", , get_full_name());
         // Log successful creation of agents
         `uvm_info(get_name(), "AXI4-Lite and AXI-Stream agents created successfully", UVM_DEBUG);
+        // Create Scoreboard
+        sco = i2s_tx_10xe_scoreboard::type_id::create("sco", this);
+        if (sco == null) begin
+            `uvm_fatal(get_name(), "Failed to create Scoreboard")
+            end
+
     endfunction: build_phase
 
     // Connect Phase
@@ -85,7 +94,11 @@ class i2s_tx_10xe_env extends uvm_env;
         predictor.adapter = adapter;
         // Connect predictor to analysis port of monitor
         axi_agt.axi_mon.axi_a_port.connect(predictor.bus_in);
-        
+        // Connect Scoreboard imp ports with relevant analysis ports
+        sco.axi_imp.connect(axi_agt.axi_mon.axi_a_port);
+        sco.axis_imp.connect(axis_agt.axis_mon.axis_a_port);
+        sco.dut_imp.connect(dut_agt.dut_mon.dut_a_port);
+
     endfunction: connect_phase
     
 endclass: i2s_tx_10xe_env

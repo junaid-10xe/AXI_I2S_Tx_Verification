@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2024 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2025 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -84,7 +84,9 @@ module i2s_transmitter_0 (
   s_axis_aud_tdata,
   s_axis_aud_tid,
   s_axis_aud_tvalid,
-  s_axis_aud_tready
+  s_axis_aud_tready,
+  fifo_wrdata_count,
+  fifo_rdata_count
 );
 
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME s_axi_ctrl_aclk, ASSOCIATED_BUSIF s_axi_ctrl, ASSOCIATED_RESET s_axi_ctrl_aresetn, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, INSERT_VIP 0" *)
@@ -154,6 +156,8 @@ input wire s_axis_aud_tvalid;
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME s_axis_aud, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 3, TUSER_WIDTH 0, HAS_TREADY 1, HAS_TSTRB 0, HAS_TKEEP 0, HAS_TLAST 0, FREQ_HZ 100000000, PHASE 0.0, LAYERED_METADATA undef, INSERT_VIP 0" *)
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 s_axis_aud TREADY" *)
 output wire s_axis_aud_tready;
+output wire [15 : 0] fifo_wrdata_count;
+output wire [15 : 0] fifo_rdata_count;
 
   i2s_transmitter_v1_0_5 #(
     .C_IS_MASTER(1),
@@ -197,7 +201,7 @@ output wire s_axis_aud_tready;
     .s_axis_aud_tid(s_axis_aud_tid),
     .s_axis_aud_tvalid(s_axis_aud_tvalid),
     .s_axis_aud_tready(s_axis_aud_tready),
-    .fifo_wrdata_count(),
-    .fifo_rdata_count()
+    .fifo_wrdata_count(fifo_wrdata_count),
+    .fifo_rdata_count(fifo_rdata_count)
   );
 endmodule

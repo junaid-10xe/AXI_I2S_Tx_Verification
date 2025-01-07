@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2024 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2025 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -81,7 +81,9 @@ COMPONENT i2s_transmitter_0
     s_axis_aud_tdata : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
     s_axis_aud_tid : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
     s_axis_aud_tvalid : IN STD_LOGIC;
-    s_axis_aud_tready : OUT STD_LOGIC 
+    s_axis_aud_tready : OUT STD_LOGIC;
+    fifo_wrdata_count : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+    fifo_rdata_count : OUT STD_LOGIC_VECTOR(15 DOWNTO 0) 
   );
 END COMPONENT;
 -- COMP_TAG_END ------ End COMPONENT Declaration ------------
@@ -121,7 +123,9 @@ your_instance_name : i2s_transmitter_0
     s_axis_aud_tdata => s_axis_aud_tdata,
     s_axis_aud_tid => s_axis_aud_tid,
     s_axis_aud_tvalid => s_axis_aud_tvalid,
-    s_axis_aud_tready => s_axis_aud_tready
+    s_axis_aud_tready => s_axis_aud_tready,
+    fifo_wrdata_count => fifo_wrdata_count,
+    fifo_rdata_count => fifo_rdata_count
   );
 -- INST_TAG_END ------ End INSTANTIATION Template ---------
 

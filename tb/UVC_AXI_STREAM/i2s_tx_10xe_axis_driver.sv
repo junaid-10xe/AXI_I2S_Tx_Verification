@@ -59,7 +59,7 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
     // Task to drive the AXI-Stream signals
     task axis_drive();
         // Drive only if tvalid signal is enabled
-        if (axis_tr.s_axis_aud_tvalid) begin
+        // if (axis_tr.s_axis_aud_tvalid) begin
             `uvm_info(get_name(), "Driving AXI-Stream signals", UVM_DEBUG)
             @(posedge axis_vif.s_axis_aud_aclk);
             `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
@@ -68,11 +68,12 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
             // Debug message before waiting for tready
             `uvm_info(get_name(), "Waiting for tready signal", UVM_DEBUG)
 
-
-            wait(`DRV_AXS.s_axis_aud_tready);
-            // @(posedge axis_vif.s_axis_aud_aclk);
-            // `DRV_AXS.s_axis_aud_tvalid <= 0;
-        end
+            if(axis_tr.s_axis_aud_tvalid) begin
+                wait(`DRV_AXS.s_axis_aud_tready);
+                @(posedge axis_vif.s_axis_aud_aclk);
+                `DRV_AXS.s_axis_aud_tvalid <= 0;
+            end
+        // end
         `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
         
     endtask: axis_drive

@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2024 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2025 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -84,7 +84,9 @@ i2s_transmitter_0 your_instance_name (
   .s_axis_aud_tdata(s_axis_aud_tdata),      // input wire [31 : 0] s_axis_aud_tdata
   .s_axis_aud_tid(s_axis_aud_tid),          // input wire [2 : 0] s_axis_aud_tid
   .s_axis_aud_tvalid(s_axis_aud_tvalid),    // input wire s_axis_aud_tvalid
-  .s_axis_aud_tready(s_axis_aud_tready)    // output wire s_axis_aud_tready
+  .s_axis_aud_tready(s_axis_aud_tready),    // output wire s_axis_aud_tready
+  .fifo_wrdata_count(fifo_wrdata_count),    // output wire [15 : 0] fifo_wrdata_count
+  .fifo_rdata_count(fifo_rdata_count)      // output wire [15 : 0] fifo_rdata_count
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 
