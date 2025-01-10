@@ -77,6 +77,32 @@ class i2s_tx_10xe_base_test extends uvm_test;
         `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
         phase.phase_done.set_drain_time(this, 100);
     endtask: configure_phase
+
+    //Report Phase to display result of simulation
+    virtual function void report_phase(uvm_phase phase);
+		
+		uvm_report_server svr;
+
+		super.report_phase(phase);
+
+		svr = uvm_report_server::get_server();
+
+		if(svr.get_severity_count(UVM_FATAL) + svr.get_severity_count(UVM_ERROR) > 0) begin
+
+			`uvm_info(get_type_name(), "--------------------------------------", UVM_NONE)
+			`uvm_info(get_type_name(), "-------------- TEST FAIL -------------", UVM_NONE)
+			`uvm_info(get_type_name(), "--------------------------------------", UVM_NONE)
+
+		end
+		else begin
+
+			`uvm_info(get_type_name(), "--------------------------------------", UVM_NONE)
+			`uvm_info(get_type_name(), "-------------- TEST PASS -------------", UVM_NONE)
+			`uvm_info(get_type_name(), "--------------------------------------", UVM_NONE)
+
+		end
+
+	endfunction: report_phase
 endclass: i2s_tx_10xe_base_test
 
 //  Class: read_reg_test
