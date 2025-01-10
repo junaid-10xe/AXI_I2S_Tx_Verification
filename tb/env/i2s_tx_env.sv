@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_env.sv
+   > File Name: i2s_tx_env.sv
    > Description: This file defines the environment class for the I2S transmitter testbench.
    >              It instantiates and manages the necessary agents for interfacing with
    >              the AXI4-Lite and AXI-Stream interfaces. The environment sets up the
@@ -15,29 +15,29 @@
 `ifndef I2S_TX_10XE_ENV
 `define I2S_TX_10XE_ENV
 
-// Class: i2s_tx_10xe_env
-class i2s_tx_10xe_env extends uvm_env;
-    `uvm_component_utils(i2s_tx_10xe_env);
+// Class: i2s_tx_env
+class i2s_tx_env extends uvm_env;
+    `uvm_component_utils(i2s_tx_env);
 
     // Handles for the agents
-    i2s_tx_10xe_axi4_lite_agent         axi_agt;    // AXI4-Lite agent handle
-    i2s_tx_10xe_axis_agent              axis_agt;   // AXI-Stream agent handle
-    i2s_tx_10xe_dut_agent               dut_agt;    // DUT AGENT HANDLE
+    i2s_tx_axi4_lite_agent         axi_agt;    // AXI4-Lite agent handle
+    i2s_tx_axis_agent              axis_agt;   // AXI-Stream agent handle
+    i2s_tx_agent                   i2s_agt;    // DUT AGENT HANDLE
 
     // handle for reg block
-    i2s_tx_10xe_reg_blk                 reg_block;
+    i2s_tx_reg_blk                 reg_block;
     // handle for adapter
-    i2s_tx_10xe_adapter                 adapter;
+    i2s_tx_adapter                 adapter;
     // Handle for predictor 
-    uvm_reg_predictor #(i2s_tx_10xe_axi4_lite_seq_item) predictor;
+    uvm_reg_predictor #(i2s_tx_axi4_lite_seq_item) predictor;
 
     //Handle for Scoreboard
-    i2s_tx_10xe_scoreboard               sco;
+    i2s_tx_scoreboard               sco;
 
 
     // Constructor: new
     // Initializes the environment component by calling the parent constructor
-    function new(string name = "i2s_tx_10xe_env", uvm_component parent);
+    function new(string name = "i2s_tx_env", uvm_component parent);
         super.new(name, parent);
         `uvm_info(get_name(), "I2S TX Environment Constructor Called", UVM_DEBUG);
     endfunction: new
@@ -48,33 +48,33 @@ class i2s_tx_10xe_env extends uvm_env;
         super.build_phase(phase);
 
         // Create AXI4-Lite agent
-        axi_agt = i2s_tx_10xe_axi4_lite_agent::type_id::create("axi_agt", this);
+        axi_agt = i2s_tx_axi4_lite_agent::type_id::create("axi_agt", this);
         if (axi_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create AXI4-Lite agent")
         end
 
         // Create AXI-Stream agent
-        axis_agt = i2s_tx_10xe_axis_agent::type_id::create("axis_agt", this);
+        axis_agt = i2s_tx_axis_agent::type_id::create("axis_agt", this);
         if (axis_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create AXI-Stream agent")
         end
         // Create AXI-Stream agent
-        dut_agt = i2s_tx_10xe_dut_agent::type_id::create("dut_agt", this);
-        if (dut_agt == null) begin
+        i2s_agt = i2s_tx_agent::type_id::create("i2s_agt", this);
+        if (i2s_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create DUT agent")
         end
         // Create Reg block 
-        reg_block = i2s_tx_10xe_reg_blk::type_id::create("reg_block", this);
+        reg_block = i2s_tx_reg_blk::type_id::create("reg_block", this);
         reg_block.build();
         reg_block.print();
         // Create Predictor
-        predictor = uvm_reg_predictor #(i2s_tx_10xe_axi4_lite_seq_item) :: type_id:: create("predictor", this);
+        predictor = uvm_reg_predictor #(i2s_tx_axi4_lite_seq_item) :: type_id:: create("predictor", this);
         // Create Adapter
-        adapter = i2s_tx_10xe_adapter::type_id::create("adapter", , get_full_name());
+        adapter = i2s_tx_adapter::type_id::create("adapter", , get_full_name());
         // Log successful creation of agents
         `uvm_info(get_name(), "AXI4-Lite and AXI-Stream agents created successfully", UVM_DEBUG);
         // Create Scoreboard
-        sco = i2s_tx_10xe_scoreboard::type_id::create("sco", this);
+        sco = i2s_tx_scoreboard::type_id::create("sco", this);
         if (sco == null) begin
             `uvm_fatal(get_name(), "Failed to create Scoreboard")
             end
@@ -97,10 +97,10 @@ class i2s_tx_10xe_env extends uvm_env;
         // Connect Scoreboard imp ports with relevant analysis ports
         axi_agt.axi_mon.axi_a_port.connect(sco.axi_imp);
         axis_agt.axis_mon.axis_a_port.connect(sco.axis_imp);
-        dut_agt.dut_mon.dut_a_port.connect(sco.dut_imp);
+        i2s_agt.i2s_mon.i2s_a_port.connect(sco.i2s_imp);
 
     endfunction: connect_phase
     
-endclass: i2s_tx_10xe_env
+endclass: i2s_tx_env
 
 `endif
