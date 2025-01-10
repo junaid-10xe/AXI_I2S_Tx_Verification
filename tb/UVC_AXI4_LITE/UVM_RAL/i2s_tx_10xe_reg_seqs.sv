@@ -33,12 +33,36 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         super.new(name);  
     endfunction
 
+    // task to read register in reset and compare their values with their reset values
+    task read_rst_reg(input uvm_reg reg_h);
+
+        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
+        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
+        
+        //get reset value of register
+        expected_val = reg_h.get_reset();
+        reg_h.read(status, actual_val, UVM_FRONTDOOR);
+        if(status != UVM_IS_OK) begin   
+            `uvm_error(get_name(), "GOT status UVM_NOT_OK")
+        end
+        else begin
+            // get expected val
+            // compare with read value
+            if (expected_val==actual_val) begin
+                `uvm_info(get_name(), $sformatf("TEST PASSED : %s ACTUAL VALUE :: %0h == EXPECTED VALUE :: %0h", reg_h.get_name(), actual_val, expected_val), UVM_NONE)
+            end
+            else begin
+                `uvm_error(get_name(), $sformatf("TEST FAILED : %s ACTUAL VALUE :: %0h != EXPECTED VALUE :: %0h", reg_h.get_name(), actual_val, expected_val))
+            end
+        end
+    endtask: read_rst_reg
+
     // task to read register and compare it desired and mirrored value
     task read_reg(input uvm_reg reg_h);
 
         i2s_tx_10xe_defines::reg_data   actual_val;     // read value
         i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
-
+        
         reg_h.read(status, actual_val, UVM_FRONTDOOR);
         if(status != UVM_IS_OK) begin   
             `uvm_error(get_name(), "GOT status UVM_NOT_OK")
@@ -129,7 +153,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
             reg_blk.get_registers(regs);
             // Read registers in reset before configuration
             foreach(regs[i]) begin
-                read_reg(regs[i]);
+                read_rst_reg(regs[i]);
             end
         end
     endtask: read_reg_in_reset
