@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi4_lite_monitor.sv
+   > File Name: i2s_tx_axi4_lite_monitor.sv
    > Description: This file Monitors the signals from dut using axi4-lite specifications.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,19 +8,19 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXI4_LITE_MONITOR
-`define I2S_TX_10XE_AXI4_LITE_MONITOR
+`ifndef I2S_TX_AXI4_LITE_MONITOR
+`define I2S_TX_AXI4_LITE_MONITOR
 `define MON_AX axi4_lite_vif.axi4_lite_monitor
-//  Class: i2s_tx_10xe_axi4_lite_monitor
-class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
-    `uvm_component_utils(i2s_tx_10xe_axi4_lite_monitor);
+//  Class: i2s_tx_axi4_lite_monitor
+class i2s_tx_axi4_lite_monitor extends uvm_monitor;
+    `uvm_component_utils(i2s_tx_axi4_lite_monitor);
 
-    uvm_analysis_port #(i2s_tx_10xe_axi4_lite_seq_item) axi_a_port;   // Analysis Port
-    virtual i2s_tx_10xe_axi4_lite_intf axi4_lite_vif;                 // Interface handle of axi4-lite
-    i2s_tx_10xe_axi4_lite_seq_item axi4_tr;                           // Handle of transaction
+    uvm_analysis_port #(i2s_tx_axi4_lite_seq_item) axi_a_port;   // Analysis Port
+    virtual i2s_tx_axi4_lite_intf axi4_lite_vif;                 // Interface handle of axi4-lite
+    i2s_tx_axi4_lite_seq_item axi4_tr;                           // Handle of transaction
     
     // Constructor: new
-    function new(string name = "i2s_tx_10xe_axi4_lite_monitor", uvm_component parent);
+    function new(string name = "i2s_tx_axi4_lite_monitor", uvm_component parent);
         super.new(name, parent);
     endfunction: new
 
@@ -28,8 +28,8 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         axi_a_port = new("axi_a_port", this);
-        axi4_tr    = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("axi4_tr", this);
-        if(!uvm_config_db#(virtual i2s_tx_10xe_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
+        axi4_tr    = i2s_tx_axi4_lite_seq_item::type_id::create("axi4_tr", this);
+        if(!uvm_config_db#(virtual i2s_tx_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
     endfunction: build_phase
@@ -71,6 +71,6 @@ class i2s_tx_10xe_axi4_lite_monitor extends uvm_monitor;
               `uvm_info(get_name(), $sformatf("Printing transaction in AXI4-Lite Monitor: \n%s", axi4_tr.sprint()), UVM_HIGH);
           end
     endtask: run_phase
-endclass: i2s_tx_10xe_axi4_lite_monitor
+endclass: i2s_tx_axi4_lite_monitor
 
 `endif

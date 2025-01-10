@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_reg.sv
+   > File Name: i2s_tx_reg.sv
    > Description: This file contains all register classes of register used in I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,8 +8,8 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_REG
-`define I2S_TX_10XE_REG
+`ifndef I2S_TX_REG
+`define I2S_TX_REG
 
 // Class Core_version_reg
 // Description:: This class contains the register fileds of coreversion class whose base address is 0x00

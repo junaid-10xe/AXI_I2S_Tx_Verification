@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_reg_blk.sv
+   > File Name: i2s_tx_reg_blk.sv
    > Description: This file build and configure all the registers used in I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,15 +8,15 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_REG_BLK
-`define I2S_TX_10XE_REG_BLK
+`ifndef I2S_TX_REG_BLK
+`define I2S_TX_REG_BLK
 
-// Class: i2s_tx_10xe_reg_blk
+// Class: i2s_tx_reg_blk
 // Description: This class is used to build and configure all the registers used in I2S transmitter functionality.
 
-class i2s_tx_10xe_reg_blk extends uvm_reg_block;
+class i2s_tx_reg_blk extends uvm_reg_block;
     // register with factory
-    `uvm_object_utils(i2s_tx_10xe_reg_blk)
+    `uvm_object_utils(i2s_tx_reg_blk)
 
     // handle of all registers
     core_version_reg        core_version_reg_h;
@@ -38,7 +38,7 @@ class i2s_tx_10xe_reg_blk extends uvm_reg_block;
     aes_chan_stat_reg5      aes_chan_stat_reg5_h;
 
     // Constructor
-    function new(string name = "i2s_tx_10xe_reg_blk");
+    function new(string name = "i2s_tx_reg_blk");
         super.new(name, build_coverage(UVM_NO_COVERAGE));
     endfunction: new
 

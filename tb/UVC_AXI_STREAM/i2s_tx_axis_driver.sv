@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axis_driver.sv
+   > File Name: i2s_tx_axis_driver.sv
    > Description: This file drives the signals to DUT using AXI4-Stream specifications.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -12,26 +12,26 @@
 `define I2S_TX_10XE_AXIS_DRIVER
 `define DRV_AXS axis_vif.axi_stream_driver
 
-// Class: i2s_tx_10xe_axis_driver
-class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
-    `uvm_component_utils(i2s_tx_10xe_axis_driver);
+// Class: i2s_tx_axis_driver
+class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
+    `uvm_component_utils(i2s_tx_axis_driver);
 
     // Handle for transaction
-    i2s_tx_10xe_axis_seq_item axis_tr;
+    i2s_tx_axis_seq_item axis_tr;
 
     // Handle for interface
-    virtual i2s_tx_10xe_axi_stream_intf axis_vif;
+    virtual i2s_tx_axi_stream_intf axis_vif;
 
     // Constructor: new
-    function new(string name = "i2s_tx_10xe_axis_driver", uvm_component parent);
+    function new(string name = "i2s_tx_axis_driver", uvm_component parent);
         super.new(name, parent);
-        `uvm_info(get_name(), "i2s_tx_10xe_axis_driver created", UVM_DEBUG)
+        `uvm_info(get_name(), "i2s_tx_axis_driver created", UVM_DEBUG)
     endfunction: new
 
     // Build Phase
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        if (!uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf)::get(this, "*", "axis_vif", axis_vif)) begin
+        if (!uvm_config_db#(virtual i2s_tx_axi_stream_intf)::get(this, "*", "axis_vif", axis_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI-Stream Interface from Config DB")
         end else begin
             `uvm_info(get_name(), "AXI-Stream Interface successfully retrieved from Config DB", UVM_DEBUG)
@@ -79,6 +79,6 @@ class i2s_tx_10xe_axis_driver extends uvm_driver#(i2s_tx_10xe_axis_seq_item);
         `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
         
     endtask: axis_drive
-endclass: i2s_tx_10xe_axis_driver
+endclass: i2s_tx_axis_driver
 
 `endif

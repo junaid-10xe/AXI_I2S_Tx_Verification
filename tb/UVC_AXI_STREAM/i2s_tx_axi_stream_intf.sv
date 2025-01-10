@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi_stream_intf.sv
+   > File Name: i2s_tx_axi_stream_intf.sv
    > Description: This file defines the AXI-Stream interface signals and associated clocking blocks for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,14 +8,14 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXI_STREAM_INTF
-`define I2S_TX_10XE_AXI_STREAM_INTF
+`ifndef I2S_TX_AXI_STREAM_INTF
+`define I2S_TX_AXI_STREAM_INTF
 
-interface i2s_tx_10xe_axi_stream_intf  ();
+interface i2s_tx_axi_stream_intf  ();
 
   // AXI-Stream signals for audio data transfer
-  i2s_tx_10xe_defines::axi_stream_data  s_axis_aud_tdata;
-  i2s_tx_10xe_defines::axi_stream_tid   s_axis_aud_tid;
+  i2s_tx_defines::axi_stream_data       s_axis_aud_tdata;
+  i2s_tx_defines::axi_stream_tid        s_axis_aud_tid;
   logic                                 s_axis_aud_tvalid;
   logic                                 s_axis_aud_tready;
   // Rset and clock signals of axi-stream

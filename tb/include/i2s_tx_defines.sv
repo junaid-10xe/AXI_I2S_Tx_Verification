@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_defines.sv
+   > File Name: i2s_tx_defines.sv
    > Description: This file defines the  parameters and variables to control the testbench environment  
    for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
@@ -9,10 +9,10 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_DEFINES
-`define I2S_TX_10XE_DEFINES
+`ifndef I2S_TX_DEFINES
+`define I2S_TX_DEFINES
 
-package i2s_tx_10xe_defines;
+package i2s_tx_defines;
     // Enum Used in RAL
     typedef enum logic [1:0] { 
         ALL_ZERO = 2'b00,

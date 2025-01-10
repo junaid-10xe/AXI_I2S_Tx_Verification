@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_base_test.sv
+   > File Name: i2s_tx_base_test.sv
    > Description: This file contains base_test class.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,41 +8,41 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_BASE_TEST
-`define I2S_TX_10XE_BASE_TEST
-//  Class: i2s_tx_10xe_base_test
-class i2s_tx_10xe_base_test extends uvm_test;
-    `uvm_component_utils(i2s_tx_10xe_base_test);
+`ifndef I2S_TX_BASE_TEST
+`define I2S_TX_BASE_TEST
+//  Class: i2s_tx_base_test
+class i2s_tx_base_test extends uvm_test;
+    `uvm_component_utils(i2s_tx_base_test);
 
     // environment 
-    i2s_tx_10xe_env     env;
+    i2s_tx_env     env;
     // Handle for AXI-Stream interface
-    virtual i2s_tx_10xe_axi_stream_intf     axis_vif;
+    virtual i2s_tx_axi_stream_intf     axis_vif;
     // Interface handle of axi4-Lite
-    virtual i2s_tx_10xe_axi4_lite_intf      axi4_lite_vif;
+    virtual i2s_tx_axi4_lite_intf      axi4_lite_vif;
     // Handle of sut interface
-    virtual i2s_tx_10xe_dut_intf            dut_vif;
+    virtual i2s_tx_intf                i2s_vif;
     // Handle for RAl SEQ to read registers in reset 
     ral_rst_rd_seq                          rst_ral_seq;
     // Handle for RAl SEQ to Configure registers
     ral_cfg_seq                             cfg_ral_seq;
     // Constructor: new
-    function new(string name = "i2s_tx_10xe_base_test", uvm_component parent);
+    function new(string name = "i2s_tx_base_test", uvm_component parent);
         super.new(name, parent);
     endfunction: new
     // Build_phase
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        env             = i2s_tx_10xe_env::type_id::create("env", this);
+        env             = i2s_tx_env::type_id::create("env", this);
         rst_ral_seq     = ral_rst_rd_seq::type_id::create("rst_ral_seq", this);
         cfg_ral_seq     = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
-        if(!uvm_config_db#(virtual i2s_tx_10xe_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
+        if(!uvm_config_db#(virtual i2s_tx_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
-        if(!uvm_config_db#(virtual i2s_tx_10xe_axi_stream_intf)::get(this, "*", "axis_vif", axis_vif)) begin
+        if(!uvm_config_db#(virtual i2s_tx_axi_stream_intf)::get(this, "*", "axis_vif", axis_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI-Stream Interface from Config DB")
         end
-        if(!uvm_config_db#(virtual i2s_tx_10xe_dut_intf)::get(this, "*", "dut_vif", dut_vif)) begin
+        if(!uvm_config_db#(virtual i2s_tx_intf)::get(this, "*", "i2s_vif", i2s_vif)) begin
             `uvm_fatal(get_name(), "Failed to get DUT Interface from Config DB")
         end
        // env.set_report_verbosity_level(500);
@@ -103,10 +103,10 @@ class i2s_tx_10xe_base_test extends uvm_test;
 		end
 
 	endfunction: report_phase
-endclass: i2s_tx_10xe_base_test
+endclass: i2s_tx_base_test
 
 //  Class: read_reg_test
-class read_reg_test extends i2s_tx_10xe_base_test;
+class read_reg_test extends i2s_tx_base_test;
     `uvm_component_utils(read_reg_test);
     ral_rd_seq read_seq;
 
@@ -138,7 +138,7 @@ class read_reg_test extends i2s_tx_10xe_base_test;
 endclass: read_reg_test
 
 //  Class: sanity_test
-class sanity_test extends i2s_tx_10xe_base_test;
+class sanity_test extends i2s_tx_base_test;
     `uvm_component_utils(sanity_test);
     ral_rd_seq read_seq;
     axis_i2s_seq axis_seq;
@@ -172,7 +172,7 @@ endclass: sanity_test
 
 //  Class: ral_test
 //
-class ral_test extends i2s_tx_10xe_base_test;
+class ral_test extends i2s_tx_base_test;
     `uvm_component_utils(ral_test);
 
    //Handle of ral sequence to read and write registers

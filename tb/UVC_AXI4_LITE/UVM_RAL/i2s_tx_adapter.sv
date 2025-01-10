@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_adapter.sv
+   > File Name: i2s_tx_adapter.sv
    > Description: This file contains adapter class which is consist of two functions reg2bus and bus2reg.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,24 +8,24 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_ADAPTER
-`define I2S_TX_10XE_ADAPTER
-// Class: i2s_tx_10xe_adapter
+`ifndef I2S_TX_ADAPTER
+`define I2S_TX_ADAPTER
+// Class: i2s_tx_adapter
 // Description: Contains two function reg2bus and bus2reg to conver bus txn to reg txn and reg txn to bus txn
-class i2s_tx_10xe_adapter extends uvm_reg_adapter;
+class i2s_tx_adapter extends uvm_reg_adapter;
     // factory registration
-    `uvm_object_utils(i2s_tx_10xe_adapter)
+    `uvm_object_utils(i2s_tx_adapter)
     // Constructor
-    function new(string name = "i2s_tx_10xe_adapter");
+    function new(string name = "i2s_tx_adapter");
         super.new(name);
     endfunction
 
     // Function to convert reg txn to bus txn
     function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
-        i2s_tx_10xe_axi4_lite_seq_item tr;
-        // Create a i2s_tx_10xe_axi4_lite_seq_item
-        tr = i2s_tx_10xe_axi4_lite_seq_item::type_id::create("tr");
-        // Assign values to i2s_tx_10xe_axi4_lite_seq_item
+        i2s_tx_axi4_lite_seq_item tr;
+        // Create a i2s_tx_axi4_lite_seq_item
+        tr = i2s_tx_axi4_lite_seq_item::type_id::create("tr");
+        // Assign values to i2s_tx_axi4_lite_seq_item
         // For write 
         if(rw.kind == UVM_WRITE) begin
             tr.s_axi_ctrl_awvalid = 1'b1;
@@ -44,7 +44,7 @@ class i2s_tx_10xe_adapter extends uvm_reg_adapter;
     endfunction: reg2bus
 
     function void bus2reg(uvm_sequence_item bus_item, ref uvm_reg_bus_op rw);
-        i2s_tx_10xe_axi4_lite_seq_item tr;
+        i2s_tx_axi4_lite_seq_item tr;
         assert($cast(tr, bus_item));
         // Handle write operation
         if (tr.s_axi_ctrl_awvalid) begin

@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axis_seq.sv
+   > File Name: i2s_tx_axis_seq.sv
    > Description: This file contains sequence classes for AXI-Stream in I2S.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,26 +8,26 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXIS_SEQ
-`define I2S_TX_10XE_AXIS_SEQ
-// Class: i2s_tx_10xe_axis_seq
+`ifndef I2S_TX_AXIS_SEQ
+`define I2S_TX_AXIS_SEQ
+// Class: i2s_tx_axis_seq
 // Description: Base sequence for AXI-Stream
-class i2s_tx_10xe_axis_seq extends uvm_sequence;
-    `uvm_object_utils(i2s_tx_10xe_axis_seq);
+class i2s_tx_axis_seq extends uvm_sequence;
+    `uvm_object_utils(i2s_tx_axis_seq);
 
     //  Constructor: new
-    function new(string name = "i2s_tx_10xe_axis_seq");
+    function new(string name = "i2s_tx_axis_seq");
         super.new(name);
     endfunction: new
 
-endclass: i2s_tx_10xe_axis_seq
+endclass: i2s_tx_axis_seq
 
 // Class: axis_i2s_seq
 // Description: AXI-Stream transaction sequence for I2S
-class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
+class axis_i2s_seq extends i2s_tx_axis_seq;
     `uvm_object_utils(axis_i2s_seq)
 
-    i2s_tx_10xe_axis_seq_item axis_seq;
+    i2s_tx_axis_seq_item axis_seq;
 
     // Constructor: new
     function new(string name = "axis_i2s_seq");
@@ -38,7 +38,7 @@ class axis_i2s_seq extends i2s_tx_10xe_axis_seq;
     // Description: Executes the main sequence logic
     task body();
         `uvm_info(get_name(), "Executing axis_i2s Seq", UVM_NONE)
-        axis_seq = i2s_tx_10xe_axis_seq_item::type_id::create("axis_seq");
+        axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
         axis_seq.data_tid.constraint_mode(0);
         start_item(axis_seq);
         assert(axis_seq.randomize() with {
@@ -104,4 +104,4 @@ endclass: axis_i2s_seq
 
 
 
-`endif // I2S_TX_10XE_AXIS_SEQ
+`endif // I2S_TX_AXIS_SEQ

@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi4_lite_intf.sv
+   > File Name: i2s_tx_axi4_lite_intf.sv
    > Description: This file defines the AXI4-Lite interface signals and associated clocking blocks for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,20 +8,20 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXI4_LITE_INTF
-`define I2S_TX_10XE_AXI4_LITE_INTF
+`ifndef I2S_TX_AXI4_LITE_INTF
+`define I2S_TX_AXI4_LITE_INTF
 
-interface i2s_tx_10xe_axi4_lite_intf();
+interface i2s_tx_axi4_lite_intf();
 
   // AXI4-Lite Address Write Channel
   logic                             s_axi_ctrl_awvalid;
   logic                             s_axi_ctrl_awready;
-  i2s_tx_10xe_defines::reg_addr     s_axi_ctrl_awaddr;
+  i2s_tx_defines::reg_addr     s_axi_ctrl_awaddr;
 
   // AXI4-Lite Write Data Channel
   logic                             s_axi_ctrl_wvalid;
   logic                             s_axi_ctrl_wready;
-  i2s_tx_10xe_defines::reg_data     s_axi_ctrl_wdata;
+  i2s_tx_defines::reg_data     s_axi_ctrl_wdata;
 
   // AXI4-Lite Write Response Channel
   logic                             s_axi_ctrl_bvalid;
@@ -31,13 +31,13 @@ interface i2s_tx_10xe_axi4_lite_intf();
   // AXI4-Lite Read Address Channel
   logic                             s_axi_ctrl_arvalid;
   logic                             s_axi_ctrl_arready;
-  i2s_tx_10xe_defines::reg_addr     s_axi_ctrl_araddr;
+  i2s_tx_defines::reg_addr     s_axi_ctrl_araddr;
 
   // AXI4-Lite Read Data Channel
   logic                             s_axi_ctrl_rvalid;
   logic                             s_axi_ctrl_rready;
   logic [1:0]                       s_axi_ctrl_rresp;
-  i2s_tx_10xe_defines::reg_data     s_axi_ctrl_rdata;
+  i2s_tx_defines::reg_data     s_axi_ctrl_rdata;
 
   // Clk and reset signals
   logic s_axi_ctrl_aclk; 

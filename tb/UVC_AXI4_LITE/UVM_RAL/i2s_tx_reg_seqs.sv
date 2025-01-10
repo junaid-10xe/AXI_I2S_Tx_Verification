@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_reg_seqs.sv
+   > File Name: i2s_tx_reg_seqs.sv
    > Description: This file defines the Sequences to test RAL.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,25 +8,25 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_REG_SEQS
-`define I2S_TX_10XE_REG_SEQS
+`ifndef I2S_TX_REG_SEQS
+`define I2S_TX_REG_SEQS
 // Class :: i2s_tx_reg_base_seq
 
 class i2s_tx_reg_base_seq extends uvm_sequence;
     `uvm_object_utils(i2s_tx_reg_base_seq)
     // Handle of reg block 
-    i2s_tx_10xe_reg_blk  reg_blk;
+    i2s_tx_reg_blk  reg_blk;
     uvm_status_e         status;
     uvm_reg              reg_h;
     // declaring variable for configuration of sequence
-    bit core_cfg                = i2s_tx_10xe_defines::CORE_CFG;                // Bit to cinfugure core 
-    bit axi_stream_data_valid   = i2s_tx_10xe_defines::AXI_STREAM_DATA_VALID;   // Optional if we want to make data valid on stream
-    bit en_dis_int              = i2s_tx_10xe_defines::EN_DIS_INT;              // BIT to enable disable interrupt
-    bit rd_regs                 = i2s_tx_10xe_defines::RD_REGS;                 // Bit to READ RAL REGISTERS
-    bit rd_regs_in_rst          = i2s_tx_10xe_defines::RD_REGS_IN_RST;          // BIT to read registers in reset phase
-    bit wr_rd_regs              = i2s_tx_10xe_defines::WR_RD_REGS;              // Bit to write and read RAL REGISTERS
+    bit core_cfg                = i2s_tx_defines::CORE_CFG;                // Bit to cinfugure core 
+    bit axi_stream_data_valid   = i2s_tx_defines::AXI_STREAM_DATA_VALID;   // Optional if we want to make data valid on stream
+    bit en_dis_int              = i2s_tx_defines::EN_DIS_INT;              // BIT to enable disable interrupt
+    bit rd_regs                 = i2s_tx_defines::RD_REGS;                 // Bit to READ RAL REGISTERS
+    bit rd_regs_in_rst          = i2s_tx_defines::RD_REGS_IN_RST;          // BIT to read registers in reset phase
+    bit wr_rd_regs              = i2s_tx_defines::WR_RD_REGS;              // Bit to write and read RAL REGISTERS
     // To genrate write data value according to pattern 
-    i2s_tx_10xe_defines::data_pattern_e data_pattern  = i2s_tx_10xe_defines::RAL_DATA_PATTERN;
+    i2s_tx_defines::data_pattern_e data_pattern  = i2s_tx_defines::RAL_DATA_PATTERN;
 
     // Constructor
     function new (string name = "i2s_tx_reg_base_seq");
@@ -36,8 +36,8 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     // task to read register in reset and compare their values with their reset values
     task read_rst_reg(input uvm_reg reg_h);
 
-        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
-        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
+        i2s_tx_defines::reg_data   actual_val;     // read value
+        i2s_tx_defines::reg_data   expected_val;   // desired value
         
         //get reset value of register
         expected_val = reg_h.get_reset();
@@ -60,8 +60,8 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     // task to read register and compare it desired and mirrored value
     task read_reg(input uvm_reg reg_h);
 
-        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
-        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
+        i2s_tx_defines::reg_data   actual_val;     // read value
+        i2s_tx_defines::reg_data   expected_val;   // desired value
         
         reg_h.read(status, actual_val, UVM_FRONTDOOR);
         if(status != UVM_IS_OK) begin   
@@ -81,11 +81,11 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: read_reg
 
     task write_read_reg(input uvm_reg reg_h,
-                        input i2s_tx_10xe_defines::data_pattern_e data_pattern); 
+                        input i2s_tx_defines::data_pattern_e data_pattern); 
         
-        i2s_tx_10xe_defines::reg_data   actual_val;     // read value
-        i2s_tx_10xe_defines::reg_data   expected_val;   // desired value
-        i2s_tx_10xe_defines::reg_data   write_val;
+        i2s_tx_defines::reg_data   actual_val;     // read value
+        i2s_tx_defines::reg_data   expected_val;   // desired value
+        i2s_tx_defines::reg_data   write_val;
             
             // get write value according to pattern
             get_write_val(write_val, data_pattern);
@@ -100,16 +100,16 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: write_read_reg
 
     // Task to get write value according to data_pattern want to write on regsiter
-    task get_write_val(output i2s_tx_10xe_defines::reg_data   write_val, 
-                       input i2s_tx_10xe_defines::data_pattern_e data_pattern);
-        case (i2s_tx_10xe_defines::data_pattern_e'(data_pattern))
-            i2s_tx_10xe_defines::ALL_ZERO: begin
+    task get_write_val(output i2s_tx_defines::reg_data   write_val, 
+                       input i2s_tx_defines::data_pattern_e data_pattern);
+        case (i2s_tx_defines::data_pattern_e'(data_pattern))
+            i2s_tx_defines::ALL_ZERO: begin
                                                 write_val = 32'b0;
                                            end
-            i2s_tx_10xe_defines::ALL_ONES: begin
+            i2s_tx_defines::ALL_ONES: begin
                                                 write_val = 32'hFFFFFFFF;
                                            end
-            i2s_tx_10xe_defines::RANDOM:   begin
+            i2s_tx_defines::RANDOM:   begin
                                                 write_val = $urandom_range(32'hFFFFFFFF, 32'b0);
                                            end
             default:                       begin
@@ -132,11 +132,11 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider
-            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_10xe_defines::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
+            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_defines::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
             //Enable core
             reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);
-            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_10xe_defines::AUD_MCLK_FREQUENCY, i2s_tx_10xe_defines::AUD_MCLK_PERIOD), UVM_NONE)
-            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_10xe_defines::SCLK_FREQUENCY, i2s_tx_10xe_defines::SCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_defines::AUD_MCLK_FREQUENCY, i2s_tx_defines::AUD_MCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_defines::SCLK_FREQUENCY, i2s_tx_defines::SCLK_PERIOD), UVM_NONE)
             
         end
     endtask: configure_core

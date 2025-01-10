@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi4_lite_driver.sv
+   > File Name: i2s_tx_axi4_lite_driver.sv
    > Description: This file drives the signals to DUT using AXI4-Lite specifications.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,31 +8,31 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXI4_LITE_DRIVER
-`define I2S_TX_10XE_AXI4_LITE_DRIVER
+`ifndef I2S_TX_AXI4_LITE_DRIVER
+`define I2S_TX_AXI4_LITE_DRIVER
 `define DRV_AX axi4_lite_vif.axi4_lite_driver
 
-// Class: i2s_tx_10xe_axi4_lite_driver
+// Class: i2s_tx_axi4_lite_driver
 // This driver class handles the AXI4-Lite transactions, sending write and read operations to the DUT using the AXI4-Lite interface.
-class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_seq_item);
-    `uvm_component_utils(i2s_tx_10xe_axi4_lite_driver)
+class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
+    `uvm_component_utils(i2s_tx_axi4_lite_driver)
 
     
-    i2s_tx_10xe_axi4_lite_seq_item axi4_tr;                     // Transaction handle
+    i2s_tx_axi4_lite_seq_item axi4_tr;                     // Transaction handle
 
     // Constructor: Initializes the driver component with the given name and parent.
-    function new(string name = "i2s_tx_10xe_axi4_lite_driver", uvm_component parent);
+    function new(string name = "i2s_tx_axi4_lite_driver", uvm_component parent);
         super.new(name, parent);
     endfunction: new
 
     // Virtual interface handle for AXI4-Lite
-    virtual i2s_tx_10xe_axi4_lite_intf axi4_lite_vif;           // AXI4-Lite interface to the DUT
+    virtual i2s_tx_axi4_lite_intf axi4_lite_vif;           // AXI4-Lite interface to the DUT
 
     // Build Phase: Retrieves the AXI4-Lite virtual interface from the configuration database.
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         // Get AXI4-Lite interface from the configuration database
-        if(!uvm_config_db#(virtual i2s_tx_10xe_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
+        if(!uvm_config_db#(virtual i2s_tx_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
     endfunction: build_phase
@@ -120,6 +120,6 @@ class i2s_tx_10xe_axi4_lite_driver extends uvm_driver #(i2s_tx_10xe_axi4_lite_se
 
     endtask: read
 
-endclass : i2s_tx_10xe_axi4_lite_driver
+endclass : i2s_tx_axi4_lite_driver
 
 `endif

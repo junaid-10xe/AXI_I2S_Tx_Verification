@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_axi4_lite_seq_item.sv
+   > File Name: i2s_tx_axi4_lite_seq_item.sv
    > Description: This file contains all transaction signals of AXI4_Lite required for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
@@ -8,15 +8,15 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_AXI4_LITE_SEQ_ITEM
-`define I2S_TX_10XE_AXI4_LITE_SEQ_ITEM
+`ifndef I2S_TX_AXI4_LITE_SEQ_ITEM
+`define I2S_TX_AXI4_LITE_SEQ_ITEM
 
-// Class: i2s_tx_10xe_axi4_lite_seq_item
+// Class: i2s_tx_axi4_lite_seq_item
 // This class defines the AXI4-Lite transaction signals used by the I2S transmitter.
-class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
+class i2s_tx_axi4_lite_seq_item extends uvm_sequence_item;
 
     // Register the sequence item with the UVM factory and define fields for comparison and printing
-    `uvm_object_utils_begin(i2s_tx_10xe_axi4_lite_seq_item)
+    `uvm_object_utils_begin(i2s_tx_axi4_lite_seq_item)
         `uvm_field_int(s_axi_ctrl_awvalid, UVM_DEFAULT) // Address write valid signal
         `uvm_field_int(s_axi_ctrl_awready, UVM_DEFAULT) // Address write ready signal
         `uvm_field_int(s_axi_ctrl_awaddr, UVM_DEFAULT)  // Address write address
@@ -36,7 +36,7 @@ class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
     `uvm_object_utils_end
 
     // Constructor: Initializes the sequence item with a default name
-    function new(string name = "i2s_tx_10xe_axi4_lite_seq_item");
+    function new(string name = "i2s_tx_axi4_lite_seq_item");
         super.new(name);
     endfunction: new
 
@@ -68,6 +68,6 @@ class i2s_tx_10xe_axi4_lite_seq_item extends uvm_sequence_item;
     bit [1:0]                   s_axi_ctrl_rresp;       // Read response
     bit [31:0]                  s_axi_ctrl_rdata;       // Read data
     
-endclass: i2s_tx_10xe_axi4_lite_seq_item
+endclass: i2s_tx_axi4_lite_seq_item
 
 `endif   //I2S_TX_10XE_AXI4_LITE_SEQ_ITEM
