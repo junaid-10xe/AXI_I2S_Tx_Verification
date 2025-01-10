@@ -1,5 +1,5 @@
 /*************************************************************************
-   > File Name: i2s_tx_10xe_dut_intf.sv
+   > File Name: i2s_tx_intf.sv
    > Description: This file defines the  input/ouput signals of DUT that are not the part of axi4-lite and axi-stream 
    for I2S transmitter functionality.
    > Author: Muhammad Junaid Ramzan
@@ -9,10 +9,10 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_10XE_DUT_INTF
-`define I2S_TX_10XE_DUT_INTF
+`ifndef I2S_TX_INTF
+`define I2S_TX_INTF
 
-interface i2s_tx_10xe_dut_intf (); 
+interface i2s_tx_intf (); 
   // Interrupt signal indicating an event
   logic irq;
 
@@ -31,7 +31,7 @@ interface i2s_tx_10xe_dut_intf ();
   logic aud_mclk;
   logic aud_mrst;
 
-  int TIME_PERIOD = i2s_tx_10xe_defines::AUD_MCLK_PERIOD;
+  int TIME_PERIOD = i2s_tx_defines::AUD_MCLK_PERIOD;
   // task to generate clk
   task generate_clk();
     aud_mclk = 0;
