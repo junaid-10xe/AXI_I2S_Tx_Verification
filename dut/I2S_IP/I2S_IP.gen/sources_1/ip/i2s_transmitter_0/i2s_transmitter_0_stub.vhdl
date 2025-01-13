@@ -1,10 +1,10 @@
 -- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2022.1 (lin64) Build 3526262 Mon Apr 18 15:47:01 MDT 2022
--- Date        : Tue Jan  7 12:24:33 2025
+-- Date        : Tue Jan  7 12:24:32 2025
 -- Host        : junaid running 64-bit Ubuntu 24.04.1 LTS
--- Command     : write_vhdl -force -mode synth_stub
---               /home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/I2S_IP.gen/sources_1/ip/i2s_transmitter_0/i2s_transmitter_0_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top i2s_transmitter_0 -prefix
+--               i2s_transmitter_0_ i2s_transmitter_0_stub.vhdl
 -- Design      : i2s_transmitter_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7k70tfbv676-1
