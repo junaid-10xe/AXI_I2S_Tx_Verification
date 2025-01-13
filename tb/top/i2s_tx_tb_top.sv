@@ -22,7 +22,7 @@
     // Include Interfaces
     `include "../UVC_AXI4_LITE/i2s_tx_axi4_lite_intf.sv"
     `include "../UVC_AXI_STREAM/i2s_tx_axi_stream_intf.sv"
-    `include "../DUT_RSP_AGENT/i2s_tx_intf.sv"
+    `include "../I2S_RSP_AGENT/i2s_tx_intf.sv"
 
     
     // Import AXI4-LITE UVC PKG to include files
@@ -91,7 +91,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_intf) :: set(null, "*", "i2s_vif", i2s_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("sanity_test");
+    run_test("ral_test");
 end
 
 // Dump waveform

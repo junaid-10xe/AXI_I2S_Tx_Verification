@@ -20,8 +20,10 @@ class i2s_tx_base_test extends uvm_test;
     virtual i2s_tx_axi_stream_intf     axis_vif;
     // Interface handle of axi4-Lite
     virtual i2s_tx_axi4_lite_intf      axi4_lite_vif;
-    // Handle of sut interface
+    // Handle of dut interface
     virtual i2s_tx_intf                i2s_vif;
+    // Handle of config class
+    i2s_tx_config                     cfg;
     // Handle for RAl SEQ to read registers in reset 
     ral_rst_rd_seq                          rst_ral_seq;
     // Handle for RAl SEQ to Configure registers
@@ -32,8 +34,10 @@ class i2s_tx_base_test extends uvm_test;
     endfunction: new
     // Build_phase
     function void build_phase(uvm_phase phase);
+        uvm_factory factory = uvm_factory::get();
         super.build_phase(phase);
         env             = i2s_tx_env::type_id::create("env", this);
+        cfg             = i2s_tx_config::type_id::create("cfg", this);
         rst_ral_seq     = ral_rst_rd_seq::type_id::create("rst_ral_seq", this);
         cfg_ral_seq     = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
         if(!uvm_config_db#(virtual i2s_tx_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
@@ -45,6 +49,11 @@ class i2s_tx_base_test extends uvm_test;
         if(!uvm_config_db#(virtual i2s_tx_intf)::get(this, "*", "i2s_vif", i2s_vif)) begin
             `uvm_fatal(get_name(), "Failed to get DUT Interface from Config DB")
         end
+
+        cfg_ral_seq.core_cfg                = cfg.CORE_CFG;
+        cfg_ral_seq.axi_stream_data_valid   = cfg.AXI_STREAM_DATA_VALID;
+        cfg_ral_seq.en_dis_int              = cfg.EN_DIS_INT;
+        rst_ral_seq.rd_regs_in_rst          = cfg.RD_REGS_IN_RST;
        // env.set_report_verbosity_level(500);
     endfunction: build_phase
 
@@ -140,8 +149,8 @@ endclass: read_reg_test
 //  Class: sanity_test
 class sanity_test extends i2s_tx_base_test;
     `uvm_component_utils(sanity_test);
-    ral_rd_seq read_seq;
-    axis_i2s_seq axis_seq;
+    ral_rd_seq      read_seq;
+    axis_i2s_seq    axis_seq;
     // Constructor: new
     function new(string name = "sanity_test", uvm_component parent);
         super.new(name, parent);
@@ -149,9 +158,9 @@ class sanity_test extends i2s_tx_base_test;
     // BUILD PHASE
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        read_seq     = ral_rd_seq::type_id::create("read_seq", this);
-        axis_seq     = axis_i2s_seq::type_id::create("axis_seq", this);
-        
+        read_seq         = ral_rd_seq::type_id::create("read_seq", this);
+        axis_seq         = axis_i2s_seq::type_id::create("axis_seq", this);
+        read_seq.rd_regs = cfg.RD_REGS;
     endfunction: build_phase
     // MAIN Phase
     task main_phase(uvm_phase phase);
@@ -185,7 +194,10 @@ class ral_test extends i2s_tx_base_test;
     //BUILD PHASE
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        rd_wr_seq    = ral_rd_wr_seq::type_id::create("rd_wr_seq", this);        
+        rd_wr_seq    = ral_rd_wr_seq::type_id::create("rd_wr_seq", this);
+        rd_wr_seq.wr_rd_regs    = cfg.WR_RD_REGS;
+        rd_wr_seq.rd_regs       = cfg.RD_REGS;
+        rd_wr_seq.data_pattern  = cfg.RAL_DATA_PATTERN;
     endfunction: build_phase
     //Run Phase
     task main_phase(uvm_phase phase);

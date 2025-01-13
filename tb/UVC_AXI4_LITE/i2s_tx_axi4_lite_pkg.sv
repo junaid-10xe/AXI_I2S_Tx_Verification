@@ -16,12 +16,14 @@ package i2s_tx_axi4_lite_pkg;
 
   	// include the UVM macros
   	`include "uvm_macros.svh"
+    `include "../include/i2s_tx_config.sv"
 
     //include UVC files
     `include "i2s_tx_axi4_lite_seq_item.sv"
     `include "UVM_RAL/i2s_tx_reg.sv"
     `include "UVM_RAL/i2s_tx_reg_blk.sv"
-    `include "UVM_RAL/i2s_tx_reg_seqs.sv"
+    `include "UVM_RAL/i2s_tx_reg_base_seq.sv"
+    `include "UVM_RAL/i2s_tx_reg_seqs_lib.sv"
     `include "UVM_RAL/i2s_tx_adapter.sv"
 
     `include "i2s_tx_axi4_lite_sequencer.sv"

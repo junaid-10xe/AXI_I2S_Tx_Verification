@@ -15,7 +15,7 @@
 class i2s_tx_agent extends uvm_agent;
     `uvm_component_utils(i2s_tx_agent)
     // Handles for monitor, driver, and sequencer
-    i2s_tx_monitor       12s_mon;   // Monitor for observing DUT signals
+    i2s_tx_monitor       i2s_mon;   // Monitor for observing DUT signals
 
     // Constructor: Initializes the agent
     function new(string name = "i2s_tx_agent", uvm_component parent);
@@ -29,7 +29,7 @@ class i2s_tx_agent extends uvm_agent;
         super.build_phase(phase);
         `uvm_info(get_name(), "Building sequencer, driver, and monitor", UVM_DEBUG)
         // Create monitor
-        12s_mon  = i2s_tx_monitor::type_id::create("12s_mon", this);
+        i2s_mon  = i2s_tx_monitor::type_id::create("i2s_mon", this);
         `uvm_info(get_name(), "Monitor created", UVM_DEBUG)
     endfunction: build_phase
 

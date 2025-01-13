@@ -66,10 +66,9 @@ class i2s_tx_monitor extends uvm_monitor;
                 i2s_tr.sdata_0_out[23-i]        = i2s_vif.sdata_0_out;
             end
             `uvm_info(get_name(), "DUT signals captured into transaction object", UVM_LOW)
-                
+            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", i2s_tr.sprint()), UVM_LOW)    
             i2s_a_port.write(i2s_tr);
             // Log transaction at the configured verbosity level
-            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", i2s_tr.sprint()), UVM_LOW)    
         end
     endtask: run_phase
 

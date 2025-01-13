@@ -1,6 +1,6 @@
 /*************************************************************************
-   > File Name: i2s_tx_reg_seqs.sv
-   > Description: This file defines the Sequences to test RAL.
+   > File Name: i2s_tx_reg_base_seq.sv
+   > Description: This file defines the base Sequence for RAL from which other seqs are derived in seqs lib file.
    > Author: Muhammad Junaid Ramzan
    > Modified: Muhammad Junaid Ramzan
    > Mail: muhammad.junaid@10xengineers.ai
@@ -8,25 +8,24 @@
    Copyright   (c)2024 10xEngineers
    ---------------------------------------------------------------
 ************************************************************************/
-`ifndef I2S_TX_REG_SEQS
-`define I2S_TX_REG_SEQS
+`ifndef I2S_TX_REG_BASE_SEQ
+`define I2S_TX_REG_BASE_SEQ
 // Class :: i2s_tx_reg_base_seq
 
 class i2s_tx_reg_base_seq extends uvm_sequence;
     `uvm_object_utils(i2s_tx_reg_base_seq)
     // Handle of reg block 
-    i2s_tx_reg_blk  reg_blk;
-    uvm_status_e         status;
-    uvm_reg              reg_h;
+    i2s_tx_reg_blk          reg_blk;
+    uvm_status_e            status;
+    uvm_reg                 reg_h;
     // declaring variable for configuration of sequence
-    bit core_cfg                = i2s_tx_defines::CORE_CFG;                // Bit to cinfugure core 
-    bit axi_stream_data_valid   = i2s_tx_defines::AXI_STREAM_DATA_VALID;   // Optional if we want to make data valid on stream
-    bit en_dis_int              = i2s_tx_defines::EN_DIS_INT;              // BIT to enable disable interrupt
-    bit rd_regs                 = i2s_tx_defines::RD_REGS;                 // Bit to READ RAL REGISTERS
-    bit rd_regs_in_rst          = i2s_tx_defines::RD_REGS_IN_RST;          // BIT to read registers in reset phase
-    bit wr_rd_regs              = i2s_tx_defines::WR_RD_REGS;              // Bit to write and read RAL REGISTERS
-    // To genrate write data value according to pattern 
-    i2s_tx_defines::data_pattern_e data_pattern  = i2s_tx_defines::RAL_DATA_PATTERN;
+    bit core_cfg;                                                              // Bit to cinfugure core 
+    bit axi_stream_data_valid;                                    // Optional if we want to make data valid on stream
+    bit en_dis_int;                                                          // BIT to enable disable interrupt
+    bit rd_regs;                                                                // Bit to READ RAL REGISTERS
+    bit rd_regs_in_rst;                                                  // BIT to read registers in reset phase
+    bit wr_rd_regs;                                                          // Bit to write and read RAL REGISTERS 
+    i2s_tx_defines::data_pattern_e data_pattern;      // To genrate write data value according to pattern
 
     // Constructor
     function new (string name = "i2s_tx_reg_base_seq");
@@ -43,7 +42,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         expected_val = reg_h.get_reset();
         reg_h.read(status, actual_val, UVM_FRONTDOOR);
         if(status != UVM_IS_OK) begin   
-            `uvm_error(get_name(), "GOT status UVM_NOT_OK")
+            `uvm_error(get_name(), $sformatf(" for Read GOT status UVM_NOT_OK for register %0s", reg_h.get_name()))
         end
         else begin
             // get expected val
@@ -65,7 +64,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         
         reg_h.read(status, actual_val, UVM_FRONTDOOR);
         if(status != UVM_IS_OK) begin   
-            `uvm_error(get_name(), "GOT status UVM_NOT_OK")
+            `uvm_error(get_name(), $sformatf(" for Read GOT status UVM_NOT_OK for register %0s", reg_h.get_name()))
         end
         else begin
             // get expected val
@@ -93,7 +92,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
             // write value to register
             reg_h.write(status, write_val);
             if(status != UVM_IS_OK) begin   
-                `uvm_error(get_name(), "WRITE :: UVM_NOT_OK")
+                `uvm_error(get_name(), $sformatf(" For WRITE GOT status UVM_NOT_OK for register %0s", reg_h.get_name()))
             end
         read_reg(reg_h);
         
@@ -112,14 +111,14 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
             i2s_tx_defines::RANDOM:   begin
                                                 write_val = $urandom_range(32'hFFFFFFFF, 32'b0);
                                            end
-            default:                       begin
+            default:                  begin
                                                 write_val = 32'b0;
                                            end
         endcase
     endtask: get_write_val
 
     // task to configure core before starting the main phase 
-    task configure_core();
+    task configure_core(input core_cfg);
         if(core_cfg) begin
             // configure core
             `uvm_info(get_name(), "Configuring REGISTERS", UVM_LOW)
@@ -132,17 +131,17 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider
-            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_defines::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
+            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_params::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
             //Enable core
             reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);
-            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_defines::AUD_MCLK_FREQUENCY, i2s_tx_defines::AUD_MCLK_PERIOD), UVM_NONE)
-            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_defines::SCLK_FREQUENCY, i2s_tx_defines::SCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_params::AUD_MCLK_FREQUENCY, i2s_tx_params::AUD_MCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_params::SCLK_FREQUENCY, i2s_tx_params::SCLK_PERIOD), UVM_NONE)
             
         end
     endtask: configure_core
 
     // Task to read register in reset phase 
-    task read_reg_in_reset();
+    task read_reg_in_reset(input rd_regs_in_rst);
         // queue to get registers from reg block
         uvm_reg regs[$];
 
@@ -159,7 +158,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: read_reg_in_reset
 
     // Task to generate sequence to read registers
-    task read_registers();
+    task read_registers(input rd_regs);
         // queue to get registers from reg block
         uvm_reg regs[$];
 
@@ -174,7 +173,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: read_registers
 
     // Task to write and read registers
-    task wr_rd_reg_seq();
+    task wr_rd_reg_seq(input wr_rd_regs);
         // queue to get registers from reg block
         uvm_reg regs[$];
 
@@ -190,68 +189,5 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: wr_rd_reg_seq
 
 endclass: i2s_tx_reg_base_seq
-
-
-// Sequence to read registers in reset 
-class ral_rst_rd_seq extends i2s_tx_reg_base_seq;
-    `uvm_object_utils(ral_rst_rd_seq)
-
-    // Constructor
-    function new (string name = "ral_rst_rd_seq");
-        super.new(name);
-    endfunction
-
-    task body();
-        // Read registers in reset before configuration
-        read_reg_in_reset();
-    endtask
-endclass: ral_rst_rd_seq
-
-// RAL Sequence to configure core 
-class ral_cfg_seq extends i2s_tx_reg_base_seq;
-    `uvm_object_utils(ral_cfg_seq)
-
-    // Constructor
-    function new (string name = "ral_cfg_seq");
-        super.new(name);
-    endfunction
-
-    task body();
-        // Configure core
-        configure_core();
-    endtask
-endclass: ral_cfg_seq
-
-// RAL Sequence to Only read registers 
-class ral_rd_seq extends i2s_tx_reg_base_seq;
-    `uvm_object_utils(ral_rd_seq)
-
-    // Constructor
-    function new (string name = "ral_rd_seq");
-        super.new(name);
-    endfunction
-
-    task body();
-        // Read registers
-        read_registers();
-    endtask
-endclass: ral_rd_seq
-
-// RAL Sequence to Only read registers or write read registers or both first read then write read based on configuration bits 
-class ral_rd_wr_seq extends i2s_tx_reg_base_seq;
-    `uvm_object_utils(ral_rd_wr_seq)
-
-    // Constructor
-    function new (string name = "ral_rd_wr_seq");
-        super.new(name);
-    endfunction
-
-    task body();
-        // Read registers
-        read_registers();
-        // Write then read write value base on pattern
-        wr_rd_reg_seq();
-    endtask
-endclass: ral_rd_wr_seq
 
 `endif

@@ -32,12 +32,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    function new(string name = "i2s_tx_scoreboard", uvm_component parent);
       super.new(name, parent);
       axis_imp = new("axis_imp", this);
-      axi_imp = new("axi_imp", this);
-      i2s_imp = new("i2s_imp", this);
+      axi_imp  = new("axi_imp", this);
+      i2s_imp  = new("i2s_imp", this);
    endfunction: new
 
    //Queue to capture axi-stream transactions
    i2s_tx_axis_seq_item     axis_pkts[$];
+   //Variable to count number of transaction
+   int count = 0;
    // Write method for axi-stream imp port
    virtual function void write_axis_port(i2s_tx_axis_seq_item axis_tr);
       // TODO Logic 
@@ -47,7 +49,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
       if (!$cast(axis_cln, axis_tr)) begin
          `uvm_error(get_name(), "Failed to cast axis_tr");
       end
-      axis_pkts.push_front(axis_cln);
+      if(count < i2s_tx_params::FIFO_DEPTH) begin
+         axis_pkts.push_front(axis_cln);
+         count++;
+      end
+      else begin
+         axis_cln.s_axis_aud_tdata[27:4] = 0;
+         axis_pkts.push_front(axis_cln);
+      end
       `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_NONE)
       `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
    endfunction

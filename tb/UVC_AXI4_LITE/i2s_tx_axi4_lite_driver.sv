@@ -82,6 +82,8 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
             // Wait for BVALID (acknowledgment from DUT)
             wait(`DRV_AX.s_axi_ctrl_bvalid);
             `DRV_AX.s_axi_ctrl_bready  <= 1;
+            axi4_tr.s_axi_ctrl_bvalid  <= `DRV_AX.s_axi_ctrl_bvalid;
+            axi4_tr.s_axi_ctrl_bresp   <= `DRV_AX.s_axi_ctrl_bresp;
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
             `DRV_AX.s_axi_ctrl_bready  <= 0;
             `DRV_AX.s_axi_ctrl_wvalid  <= 0;  
@@ -111,8 +113,10 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
             `DRV_AX.s_axi_ctrl_rready <= axi4_tr.s_axi_ctrl_rready;
             // Wait for RVALID signal indicating data is ready
             wait(`DRV_AX.s_axi_ctrl_rvalid);
-            axi4_tr.s_axi_ctrl_rdata = `DRV_AX.s_axi_ctrl_rdata; // Capture read data
-            `DRV_AX.s_axi_ctrl_rready <= 0;
+            axi4_tr.s_axi_ctrl_rdata    = `DRV_AX.s_axi_ctrl_rdata; // Capture read data
+            axi4_tr.s_axi_ctrl_rvalid   = `DRV_AX.s_axi_ctrl_rvalid;
+            axi4_tr.s_axi_ctrl_rresp    = `DRV_AX.s_axi_ctrl_rresp;
+            `DRV_AX.s_axi_ctrl_rready   <= 0;
             `uvm_info(get_name(), $sformatf("Data Driven to DUT IN READ, \n%s", axi4_tr.sprint()), UVM_LOW);               
         end 
         `uvm_info(get_name(), "Leaving Read Task...", UVM_LOW)

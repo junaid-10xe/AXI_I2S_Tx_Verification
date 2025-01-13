@@ -31,7 +31,7 @@ interface i2s_tx_intf ();
   logic aud_mclk;
   logic aud_mrst;
 
-  int TIME_PERIOD = i2s_tx_defines::AUD_MCLK_PERIOD;
+  int TIME_PERIOD = i2s_tx_params::AUD_MCLK_PERIOD;
   // task to generate clk
   task generate_clk();
     aud_mclk = 0;

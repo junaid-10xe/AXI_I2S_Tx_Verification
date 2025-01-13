@@ -52,13 +52,17 @@ class i2s_tx_adapter extends uvm_reg_adapter;
             rw.addr = tr.s_axi_ctrl_awaddr;
             rw.data = tr.s_axi_ctrl_wdata;
             // Check the write response
-            if (tr.s_axi_ctrl_bresp == 2'b00) begin
-                rw.status = UVM_IS_OK;
-            end else begin
-                rw.status = UVM_NOT_OK;
+            if(tr.s_axi_ctrl_bvalid)begin
+                if (tr.s_axi_ctrl_bresp == 2'b00) begin
+                    rw.status = UVM_IS_OK;
+                end else begin
+                    rw.status = UVM_NOT_OK;
+                    // `uvm_error("bus2reg", $sformatf("Got status UVM NOT OKAY addr = %0h, data = %0h, kind = %s",  tr.s_axi_ctrl_awaddr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"))
+                end
             end
             `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
             `uvm_info("bus2reg", $sformatf("IN WRITE IF, \n%s", tr.sprint()), UVM_DEBUG)
+
         end
     
         // Handle read operation
@@ -71,6 +75,7 @@ class i2s_tx_adapter extends uvm_reg_adapter;
                 rw.status = UVM_IS_OK;
             end else begin
                 rw.status = UVM_NOT_OK;
+                // `uvm_error("bus2reg", $sformatf("Got status UVM NOT OKAY addr = %0h, data = %0h, kind = %s",  rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"))
             end
             `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
             `uvm_info("bus2reg", $sformatf("IN READ IF, \n%s", tr.sprint()), UVM_DEBUG)
