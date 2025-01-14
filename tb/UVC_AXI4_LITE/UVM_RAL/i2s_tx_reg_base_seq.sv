@@ -18,6 +18,9 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     i2s_tx_reg_blk          reg_blk;
     uvm_status_e            status;
     uvm_reg                 reg_h;
+
+    // Handle of config class
+    i2s_tx_config           cfg;
     // declaring variable for configuration of sequence
     bit core_cfg;                                                              // Bit to cinfugure core 
     bit axi_stream_data_valid;                                    // Optional if we want to make data valid on stream
@@ -85,7 +88,6 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         i2s_tx_defines::reg_data   actual_val;     // read value
         i2s_tx_defines::reg_data   expected_val;   // desired value
         i2s_tx_defines::reg_data   write_val;
-            
             // get write value according to pattern
             get_write_val(write_val, data_pattern);
             `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
@@ -97,6 +99,76 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         read_reg(reg_h);
         
     endtask: write_read_reg
+
+    //Task to write and Read on read only fields of registers
+    task write_ro_reg_fields(input uvm_reg reg_h,
+        input i2s_tx_defines::data_pattern_e data_pattern); 
+
+        i2s_tx_defines::reg_data   actual_val;     // read value
+        i2s_tx_defines::reg_data   expected_val;   // desired value
+        i2s_tx_defines::reg_data   write_val;
+        uvm_reg_field              fields[$];      // Queue to get reg fields
+        // get write value according to pattern
+        get_write_val(write_val, data_pattern);
+        `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+        // write value to register
+        reg_h.get_fields(fields);
+            foreach(fields[i]) begin
+                if(fields[i].get_access() == "RO") begin
+                    `uvm_info(get_name(), $sformatf("FIELD %s is RO", fields[i].get_full_name()), UVM_HIGH)
+                    fields[i].write(status, write_val, UVM_FRONTDOOR);
+                    if(status != UVM_IS_OK) begin   
+                        `uvm_error(get_name(), $sformatf(" For WRITE GOT status UVM_NOT_OK for register field %0s", fields[i].get_full_name()))
+                    end
+                    else begin
+                    expected_val = fields[i].get_reset(); 
+                    fields[i].read(status, actual_val, UVM_FRONTDOOR);
+                    if (expected_val==actual_val) begin
+                            `uvm_info(get_name(), $sformatf("RO REG FIELDS TEST PASSED : %s ACTUAL VALUE :: %0h == EXPECTED VALUE :: %0h", fields[i].get_full_name(), actual_val, expected_val), UVM_NONE)
+                        end
+                        else begin
+                            `uvm_error(get_name(), $sformatf("RO REG FIELDS TEST FAILED : %s ACTUAL VALUE :: %0h != EXPECTED VALUE :: %0h", fields[i].get_full_name(), actual_val, expected_val))
+                        end
+                    end
+                end
+            end
+
+endtask: write_ro_reg_fields
+
+// Task to write and Read on read only fields of registers
+task write_rw_reg_fields(input uvm_reg reg_h,
+    input i2s_tx_defines::data_pattern_e data_pattern); 
+
+    i2s_tx_defines::reg_data   actual_val;     // read value
+    i2s_tx_defines::reg_data   expected_val;   // desired value
+    i2s_tx_defines::reg_data   write_val;
+    uvm_reg_field              fields[$];      // Queue to get reg fields
+    // get write value according to pattern
+    get_write_val(write_val, data_pattern);
+    `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+    // write value to register
+    reg_h.get_fields(fields);
+        foreach(fields[i]) begin
+            if (fields[i].get_access() == "RW") begin
+                `uvm_info(get_name(), $sformatf("FIELD %s is RW", fields[i].get_full_name()), UVM_HIGH)
+                fields[i].write(status, write_val, UVM_FRONTDOOR);
+                expected_val = fields[i].get();
+                if(status != UVM_IS_OK) begin
+                    `uvm_error(get_name(), $sformatf(" For WRITE GOT status UVM_NOT_OK for register field %0s", fields[i].get_full_name()))
+                end
+                else begin
+                    fields[i].read(status, actual_val, UVM_FRONTDOOR);
+                    if (expected_val==actual_val) begin
+                        `uvm_info(get_name(), $sformatf("RW REG FIELDS TEST PASSED : %s ACTUAL VALUE :: %0h == EXPECTED VALUE :: %0h", fields[i].get_full_name(), actual_val, expected_val), UVM_NONE)
+                    end
+                    else begin
+                        `uvm_error(get_name(), $sformatf("RW REG FIELDS TEST FAILED : %s ACTUAL VALUE :: %0h != EXPECTED VALUE :: %0h", fields[i].get_full_name(), actual_val, expected_val))
+                    end
+                end
+            end
+        end
+
+endtask: write_rw_reg_fields
 
     // Task to get write value according to data_pattern want to write on regsiter
     task get_write_val(output i2s_tx_defines::reg_data   write_val, 
@@ -157,6 +229,21 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         end
     endtask: read_reg_in_reset
 
+    // Task to read register Main phase when reset is applied in main phase 
+    task read_reg_dft();
+        // queue to get registers from reg block
+        uvm_reg regs[$];
+
+        `uvm_info(get_name(), "READING REGISTERS After RESET", UVM_LOW)
+
+        // Get registers from reg block
+        reg_blk.get_registers(regs);
+        // Read registers in reset before configuration
+        foreach(regs[i]) begin
+            read_rst_reg(regs[i]);
+        end
+    endtask: read_reg_dft
+
     // Task to generate sequence to read registers
     task read_registers(input rd_regs);
         // queue to get registers from reg block
@@ -173,7 +260,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     endtask: read_registers
 
     // Task to write and read registers
-    task wr_rd_reg_seq(input wr_rd_regs);
+    task wr_rd_reg_seq(input wr_rd_regs, input i2s_tx_defines::data_pattern_e data_pattern);
         // queue to get registers from reg block
         uvm_reg regs[$];
 
@@ -187,6 +274,31 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
             end
         end
     endtask: wr_rd_reg_seq
+
+    // Task to write and read registers RO fields
+    task wr_ro_reg_field_seq(input i2s_tx_defines::data_pattern_e data_pattern);
+        // queue to get registers from reg block
+        uvm_reg regs[$];
+        // get registers from reg block
+        `uvm_info(get_name(), "WRITING AND READING REGISTERS ", UVM_LOW)
+        reg_blk.get_registers(regs);
+        foreach (regs[i]) begin
+            write_ro_reg_fields(regs[i],data_pattern);
+        end
+    endtask: wr_ro_reg_field_seq
+
+    // Task to write and read registers RW fields
+    task wr_rw_reg_field_seq(input i2s_tx_defines::data_pattern_e data_pattern);
+        // queue to get registers from reg block
+        uvm_reg regs[$];
+        // get registers from reg block
+        `uvm_info(get_name(), "WRITING AND READING REGISTERS ", UVM_LOW)
+        reg_blk.get_registers(regs);
+        foreach (regs[i]) begin
+            write_rw_reg_fields(regs[i],data_pattern);
+        end
+    endtask: wr_rw_reg_field_seq
+
 
 endclass: i2s_tx_reg_base_seq
 

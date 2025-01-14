@@ -15,6 +15,7 @@
 class ral_rst_rd_seq extends i2s_tx_reg_base_seq;
     `uvm_object_utils(ral_rst_rd_seq)
 
+
     // Constructor
     function new (string name = "ral_rst_rd_seq");
         super.new(name);
@@ -56,21 +57,62 @@ class ral_rd_seq extends i2s_tx_reg_base_seq;
     endtask
 endclass: ral_rd_seq
 
-// RAL Sequence to Only read registers or write read registers or both first read then write read based on configuration bits 
-class ral_rd_wr_seq extends i2s_tx_reg_base_seq;
-    `uvm_object_utils(ral_rd_wr_seq)
 
-    // Constructor
-    function new (string name = "ral_rd_wr_seq");
+//Class RAL seq 
+class ral_test_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(ral_test_seq)
+    // Constructor 
+    function new (string name = "ral_test_seq");
         super.new(name);
     endfunction
 
+    // Task body 
     task body();
-        // Read registers
-        read_registers(rd_regs);
-        // Write then read write value base on pattern
-        wr_rd_reg_seq(wr_rd_regs);
+        // To generate sequnce to read registers
+        if (cfg.RD_REGS && cfg.RD_REGS_DFT) begin
+            read_reg_dft();
+        end
+        else if (cfg.RD_REGS) begin
+            read_registers(cfg.RD_REGS);
+        end
+        // To generate sequence first write then read
+        if (cfg.WR_RD_REGS) begin
+            wr_rd_reg_seq(cfg.WR_RD_REGS, cfg.RAL_DATA_PATTERN);
+        end
+        // To generate sequence to read value of core version reg
+        if (cfg.CORE_VER_TEST) begin
+            i2s_tx_defines::reg_data   actual_val;     // read value
+            reg_blk.core_version_reg_h.read(status, actual_val, UVM_FRONTDOOR);
+            if(actual_val[31:16]==1 && actual_val[15:0]==0) begin
+                `uvm_info(get_name(), "CORE VERSION TEST PASSED", UVM_LOW)
+            end
+            else begin
+                `uvm_error(get_name(), "CORE VERSION TEST FAILED")
+            end
+        end
+        
+        // To generate sequence to read value of core config reg
+        if (cfg.CORE_CFG_TEST) begin
+            i2s_tx_defines::reg_data   actual_val;     // read value
+            reg_blk.core_cfg_reg_h.read(status, actual_val, UVM_FRONTDOOR);
+            if(actual_val[31:17]==1 && actual_val[16]==1 && actual_val[15:12]==0 && actual_val[11:8]==2 && actual_val[7:1]==0 && actual_val[0]==1) begin
+                `uvm_info(get_name(), "CORE Configuration TEST PASSED", UVM_LOW)
+            end
+            else begin
+                `uvm_error(get_name(), $sformatf("CORE CONFIGURATION TEST FAILED Expected :: %0h, Actual ::%0h", 'h30201, actual_val))
+            end
+        end
+        //To generate sequence to test RO fields of registers
+        if(cfg.REG_RO_FIELDS) begin
+            wr_ro_reg_field_seq(cfg.RAL_DATA_PATTERN);
+        end
+        // To generate sequence to test RW fields of registers
+        if(cfg.REG_RW_FIELDS) begin
+            wr_rw_reg_field_seq(cfg.RAL_DATA_PATTERN);
+        end
+
     endtask
-endclass: ral_rd_wr_seq
+
+endclass
 
 `endif

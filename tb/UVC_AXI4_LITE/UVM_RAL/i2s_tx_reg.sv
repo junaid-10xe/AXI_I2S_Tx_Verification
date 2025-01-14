@@ -155,7 +155,7 @@ class intrpt_ctrl_reg extends uvm_reg;
         aes_cmplt_intrp_en = uvm_reg_field::type_id::create("aes_cmplt_intrp_en");
         //Configure fileds 
         glbl_intrp_en.configure(this, 1, 31, "RW", 0, 0, 1, 0, 1);
-        rsvd.configure(this, 27, 4, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 27, 4, "RO", 0, 0, 0, 0, 1);
         undr_flow_intrp_en.configure(this, 1, 3, "RW", 0, 0, 1, 0, 1);
         aes_chan_stat_intrp_en.configure(this, 1, 2, "RW", 0, 0, 1, 0, 1);
         aes_sync_intrp_en.configure(this, 1, 1, "RW", 0, 0, 1, 0, 1);
@@ -191,11 +191,11 @@ class intrpt_stat_reg extends uvm_reg;
         aes_sync_intrp = uvm_reg_field::type_id::create("aes_sync_intrp");
         aes_cmplt_intrp = uvm_reg_field::type_id::create("aes_cmplt_intrp");
         //Configure fileds 
-        rsvd.configure(this, 28, 4, "RO", 0, 0, 0, 0, 0);
-        undr_flow_intrp.configure(this, 1, 3, "RW", 0, 0, 1, 0, 1);
-        aes_chan_stat_intrp.configure(this, 1, 2, "RW", 0, 0, 1, 0, 1);
-        aes_sync_intrp.configure(this, 1, 1, "RW", 0, 0, 1, 0, 1);
-        aes_cmplt_intrp.configure(this, 1, 0, "RW", 0, 0, 1, 0, 1);
+        rsvd.configure(this, 28, 4, "RO", 0, 0, 0, 0, 1);
+        undr_flow_intrp.configure(this, 1, 3, "W1C", 0, 0, 1, 0, 1);
+        aes_chan_stat_intrp.configure(this, 1, 2, "W1C", 0, 0, 1, 0, 1);
+        aes_sync_intrp.configure(this, 1, 1, "W1C", 0, 0, 1, 0, 1);
+        aes_cmplt_intrp.configure(this, 1, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: intrpt_stat_reg 
 
@@ -219,7 +219,7 @@ class i2s_tim_ctrl_reg extends uvm_reg;
         rsvd = uvm_reg_field::type_id::create("rsvd");
         sclk_div_val = uvm_reg_field::type_id::create("sclk_div_val");
         //Configure fileds 
-        rsvd.configure(this, 24, 8, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 24, 8, "RO", 0, 0, 0, 0, 1);
         sclk_div_val.configure(this, 8, 0, "RW", 0, 0, 1, 0, 1);
     endfunction
 endclass: i2s_tim_ctrl_reg 
@@ -252,7 +252,7 @@ class chan_01_ctrl_reg extends uvm_reg;
         rsvd = uvm_reg_field::type_id::create("rsvd");
         chan_mux_val = uvm_reg_field::type_id::create("chan_mux_val");
         // Configure fileds 
-        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 1);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 1, 1, 0, 1);
     endfunction
 endclass: chan_01_ctrl_reg 
@@ -285,7 +285,7 @@ class chan_23_ctrl_reg extends uvm_reg;
         rsvd = uvm_reg_field::type_id::create("rsvd");
         chan_mux_val = uvm_reg_field::type_id::create("chan_mux_val");
         //Configure fileds 
-        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 1);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 2, 1, 0, 1);
     endfunction
 endclass: chan_23_ctrl_reg 
@@ -318,7 +318,7 @@ class chan_45_ctrl_reg extends uvm_reg;
         rsvd = uvm_reg_field::type_id::create("rsvd");
         chan_mux_val = uvm_reg_field::type_id::create("chan_mux_val");
         //Configure fileds 
-        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 1);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 3, 1, 0, 1);
     endfunction
 endclass: chan_45_ctrl_reg 
@@ -351,7 +351,7 @@ class chan_67_ctrl_reg extends uvm_reg;
         rsvd = uvm_reg_field::type_id::create("rsvd");
         chan_mux_val = uvm_reg_field::type_id::create("chan_mux_val");
         //Configure fileds 
-        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 0);
+        rsvd.configure(this, 29, 3, "RO", 0, 0, 0, 0, 1);
         chan_mux_val.configure(this, 3, 0, "RW", 0, 4, 1, 0, 1);
     endfunction
 
@@ -380,7 +380,7 @@ class aes_chan_stat_reg0 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg0 
 
@@ -399,7 +399,7 @@ class aes_chan_stat_reg1 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg1 
 
@@ -418,7 +418,7 @@ class aes_chan_stat_reg2 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg2 
 
@@ -437,7 +437,7 @@ class aes_chan_stat_reg3 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg3 
 
@@ -456,7 +456,7 @@ class aes_chan_stat_reg4 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg4
 
@@ -475,7 +475,7 @@ class aes_chan_stat_reg5 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "RW", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg5 
 

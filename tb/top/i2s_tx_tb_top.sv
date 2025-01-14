@@ -18,7 +18,6 @@
 
     // Import defines
     import i2s_tx_defines::*;
-
     // Include Interfaces
     `include "../UVC_AXI4_LITE/i2s_tx_axi4_lite_intf.sv"
     `include "../UVC_AXI_STREAM/i2s_tx_axi_stream_intf.sv"
@@ -92,6 +91,14 @@ initial begin
     uvm_config_db#(virtual i2s_tx_intf) :: set(null, "*", "i2s_vif", i2s_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
     run_test("ral_test");
+end
+
+//For Axi4-Lite
+initial begin
+  fork
+    axi4_lite_intf.generate_clk();
+    axi4_lite_intf.generate_reset();
+  join
 end
 
 // Dump waveform

@@ -20,14 +20,27 @@ class i2s_tx_config extends uvm_object;
         super.new();
     endfunction: new;
 
-     // TODO will add these in config class later 
+     
     // Parameters to control sequences of RAL
     i2s_tx_defines::data_pattern_e RAL_DATA_PATTERN    = ALL_ONES;
     bit CORE_CFG                                       = 1;    // Bit to cinfugure core
-    bit AXI_STREAM_DATA_VALID                          = 0;    // Optional if we want to make data valid on stream 
-    bit EN_DIS_INT                                     = 0;    // BIT to enable disable interrupt
-    bit RD_REGS                                        = 1;    // Bit to READ RAL REGISTERS
-    bit RD_REGS_IN_RST                                 = 1;    // BIT to read registers in reset phase
-    bit WR_RD_REGS                                     = 0;    // Bit to write and read RAL REGISTERS
+    bit AXI_STREAM_DATA_VALID                          = 1;    // Optional if we want to make data valid on stream 
+    bit EN_DIS_INT                                     = 1;    // BIT to enable disable interrupt
+
+    // Parameters to start corresponding test for RAL
+    // Use these Bits when running test ral test  
+    bit RD_REGS_IN_RST                                 = 0;    // BIT to read registers in reset phase start reset test
+    bit RD_REGS                                        = 0;    // Bit to READ RAL REGISTERS
+    bit WR_RD_REGS                                     = 0;    // Bit to write and read RAL REGISTERS Start random write values on registers or 
+                                                               // all ones or zeros on registers or random value
+    bit CORE_VER_TEST                                  = 0;    // Bit to start test for core version test 
+    bit CORE_CFG_TEST                                  = 0;    // Bit to start test for core configuration test
+    bit RD_REGS_DFT                                    = 0;    // Bit to start test for read registers default test
+    bit REG_RO_FIELDS                                  = 0;
+    bit REG_RW_FIELDS                                  = 0;
+
+    // Bits to control test cases for AXI-Stream
+    
+
 endclass
 `endif

@@ -18,6 +18,7 @@ class i2s_tx_adapter extends uvm_reg_adapter;
     // Constructor
     function new(string name = "i2s_tx_adapter");
         super.new(name);
+        supports_byte_enable = 1;
     endfunction
 
     // Function to convert reg txn to bus txn
@@ -39,7 +40,7 @@ class i2s_tx_adapter extends uvm_reg_adapter;
             tr.s_axi_ctrl_araddr  = rw.addr;
             tr.s_axi_ctrl_rready  = 1'b1;
         end
-        `uvm_info(get_type_name(), $sformatf("reg2bus: addr = %0h, data = %0h, kind = %s",  rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("reg2bus: addr = %0h, data = %0h, kind = %s",  rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_HIGH);
         return tr;
     endfunction: reg2bus
 
@@ -60,7 +61,7 @@ class i2s_tx_adapter extends uvm_reg_adapter;
                     // `uvm_error("bus2reg", $sformatf("Got status UVM NOT OKAY addr = %0h, data = %0h, kind = %s",  tr.s_axi_ctrl_awaddr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"))
                 end
             end
-            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
+            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_HIGH);
             `uvm_info("bus2reg", $sformatf("IN WRITE IF, \n%s", tr.sprint()), UVM_DEBUG)
 
         end
@@ -77,7 +78,7 @@ class i2s_tx_adapter extends uvm_reg_adapter;
                 rw.status = UVM_NOT_OK;
                 // `uvm_error("bus2reg", $sformatf("Got status UVM NOT OKAY addr = %0h, data = %0h, kind = %s",  rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"))
             end
-            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_LOW);
+            `uvm_info(get_type_name(), $sformatf("bus2reg: addr = %0h, data = %0h, kind = %s", rw.addr, rw.data, (rw.kind == UVM_READ) ? "READ" : "WRITE"), UVM_HIGH);
             `uvm_info("bus2reg", $sformatf("IN READ IF, \n%s", tr.sprint()), UVM_DEBUG)
         end
     

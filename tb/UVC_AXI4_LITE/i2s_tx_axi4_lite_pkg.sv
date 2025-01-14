@@ -16,7 +16,8 @@ package i2s_tx_axi4_lite_pkg;
 
   	// include the UVM macros
   	`include "uvm_macros.svh"
-    `include "../include/i2s_tx_config.sv"
+        // Import defines
+    import i2s_tx_defines::*;
 
     //include UVC files
     `include "i2s_tx_axi4_lite_seq_item.sv"
