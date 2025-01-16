@@ -92,7 +92,7 @@ initial begin
     uvm_config_db#(virtual i2s_tx_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_intf) :: set(null, "*", "i2s_vif", i2s_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("sanity_test");
+    run_test("axis_tvalid_test");
 end
 
 
