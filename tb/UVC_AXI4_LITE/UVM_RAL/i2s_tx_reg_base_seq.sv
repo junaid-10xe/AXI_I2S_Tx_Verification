@@ -195,11 +195,11 @@ endtask: write_rw_reg_fields
             // configure core
             `uvm_info(get_name(), "Configuring REGISTERS", UVM_LOW)
             // Optional if we want to make data valid on stream 
-            if(axi_stream_data_valid) begin
+            if(cfg.AXI_STREAM_DATA_VALID) begin
                 reg_blk.validity_reg_h.write(status, 1, UVM_FRONTDOOR); 
             end
             // Optional if want to enable disable interupts
-            if(en_dis_int) begin
+            if(cfg.EN_DIS_INT) begin
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider

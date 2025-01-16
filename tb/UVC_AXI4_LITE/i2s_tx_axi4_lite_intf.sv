@@ -144,12 +144,12 @@ interface i2s_tx_axi4_lite_intf();
     @(posedge s_axi_ctrl_aclk);
   endtask
 
-  // initial begin
-  //   fork
-  //     generate_clk();
-  //     generate_reset();
-  //   join
-  // end
+  initial begin
+    fork
+      generate_clk();
+      generate_reset();
+    join
+  end
 
 endinterface
 

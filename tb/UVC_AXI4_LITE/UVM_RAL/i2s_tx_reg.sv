@@ -380,7 +380,7 @@ class aes_chan_stat_reg0 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg0 
 
@@ -399,7 +399,7 @@ class aes_chan_stat_reg1 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg1 
 
@@ -418,7 +418,7 @@ class aes_chan_stat_reg2 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg2 
 
@@ -437,7 +437,7 @@ class aes_chan_stat_reg3 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg3 
 
@@ -456,7 +456,7 @@ class aes_chan_stat_reg4 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg4
 
@@ -475,7 +475,7 @@ class aes_chan_stat_reg5 extends uvm_reg;
         //Create Fields
         aes_val = uvm_reg_field::type_id::create("aes_val");
         //Configure fileds 
-        aes_val.configure(this, 32, 0, "W1C", 0, 0, 1, 0, 1);
+        aes_val.configure(this, 32, 0, "WC", 0, 0, 1, 0, 1);
     endfunction
 endclass: aes_chan_stat_reg5 
 

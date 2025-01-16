@@ -36,6 +36,8 @@
     `include "../scoreboard/i2s_tx_scoreboard.sv"
     `include "../env/i2s_tx_env.sv"
     `include "../test_top/i2s_tx_base_test.sv"
+    `include "../test_top/i2s_tx_tests_lib.sv"
+
  
 module i2s_tx_tb_top;
 
@@ -90,16 +92,9 @@ initial begin
     uvm_config_db#(virtual i2s_tx_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_intf) :: set(null, "*", "i2s_vif", i2s_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("ral_test");
+    run_test("sanity_test");
 end
 
-//For Axi4-Lite
-initial begin
-  fork
-    axi4_lite_intf.generate_clk();
-    axi4_lite_intf.generate_reset();
-  join
-end
 
 // Dump waveform
 initial begin 

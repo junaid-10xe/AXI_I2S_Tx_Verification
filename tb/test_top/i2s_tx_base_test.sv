@@ -50,16 +50,9 @@ class i2s_tx_base_test extends uvm_test;
         if(!uvm_config_db#(virtual i2s_tx_intf)::get(this, "*", "i2s_vif", i2s_vif)) begin
             `uvm_fatal(get_name(), "Failed to get DUT Interface from Config DB")
         end
-        // Get Config Class from Config DB
-        // if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
-            // `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
-        // end
+        // Set Config Class in Config DB
         uvm_config_db#(i2s_tx_config)::set(null, "*", "cfg", cfg);
 
-        cfg_ral_seq.core_cfg                = cfg.CORE_CFG;
-        cfg_ral_seq.axi_stream_data_valid   = cfg.AXI_STREAM_DATA_VALID;
-        cfg_ral_seq.en_dis_int              = cfg.EN_DIS_INT;
-        rst_ral_seq.rd_regs_in_rst          = cfg.RD_REGS_IN_RST;
        // env.set_report_verbosity_level(500);
     endfunction: build_phase
 
@@ -77,6 +70,7 @@ class i2s_tx_base_test extends uvm_test;
             axis_vif.reset();
             axi4_lite_vif.reset();
         join
+        rst_ral_seq.cfg                     = cfg;
         rst_ral_seq.reg_blk = env.reg_block;
         rst_ral_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);
@@ -86,6 +80,7 @@ class i2s_tx_base_test extends uvm_test;
     task configure_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        cfg_ral_seq.cfg             = cfg;
         cfg_ral_seq.reg_blk = env.reg_block;
         cfg_ral_seq.start(env.axi_agt.axi_sqnr);
         phase.drop_objection(this);

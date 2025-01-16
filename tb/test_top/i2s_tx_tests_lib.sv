@@ -26,7 +26,9 @@ class sanity_test extends i2s_tx_base_test;
         super.build_phase(phase);
         read_seq         = ral_rd_seq::type_id::create("read_seq", this);
         axis_seq         = axis_i2s_seq::type_id::create("axis_seq", this);
-        read_seq.rd_regs = cfg.RD_REGS;
+        cfg.RD_REGS      = 1;
+        read_seq.cfg     = cfg;
+        axis_seq.cfg     = cfg;
     endfunction: build_phase
     // MAIN Phase
     task main_phase(uvm_phase phase);
@@ -59,7 +61,12 @@ class ral_test extends i2s_tx_base_test;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         ral_seq      = ral_test_seq::type_id::create("ral_seq", this);
-        ral_seq.cfg             = cfg;
+        cfg.CORE_VER_TEST   = 1;
+        cfg.CORE_CFG_TEST   = 1;
+        cfg.RD_REGS_DFT     = 1;
+        cfg.REG_RO_FIELDS   = 1;
+        cfg.REG_RW_FIELDS   = 1;
+        ral_seq.cfg  = cfg;
     endfunction: build_phase
     //Run Phase
     task main_phase(uvm_phase phase);

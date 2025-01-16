@@ -32,7 +32,8 @@ package i2s_tx_params;
     localparam int AUD_MCLK_FREQUENCY             = SAMPLING_FREQUENCY * MULTIPLIER;
     localparam int AUD_MCLK_PERIOD                = (1000000000) / AUD_MCLK_FREQUENCY;      // Time Period of aud_mclk in ns
     // Calculate SCLK FREQUENCY
-    localparam int SCLK_DIVIDER_VALUE             = 1;                                                     // MCLK_FREQ/SCLK_FREQ = Divider_val*2
+    localparam int SCLK_DIVIDER_VALUE             = 6;                                                     // MCLK_FREQ/SCLK_FREQ = Divider_val*2
+    localparam int SCLK_DIV                       = SCLK_DIVIDER_VALUE*2;
     localparam int SCLK_PERIOD                    = AUD_MCLK_PERIOD*(SCLK_DIVIDER_VALUE*2);                // Time Period of SCLK in ns
     localparam int SCLK_FREQUENCY                 = 1000000000/SCLK_PERIOD;                                // Frequency of SCLK              
     

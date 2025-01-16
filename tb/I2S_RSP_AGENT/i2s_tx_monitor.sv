@@ -47,16 +47,18 @@ class i2s_tx_monitor extends uvm_monitor;
 
     // Run Phase: Monitors signals and broadcasts transactions
     task run_phase(uvm_phase phase);
-        repeat(3) @(posedge i2s_vif.lrclk_out);
+        if(i2s_tx_params::SCLK_DIVIDER_VALUE == 1) repeat(3) @(posedge i2s_vif.lrclk_out);
+        else repeat(2) @(posedge i2s_vif.lrclk_out);
         @(negedge i2s_vif.lrclk_out);
-        @(posedge i2s_vif.sclk_out);
+        wait(i2s_vif.aud_mclk);
+        repeat(i2s_tx_params::SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
         
         forever begin
             // Create transaction object
             i2s_tr = i2s_tx_seq_item::type_id::create("i2s_tr", this);
             `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
             for (int i=0; i<24; ++i) begin
-                @(posedge i2s_vif.sclk_out);
+                repeat(i2s_tx_params::SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
                 `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
 
                 // Capture DUT signals into transaction object

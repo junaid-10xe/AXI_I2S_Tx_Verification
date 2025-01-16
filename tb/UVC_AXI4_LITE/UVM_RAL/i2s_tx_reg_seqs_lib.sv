@@ -23,7 +23,7 @@ class ral_rst_rd_seq extends i2s_tx_reg_base_seq;
 
     task body();
         // Read registers in reset before configuration
-        read_reg_in_reset(rd_regs_in_rst);
+        read_reg_in_reset(cfg.RD_REGS_IN_RST);
     endtask
 endclass: ral_rst_rd_seq
 
@@ -38,7 +38,7 @@ class ral_cfg_seq extends i2s_tx_reg_base_seq;
 
     task body();
         // Configure core
-        configure_core(core_cfg);
+        configure_core(cfg.CORE_CFG);
     endtask
 endclass: ral_cfg_seq
 
@@ -53,7 +53,7 @@ class ral_rd_seq extends i2s_tx_reg_base_seq;
 
     task body();
         // Read registers
-        read_registers(rd_regs);
+        read_registers(cfg.RD_REGS);
     endtask
 endclass: ral_rd_seq
 
