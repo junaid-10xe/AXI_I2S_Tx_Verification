@@ -47,7 +47,7 @@ class i2s_tx_axis_monitor extends uvm_monitor;
     // Run Phase: Monitors signals and broadcasts transactions
     task run_phase(uvm_phase phase);
         wait(axis_vif.s_axis_aud_aresetn);
-        
+        @(posedge axis_vif.s_axis_aud_aclk);
         forever begin
 
             // Create transaction object
@@ -55,7 +55,6 @@ class i2s_tx_axis_monitor extends uvm_monitor;
             `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
             // Wait for two positive edges of the clock to stabilize signals
             @(posedge axis_vif.s_axis_aud_aclk);
-            if(`MON_AXS.s_axis_aud_tdata[3:0]==1) @(posedge axis_vif.s_axis_aud_aclk);
             // @(posedge axis_vif.s_axis_aud_aclk);
             `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
             // Capture AXI-Stream signals into transaction object
@@ -65,7 +64,7 @@ class i2s_tx_axis_monitor extends uvm_monitor;
             axis_tr.s_axis_aud_tdata  = `MON_AXS.s_axis_aud_tdata;
             `uvm_info(get_name(), "AXI-Stream signals captured into transaction object", UVM_DEBUG)
             // Broadcast valid transaction to analysis port
-            if(axis_tr.s_axis_aud_tvalid && axis_tr.s_axis_aud_tready) begin
+            if(`MON_AXS.s_axis_aud_tvalid && `MON_AXS.s_axis_aud_tready) begin
                 `uvm_info(get_name(), $sformatf("Printing transaction in AXI-Stream Monitor,\n%s", axis_tr.sprint()), UVM_LOW)
                 axis_a_port.write(axis_tr);
                 // Log transaction at the configured verbosity level

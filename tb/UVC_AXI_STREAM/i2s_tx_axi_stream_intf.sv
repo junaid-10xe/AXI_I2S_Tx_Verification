@@ -73,6 +73,7 @@ interface i2s_tx_axi_stream_intf  ();
     s_axis_aud_aresetn = 0;
     repeat(10) @(posedge s_axis_aud_aclk);
     s_axis_aud_aresetn = 1;
+    @(posedge s_axis_aud_aclk);
   endtask
 
   initial begin

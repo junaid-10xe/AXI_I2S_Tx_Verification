@@ -15,9 +15,12 @@ package i2s_tx_axis_pkg;
   	import uvm_pkg::*;
   	// include the UVM macros
   	`include "uvm_macros.svh"
+    // Import defines
+    import i2s_tx_defines::*;
     //include UVC files
     `include "i2s_tx_axis_seq_item.sv"
-    `include "i2s_tx_axis_seq.sv"
+    `include "i2s_tx_axis_base_seq.sv"
+    `include "i2s_tx_axis_seqs_lib.sv"
     `include "i2s_tx_axis_sequencer.sv"
     `include "i2s_tx_axis_monitor.sv"
     `include "i2s_tx_axis_driver.sv"

@@ -41,16 +41,14 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
     // Run phase to drive signals to DUT
     task run_phase(uvm_phase phase);
         wait(axis_vif.s_axis_aud_aresetn);
-        
+        @(posedge axis_vif.s_axis_aud_aclk);
         forever begin
             `uvm_info(get_name(), "Waiting for next transaction", UVM_DEBUG)
             seq_item_port.get_next_item(axis_tr);
 
             // Debug message to verify transaction details
             `uvm_info(get_name(), $sformatf("Received transaction: \n%s", axis_tr.sprint()), UVM_HIGH)
-
-            axis_drive();
-
+                axis_drive();
             `uvm_info(get_name(), $sformatf("Data driven to DUT from AXI-Stream Driver:\n%s", axis_tr.sprint()), UVM_LOW)
             seq_item_port.item_done();
         end
@@ -59,23 +57,21 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
     // Task to drive the AXI-Stream signals
     task axis_drive();
         // Drive only if tvalid signal is enabled
-        // if (axis_tr.s_axis_aud_tvalid) begin
             `uvm_info(get_name(), "Driving AXI-Stream signals", UVM_DEBUG)
-            @(posedge axis_vif.s_axis_aud_aclk);
+            // `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
             `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
-            `DRV_AXS.s_axis_aud_tid    <= axis_tr.s_axis_aud_tid;
             `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
+            `DRV_AXS.s_axis_aud_tid    <= axis_tr.s_axis_aud_tid;
             // Debug message before waiting for tready
             `uvm_info(get_name(), "Waiting for tready signal", UVM_DEBUG)
 
             if(axis_tr.s_axis_aud_tvalid) begin
                 wait(`DRV_AXS.s_axis_aud_tready);
-                axis_tr.s_axis_aud_tready  <= `DRV_AXS.s_axis_aud_tready;
-                // @(posedge axis_vif.s_axis_aud_aclk);
-                // `DRV_AXS.s_axis_aud_tvalid <= 0;
-                
+                axis_tr.s_axis_aud_tready = `DRV_AXS.s_axis_aud_tready;
             end
-        // end
+            @(posedge axis_vif.s_axis_aud_aclk);
+            `DRV_AXS.s_axis_aud_tvalid <= 0;
+
         `uvm_info(get_name(), "AXI-Stream data driven successfully", UVM_DEBUG)
         
     endtask: axis_drive
