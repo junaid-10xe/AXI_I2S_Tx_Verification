@@ -67,6 +67,30 @@ class i2s_tx_axi4_lite_seq_item extends uvm_sequence_item;
     rand bit                    s_axi_ctrl_rready;      // Read data ready
     bit [1:0]                   s_axi_ctrl_rresp;       // Read response
     bit [31:0]                  s_axi_ctrl_rdata;       // Read data
+
+    //Constraints 
+    // for write handshake signals
+    constraint write {
+        s_axi_ctrl_awvalid  inside {0, 1};
+        s_axi_ctrl_wvalid   == 1'b1;
+        s_axi_ctrl_bready   == 1'b1;
+    }
+    // for read handshake signals
+    constraint read {
+        s_axi_ctrl_rready  == 1'b1;
+        s_axi_ctrl_arvalid inside {0, 1};
+    }
+
+    // for Address
+    constraint addr {
+        s_axi_ctrl_awaddr inside {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                                  'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                                  'h54, 'h58, 'h5C, 'h60, 'h64}
+
+        s_axi_ctrl_awaddr inside {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                                  'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                                  'h54, 'h58, 'h5C, 'h60, 'h64}
+    }
     
 endclass: i2s_tx_axi4_lite_seq_item
 
