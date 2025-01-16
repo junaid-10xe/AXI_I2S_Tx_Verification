@@ -30,17 +30,11 @@ class i2s_tx_axis_seq_item extends uvm_sequence_item;
     endfunction: new
 
     // AXI-Stream signals for audio data transfer
-    rand i2s_tx_defines::axi_stream_data s_axis_aud_tdata;       // Audio data
-    rand i2s_tx_defines::axi_stream_tid  s_axis_aud_tid;         // Transaction ID
+    rand i2s_tx_defines::axi_stream_data      s_axis_aud_tdata;       // Audio data
+    rand i2s_tx_defines::axi_stream_tid       s_axis_aud_tid;         // Transaction ID
     rand bit                                  s_axis_aud_tvalid;      // Valid signal
     bit                                       s_axis_aud_tready;      // Ready signal
                             
-    // Constraint for valid TDATA and TID
-    
-    // constraint for tvalid to make it 1 every time 
-    // constraint axis_tvalid {
-    //     s_axis_aud_tvalid == 1;
-    // }
 
     // Constraint: Define valid values for TDATA and TID 
     constraint tdata_tid_constraint {
@@ -50,11 +44,9 @@ class i2s_tx_axis_seq_item extends uvm_sequence_item;
         s_axis_aud_tdata[31]  == 0;                                      // Parity Bit
         s_axis_aud_tdata[30]  inside {0,1};                              // Channel Status
         s_axis_aud_tdata[29]  == 0;                                      // User Bit
-        s_axis_aud_tdata[28]  == 0;                                      // Validity Bit
+        s_axis_aud_tdata[28]  inside {0, 1};                                      // Validity Bit
         
     }
-
-    
 
 endclass : i2s_tx_axis_seq_item
 
