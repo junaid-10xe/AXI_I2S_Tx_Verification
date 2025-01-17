@@ -15,7 +15,8 @@ package i2s_tx_rsp_pkg;
   	import uvm_pkg::*;
   	// include the UVM macros
   	`include "uvm_macros.svh"
-
+    // Import defines
+    import i2s_tx_defines::*;
     // include  files
     `include "i2s_tx_seq_item.sv"
     `include "i2s_tx_monitor.sv"

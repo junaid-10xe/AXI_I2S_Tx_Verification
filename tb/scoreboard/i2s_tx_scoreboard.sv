@@ -27,6 +27,8 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    i2s_tx_axis_seq_item                axis_tr;
    i2s_tx_axi4_lite_seq_item           axi_tr;
    i2s_tx_seq_item                     i2s_tr;
+   //Handle of configure class
+   i2s_tx_config                        cfg;
 
    //Variable to store previous tdata
    bit[31:0]                           prev_tdata;
@@ -44,6 +46,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
       i2s_imp  = new("i2s_imp", this);
    endfunction: new
 
+   // Build Phase to get cfg class
+   function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
+         `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
+     end
+   endfunction: build_phase
+   
    //Queue to capture axi-stream transactions
    i2s_tx_axis_seq_item     axis_pkts[$];
    //Variable to count number of transaction
@@ -82,7 +92,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
 
          
       if(prev_tdata != axis_cln.s_axis_aud_tdata ) begin
-         if(axis_cln.s_axis_aud_tdata[28]==0) begin
+         if(axis_cln.s_axis_aud_tdata[28]==0 || cfg.AXI_STREAM_DATA_VALID == 1) begin
             if((valid_pkt == 1) || count == 0 ) begin
                axis_pkts.push_front(axis_cln);
                prev_tdata = axis_cln.s_axis_aud_tdata;
@@ -114,7 +124,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
                `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_NONE)
                `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
             end
-         `uvm_info(get_name(), $sformatf("AXI-Stream Transaction  prev_tid %0d count %0d   valid_pkt %0d", prev_tid, count, valid_pkt), UVM_NONE)
+         `uvm_info(get_name(), $sformatf("AXI-Stream Transaction  prev_tid %0d count %0d   valid_pkt %0d", prev_tid, count, valid_pkt), UVM_HIGH)
       end
       else begin
          prev_tdata = axis_cln.s_axis_aud_tdata;
@@ -132,21 +142,42 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
 
    // Write method for i2s imp port
    virtual function void write_i2s_port(i2s_tx_seq_item i2s_tr);
-      // TODO Logic
-      i2s_tx_axis_seq_item  axis_tr0;
+      i2s_tx_axis_seq_item  axis_tr_d;
       if (axis_pkts.size() == 0) begin
           `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
       end
-      axis_tr0 = axis_pkts.pop_back();
+      axis_tr_d = axis_pkts.pop_back();
       `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
-      `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr0.sprint()), UVM_NONE)
-      if(axis_tr0.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out) begin
-         `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr0.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out), UVM_NONE)
-         
+      `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_NONE)
+      if(cfg.RIGHT_JUSTICATION) begin
+         if(axis_tr_d.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out[23:0]) begin
+            `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[23:0]), UVM_NONE)
+            
+         end
+         else begin
+            `uvm_error(get_name(), $sformatf("TEST FAILED DATA MISMATCHED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[23:0]))
+            
+         end      
+      end
+      else if (cfg.LEFT_JUSTICATION) begin
+         if(axis_tr_d.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out[31:8]) begin
+            `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[31:8]), UVM_NONE)
+            
+         end
+         else begin
+            `uvm_error(get_name(), $sformatf("TEST FAILED DATA MISMATCHED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[31:8]))
+            
+         end   
       end
       else begin
-         `uvm_error(get_name(), $sformatf("TEST FAILED DATA MISMATCHED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr0.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out))
-         
+         if(axis_tr_d.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out) begin
+            `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out), UVM_NONE)
+            
+         end
+         else begin
+            `uvm_error(get_name(), $sformatf("TEST FAILED DATA MISMATCHED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out))
+            
+         end
       end
    endfunction
 endclass

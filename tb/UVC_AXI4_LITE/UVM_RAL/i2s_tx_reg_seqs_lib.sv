@@ -115,4 +115,55 @@ class ral_test_seq extends i2s_tx_reg_base_seq;
 
 endclass
 
+
+//Class RAL seq to read interrupt status register forever 
+class intrpt_ctrl_test_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(intrpt_ctrl_test_seq)
+    // Constructor 
+    function new (string name = "intrpt_ctrl_test_seq");
+        super.new(name);
+    endfunction
+
+    // Task body 
+    task body();
+        forever begin
+            i2s_tx_defines::reg_data   actual_val;     // read value
+            reg_blk.intrpt_stat_reg_h.read(status, actual_val, UVM_FRONTDOOR);
+        end
+    endtask
+
+endclass: intrpt_ctrl_test_seq
+
+//Class seq to read interrupt status register in forever and if interrupy occur write with 1 to clear the bit 
+class intrpt_stat_test_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(intrpt_stat_test_seq)
+    // Constructor 
+    function new (string name = "intrpt_stat_test_seq");
+        super.new(name);
+    endfunction
+
+    // Task body 
+    task body();
+        forever begin
+            i2s_tx_axi4_lite_seq_item           req;                     // Transaction handle
+            i2s_tx_axi4_lite_seq_item           rsp;                     // Transaction handle
+            
+            if (cfg.INTRPT_STAT_TEST) begin
+                `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h14;
+                                   req.s_axi_ctrl_arvalid == 1;
+                                   req.s_axi_ctrl_awvalid == 0;})
+            end
+            if(req.s_axi_ctrl_rdata != 0) begin
+                `uvm_do_with(rsp, {rsp.s_axi_ctrl_awaddr  == 'h14;
+                                   rsp.s_axi_ctrl_awvalid == 1;
+                                   rsp.s_axi_ctrl_wdata   == 32'hFFFFFFFF;
+                                   rsp.s_axi_ctrl_arvalid == 0;})
+            end
+
+        end
+    endtask
+
+endclass: intrpt_stat_test_seq
+
+
 `endif

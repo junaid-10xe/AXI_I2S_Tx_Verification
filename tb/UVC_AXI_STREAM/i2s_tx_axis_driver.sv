@@ -48,6 +48,7 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
 
             // Debug message to verify transaction details
             `uvm_info(get_name(), $sformatf("Received transaction: \n%s", axis_tr.sprint()), UVM_HIGH)
+                @(posedge axis_vif.s_axis_aud_aclk);
                 axis_drive();
             `uvm_info(get_name(), $sformatf("Data driven to DUT from AXI-Stream Driver:\n%s", axis_tr.sprint()), UVM_LOW)
             seq_item_port.item_done();
@@ -56,9 +57,8 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
 
     // Task to drive the AXI-Stream signals
     task axis_drive();
-        // Drive only if tvalid signal is enabled
             `uvm_info(get_name(), "Driving AXI-Stream signals", UVM_DEBUG)
-            // `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
+            @(posedge axis_vif.s_axis_aud_aclk);
             `DRV_AXS.s_axis_aud_tvalid <= axis_tr.s_axis_aud_tvalid;
             `DRV_AXS.s_axis_aud_tdata  <= axis_tr.s_axis_aud_tdata;
             `DRV_AXS.s_axis_aud_tid    <= axis_tr.s_axis_aud_tid;

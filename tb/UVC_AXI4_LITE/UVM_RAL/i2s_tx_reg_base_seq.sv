@@ -205,7 +205,9 @@ endtask: write_rw_reg_fields
             //Set value for sclk divider
             reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_params::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
             //Enable core
-            reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);
+            if(cfg.LEFT_JUSTICATION) reg_blk.control_reg_h.write(status, 3, UVM_FRONTDOOR);             // Left Justification
+            else if(cfg.RIGHT_JUSTICATION) reg_blk.control_reg_h.write(status, 7, UVM_FRONTDOOR);       // Right Justification
+            else reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);                                 // Default with no justification
             `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_params::AUD_MCLK_FREQUENCY, i2s_tx_params::AUD_MCLK_PERIOD), UVM_NONE)
             `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_params::SCLK_FREQUENCY, i2s_tx_params::SCLK_PERIOD), UVM_NONE)
             

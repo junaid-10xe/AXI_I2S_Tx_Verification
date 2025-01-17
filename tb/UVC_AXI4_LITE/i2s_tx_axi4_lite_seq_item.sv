@@ -83,13 +83,13 @@ class i2s_tx_axi4_lite_seq_item extends uvm_sequence_item;
 
     // for Address
     constraint addr {
-        s_axi_ctrl_awaddr inside {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+        s_axi_ctrl_araddr inside {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
                                   'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                                  'h54, 'h58, 'h5C, 'h60, 'h64}
+                                  'h54, 'h58, 'h5C, 'h60, 'h64};
 
         s_axi_ctrl_awaddr inside {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
                                   'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                                  'h54, 'h58, 'h5C, 'h60, 'h64}
+                                  'h54, 'h58, 'h5C, 'h60, 'h64};
     }
     
 endclass: i2s_tx_axi4_lite_seq_item

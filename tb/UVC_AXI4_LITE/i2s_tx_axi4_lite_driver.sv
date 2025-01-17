@@ -18,7 +18,8 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
     `uvm_component_utils(i2s_tx_axi4_lite_driver)
 
     
-    i2s_tx_axi4_lite_seq_item axi4_tr;                     // Transaction handle
+    // Handle for configuration Class
+    i2s_tx_config       cfg;                          // Configuration handle
 
     // Constructor: Initializes the driver component with the given name and parent.
     function new(string name = "i2s_tx_axi4_lite_driver", uvm_component parent);
@@ -26,7 +27,7 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
     endfunction: new
 
     // Virtual interface handle for AXI4-Lite
-    virtual i2s_tx_axi4_lite_intf axi4_lite_vif;           // AXI4-Lite interface to the DUT
+    virtual i2s_tx_axi4_lite_intf       axi4_lite_vif;           // AXI4-Lite interface to the DUT
 
     // Build Phase: Retrieves the AXI4-Lite virtual interface from the configuration database.
     function void build_phase(uvm_phase phase);
@@ -35,28 +36,44 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
         if(!uvm_config_db#(virtual i2s_tx_axi4_lite_intf)::get(this, "*", "axi4_lite_vif", axi4_lite_vif)) begin
             `uvm_fatal(get_name(), "Failed to get AXI4-Lite Interface from Config DB")
         end
+        // Get the configuration handle from the configuration database
+        if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
+            `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
+        end
     endfunction: build_phase
     
     // Run Phase: Executes the transaction by calling write and read tasks in parallel.
     task run_phase(uvm_phase phase);
         wait(axi4_lite_vif.s_axi_ctrl_aresetn);
         forever begin
-            // Get next transaction item from sequencer
-            seq_item_port.get_next_item(axi4_tr);
+            i2s_tx_axi4_lite_seq_item           req;                     // Transaction handle
+            i2s_tx_axi4_lite_seq_item           rsp;                     // Transaction handle
+                // Get next transaction item from sequencer
+            if(cfg.INTRPT_STAT_TEST) begin
+                seq_item_port.get_next_item(req);
+                // Fork two tasks: write and read to the DUT
+                fork
+                    write(req);
+                    read(req);
+                join
+                // Mark the item as completed
+                seq_item_port.item_done();
+    
+            end
+            seq_item_port.get_next_item(rsp);
             // Fork two tasks: write and read to the DUT
             fork
-                write();
-                read();
+                write(rsp);
+                read(rsp);
             join
             // Mark the item as completed
             seq_item_port.item_done();
-
         end
         
     endtask: run_phase
 
-    // Write task: Sends a write operation to the DUT using the AXI4-Lit
-    task write();
+    // Write task: Sends a write operation to the DUT using the AXI4-Lite
+    task write(input i2s_tx_axi4_lite_seq_item axi4_tr);
         `uvm_info(get_name(), "Starting Write Task...", UVM_LOW)
             `uvm_info(get_name(), "Before Address Channel...", UVM_HIGH)
 
@@ -84,8 +101,8 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
                 // Wait for BVALID (acknowledgment from DUT)
                 wait(`DRV_AX.s_axi_ctrl_bvalid);
                 `DRV_AX.s_axi_ctrl_bready  <= 1;
-                axi4_tr.s_axi_ctrl_bvalid  <= `DRV_AX.s_axi_ctrl_bvalid;
-                axi4_tr.s_axi_ctrl_bresp   <= `DRV_AX.s_axi_ctrl_bresp;
+                axi4_tr.s_axi_ctrl_bvalid   = `DRV_AX.s_axi_ctrl_bvalid;
+                axi4_tr.s_axi_ctrl_bresp    = `DRV_AX.s_axi_ctrl_bresp;
                 @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
                 `DRV_AX.s_axi_ctrl_bready  <= 0;
                 `DRV_AX.s_axi_ctrl_wvalid  <= 0;  
@@ -99,7 +116,7 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
     endtask: write
 
     // Read task: Sends a read operation to the DUT using the AXI4-Lit
-    task read();
+    task read(input i2s_tx_axi4_lite_seq_item axi4_tr);
         `uvm_info(get_name(), "Starting Read Task...", UVM_LOW)
         // Read Address Channel
         // Drive the read address signal (ARADDR)
