@@ -74,14 +74,14 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
 
     // Write task: Sends a write operation to the DUT using the AXI4-Lite
     task write(input i2s_tx_axi4_lite_seq_item axi4_tr);
-        `uvm_info(get_name(), "Starting Write Task...", UVM_LOW)
-            `uvm_info(get_name(), "Before Address Channel...", UVM_HIGH)
+        `uvm_info(get_name(), "Starting Write Task...", UVM_HIGH)
+            `uvm_info(get_name(), "Before Address Channel...", UVM_DEBUG)
 
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
             //Write Address Channel
             `DRV_AX.s_axi_ctrl_awvalid <= axi4_tr.s_axi_ctrl_awvalid;
             `DRV_AX.s_axi_ctrl_awaddr  <= axi4_tr.s_axi_ctrl_awaddr;
-            `uvm_info(get_name(), "After Address Channel...", UVM_HIGH)
+            `uvm_info(get_name(), "After Address Channel...", UVM_DEBUG)
         if (axi4_tr.s_axi_ctrl_awvalid) begin
 
             wait(`DRV_AX.s_axi_ctrl_awready);  
@@ -90,14 +90,14 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
             `DRV_AX.s_axi_ctrl_awvalid <= 0;
             //Write DATA Channel
-            `uvm_info(get_name(), "BEFORE DATA Channel...", UVM_HIGH)
+            `uvm_info(get_name(), "BEFORE DATA Channel...", UVM_DEBUG)
             `DRV_AX.s_axi_ctrl_wvalid  <= axi4_tr.s_axi_ctrl_wvalid;
             `DRV_AX.s_axi_ctrl_wdata   <= axi4_tr.s_axi_ctrl_wdata;
             // Wait for WREADY (acknowledgment from DUT)
             if (axi4_tr.s_axi_ctrl_wvalid) begin
 
                 wait(`DRV_AX.s_axi_ctrl_wready);
-                `uvm_info(get_name(), "After DATA Channel...", UVM_HIGH)
+                `uvm_info(get_name(), "After DATA Channel...", UVM_DEBUG)
                 // Wait for BVALID (acknowledgment from DUT)
                 wait(`DRV_AX.s_axi_ctrl_bvalid);
                 `DRV_AX.s_axi_ctrl_bready  <= 1;
@@ -106,18 +106,18 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
                 @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
                 `DRV_AX.s_axi_ctrl_bready  <= 0;
                 `DRV_AX.s_axi_ctrl_wvalid  <= 0;  
-                `uvm_info(get_name(), "After RESP Channel...", UVM_LOW)
-                `uvm_info(get_name(), $sformatf("Data Driven to DUT IN WRITE, \n%s", axi4_tr.sprint()), UVM_LOW);               
+                `uvm_info(get_name(), "After RESP Channel...", UVM_DEBUG)
+                `uvm_info(get_name(), $sformatf("Data Driven to DUT IN WRITE, \n%s", axi4_tr.sprint()), UVM_HIGH);               
             end
         end
-        `uvm_info(get_name(), "Leaving Write Task...", UVM_LOW)
+        `uvm_info(get_name(), "Leaving Write Task...", UVM_HIGH)
 
         
     endtask: write
 
     // Read task: Sends a read operation to the DUT using the AXI4-Lit
     task read(input i2s_tx_axi4_lite_seq_item axi4_tr);
-        `uvm_info(get_name(), "Starting Read Task...", UVM_LOW)
+        `uvm_info(get_name(), "Starting Read Task...", UVM_HIGH)
         // Read Address Channel
         // Drive the read address signal (ARADDR)
             @(posedge axi4_lite_vif.s_axi_ctrl_aclk);
@@ -138,10 +138,10 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
                 axi4_tr.s_axi_ctrl_rvalid   = `DRV_AX.s_axi_ctrl_rvalid;
                 axi4_tr.s_axi_ctrl_rresp    = `DRV_AX.s_axi_ctrl_rresp;
                 `DRV_AX.s_axi_ctrl_rready   <= 0;
-                `uvm_info(get_name(), $sformatf("Data Driven to DUT IN READ, \n%s", axi4_tr.sprint()), UVM_LOW);               
+                `uvm_info(get_name(), $sformatf("Data Driven to DUT IN READ, \n%s", axi4_tr.sprint()), UVM_HIGH);               
             end
         end 
-        `uvm_info(get_name(), "Leaving Read Task...", UVM_LOW)
+        `uvm_info(get_name(), "Leaving Read Task...", UVM_HIGH)
 
 
     endtask: read

@@ -67,7 +67,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
          `uvm_error(get_name(), "Failed to cast axis_tr");
       end
 
-      // Logic to store valid transactions in queue 
+      
       if(prev_tid == 0 && axis_cln.s_axis_aud_tid == 1) begin
          valid_pkt   = 1;
          invalid_pkt = 0;
@@ -89,15 +89,16 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
          prev_tid    = 1;
          invalid_pkt = 0;
       end
-
          
       if(prev_tdata != axis_cln.s_axis_aud_tdata ) begin
+            // Logic to store valid transactions in queue 
+         
          if(axis_cln.s_axis_aud_tdata[28]==0 || cfg.AXI_STREAM_DATA_VALID == 1) begin
             if((valid_pkt == 1) || count == 0 ) begin
                axis_pkts.push_front(axis_cln);
                prev_tdata = axis_cln.s_axis_aud_tdata;
                count++;
-               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_NONE)
+               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
                `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
             end
             else if (valid_pkt == 0 && invalid_pkt == 0) begin
@@ -121,7 +122,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
                if (drop_pkt) axis_pkts.push_front(axis_cln);
                else repeat(3) axis_pkts.push_front(axis_cln);
    
-               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_NONE)
+               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
                `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
             end
          `uvm_info(get_name(), $sformatf("AXI-Stream Transaction  prev_tid %0d count %0d   valid_pkt %0d", prev_tid, count, valid_pkt), UVM_HIGH)
@@ -147,8 +148,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
           `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
       end
       axis_tr_d = axis_pkts.pop_back();
+      output_checker(i2s_tr, axis_tr_d);
       `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
-      `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_NONE)
+      `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
+      
+   endfunction
+
+   // Checker function
+   function void output_checker(input i2s_tx_seq_item i2s_tr, input i2s_tx_axis_seq_item axis_tr_d);
       if(cfg.RIGHT_JUSTICATION) begin
          if(axis_tr_d.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out[23:0]) begin
             `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[23:0]), UVM_NONE)

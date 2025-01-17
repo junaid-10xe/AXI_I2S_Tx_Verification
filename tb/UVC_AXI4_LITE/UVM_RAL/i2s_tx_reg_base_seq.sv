@@ -90,7 +90,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         i2s_tx_defines::reg_data   write_val;
             // get write value according to pattern
             get_write_val(write_val, data_pattern);
-            `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+            `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_HIGH)
             // write value to register
             reg_h.write(status, write_val);
             if(status != UVM_IS_OK) begin   
@@ -110,7 +110,7 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
         uvm_reg_field              fields[$];      // Queue to get reg fields
         // get write value according to pattern
         get_write_val(write_val, data_pattern);
-        `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+        `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_HIGH)
         // write value to register
         reg_h.get_fields(fields);
             foreach(fields[i]) begin
@@ -145,7 +145,7 @@ task write_rw_reg_fields(input uvm_reg reg_h,
     uvm_reg_field              fields[$];      // Queue to get reg fields
     // get write value according to pattern
     get_write_val(write_val, data_pattern);
-    `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_LOW)
+    `uvm_info(get_name(), $sformatf("WRITE VAL is %0h :: DATA PATTERN IS :: %0h", write_val, data_pattern), UVM_HIGH)
     // write value to register
     reg_h.get_fields(fields);
         foreach(fields[i]) begin

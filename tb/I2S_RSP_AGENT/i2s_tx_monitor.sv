@@ -59,8 +59,8 @@ class i2s_tx_monitor extends uvm_monitor;
             i2s_tr = i2s_tx_seq_item::type_id::create("i2s_tr", this);
             `uvm_info(get_name(), "Transaction object created", UVM_DEBUG)
             drive();
-            `uvm_info(get_name(), "DUT signals captured into transaction object", UVM_LOW)
-            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", i2s_tr.sprint()), UVM_LOW)    
+            `uvm_info(get_name(), "DUT signals captured into transaction object", UVM_DEBUG)
+            `uvm_info(get_name(), $sformatf("Printing transaction in DUT Monitor,\n%s", i2s_tr.sprint()), UVM_HIGH)    
             i2s_a_port.write(i2s_tr);
             // Log transaction at the configured verbosity level
         end

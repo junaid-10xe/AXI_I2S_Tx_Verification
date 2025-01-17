@@ -47,10 +47,10 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
             seq_item_port.get_next_item(axis_tr);
 
             // Debug message to verify transaction details
-            `uvm_info(get_name(), $sformatf("Received transaction: \n%s", axis_tr.sprint()), UVM_HIGH)
+            `uvm_info(get_name(), $sformatf("Received transaction: \n%s", axis_tr.sprint()), UVM_DEBUG)
                 @(posedge axis_vif.s_axis_aud_aclk);
                 axis_drive();
-            `uvm_info(get_name(), $sformatf("Data driven to DUT from AXI-Stream Driver:\n%s", axis_tr.sprint()), UVM_LOW)
+            `uvm_info(get_name(), $sformatf("Data driven to DUT from AXI-Stream Driver:\n%s", axis_tr.sprint()), UVM_HIGH)
             seq_item_port.item_done();
         end
     endtask: run_phase

@@ -87,12 +87,12 @@ i2s_transmitter_0 DUT (
 
 // Set interfaces in config db and start test
 initial begin
-    `uvm_info("tb_top", "Setting Interfaces", UVM_NONE)
+    `uvm_info("tb_top", "Setting Interfaces", UVM_DEBUG)
     uvm_config_db#(virtual i2s_tx_axi4_lite_intf) :: set(null, "*", "axi4_lite_vif", axi4_lite_intf);
     uvm_config_db#(virtual i2s_tx_axi_stream_intf):: set(null, "*", "axis_vif", axis_intf);
     uvm_config_db#(virtual i2s_tx_intf) :: set(null, "*", "i2s_vif", i2s_intf);
     `uvm_info("tb_top", "Starting test", UVM_NONE)
-    run_test("intrpt_stat_test");
+    run_test("sanity_test");
 end
 
 

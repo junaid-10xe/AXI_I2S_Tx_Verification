@@ -65,7 +65,7 @@ class i2s_tx_axis_monitor extends uvm_monitor;
             `uvm_info(get_name(), "AXI-Stream signals captured into transaction object", UVM_DEBUG)
             // Broadcast valid transaction to analysis port
             if(`MON_AXS.s_axis_aud_tvalid && `MON_AXS.s_axis_aud_tready) begin
-                `uvm_info(get_name(), $sformatf("Printing transaction in AXI-Stream Monitor,\n%s", axis_tr.sprint()), UVM_LOW)
+                `uvm_info(get_name(), $sformatf("Printing transaction in AXI-Stream Monitor,\n%s", axis_tr.sprint()), UVM_HIGH)
                 axis_a_port.write(axis_tr);
                 // Log transaction at the configured verbosity level
             end

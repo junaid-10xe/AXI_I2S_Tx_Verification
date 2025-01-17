@@ -45,7 +45,7 @@ class i2s_tx_reg_blk extends uvm_reg_block;
     // build function
     virtual function void build();
         default_map = create_map("default_map", 0, 4, UVM_LITTLE_ENDIAN, 0);
-        `uvm_info(get_name(), "Creating registers", UVM_NONE)
+        `uvm_info(get_name(), "Creating registers", UVM_DEBUG)
         
         // Create build and configure registers
         core_version_reg_h      = core_version_reg::type_id::create("core_version_reg_h");
@@ -65,7 +65,7 @@ class i2s_tx_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg3_h    = aes_chan_stat_reg3::type_id::create("aes_chan_stat_reg3_h");
         aes_chan_stat_reg4_h    = aes_chan_stat_reg4::type_id::create("aes_chan_stat_reg4_h");
         aes_chan_stat_reg5_h    = aes_chan_stat_reg5::type_id::create("aes_chan_stat_reg5_h");
-        `uvm_info(get_name(), "Built now configuring registers", UVM_NONE)
+        `uvm_info(get_name(), "Built now configuring registers", UVM_DEBUG)
 
         // Configure registers
         core_version_reg_h.configure(this, null);
@@ -85,7 +85,7 @@ class i2s_tx_reg_blk extends uvm_reg_block;
         aes_chan_stat_reg3_h.configure(this, null);
         aes_chan_stat_reg4_h.configure(this, null);
         aes_chan_stat_reg5_h.configure(this, null);
-        `uvm_info(get_name(), "Created now building registers", UVM_NONE)
+        `uvm_info(get_name(), "Created now building registers", UVM_DEBUG)
 
         // build registers
         core_version_reg_h.build();
