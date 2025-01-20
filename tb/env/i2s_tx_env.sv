@@ -31,9 +31,13 @@ class i2s_tx_env extends uvm_env;
     // Handle for predictor 
     uvm_reg_predictor #(i2s_tx_axi4_lite_seq_item) predictor;
 
-    //Handle for Scoreboard
+    // Handle for Scoreboard
     i2s_tx_scoreboard               sco;
-
+    // Handle for coverage
+    axi4_coverage            axi4_cov;
+    axi_stream_coverage      axis_cov;
+    // Handle of config class
+    i2s_tx_config                   cfg;
 
     // Constructor: new
     // Initializes the environment component by calling the parent constructor
@@ -63,6 +67,10 @@ class i2s_tx_env extends uvm_env;
         if (i2s_agt == null) begin
             `uvm_fatal(get_name(), "Failed to create DUT agent")
         end
+        // Get Config class from from CONFIG DB
+        if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
+            `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
+        end
         // Create Reg block 
         reg_block = i2s_tx_reg_blk::type_id::create("reg_block", this);
         reg_block.build();
@@ -77,8 +85,12 @@ class i2s_tx_env extends uvm_env;
         sco = i2s_tx_scoreboard::type_id::create("sco", this);
         if (sco == null) begin
             `uvm_fatal(get_name(), "Failed to create Scoreboard")
-            end
-
+        end
+        // Create Coverage classes
+        if(cfg.COVERAGE_COLLECT) begin
+            axi4_cov = axi4_coverage::type_id::create("axi4_cov", this);
+            axis_cov = axi_stream_coverage::type_id::create("axis_cov", this);
+        end
     endfunction: build_phase
 
     // Connect Phase
@@ -99,6 +111,11 @@ class i2s_tx_env extends uvm_env;
         axis_agt.axis_mon.axis_a_port.connect(sco.axis_imp);
         i2s_agt.i2s_mon.i2s_a_port.connect(sco.i2s_imp);
 
+        // Connect Coverage classes with respective monitors analysis ports if coverage collection is enabled
+        if(cfg.COVERAGE_COLLECT) begin
+            axi_agt.axi_mon.axi_a_port.connect(axi4_cov.analysis_export);
+            axis_agt.axis_mon.axis_a_port.connect(axis_cov.analysis_export);
+        end
     endfunction: connect_phase
     
 endclass: i2s_tx_env
