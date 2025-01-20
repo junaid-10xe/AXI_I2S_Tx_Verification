@@ -34,6 +34,7 @@
     
     // Include files
     `include "../scoreboard/i2s_tx_scoreboard.sv"
+    `include "../coverage/i2s_tx_coverage.sv"
     `include "../env/i2s_tx_env.sv"
     `include "../test_top/i2s_tx_base_test.sv"
     `include "../test_top/i2s_tx_tests_lib.sv"

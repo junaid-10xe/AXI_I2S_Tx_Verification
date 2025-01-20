@@ -28,12 +28,18 @@ class i2s_tx_config extends uvm_object;
     bit EN_DIS_INT                                     = 0;    // BIT to enable disable interrupt
 
     // Configuration for axi-stream
-    int NUM_TRANS                                     = 200;
+    int NUM_TRANS                                     = 100;
     bit LEFT_JUSTICATION                              = 0;
     bit RIGHT_JUSTICATION                             = 0;
 
+    // Bit to enable diable checker in scorboard
+    bit EN_CHECKER                                   = 1;
+
     //bit to control slave sequence in axi4-lite interface by default it will be zero
     bit INTRPT_STAT_TEST                              = 0;
+
+    // bit to control coverage collection by default 1
+    bit COVERAGE_COLLECT                              = 1;
     // Parameters to start corresponding test for RAL
     // Use these Bits when running test ral test  
     bit RD_REGS_IN_RST                                 = 0;    // BIT to read registers in reset phase start reset test
