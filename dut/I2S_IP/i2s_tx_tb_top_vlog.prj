@@ -1,12 +1,12 @@
 # compile verilog/system verilog design source files
 sv xil_defaultlib  --include "/home/lpt-10xe/Vivado/Vivado/2022.1/data/xilinx_vip/include" \
-"/home/lpt-10xe/10xTraining/TCP/dut/I2S_IP/i2s_transmitter_0/sim/i2s_transmitter_0.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/include/i2s_tx_params.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/include/i2s_tx_defines.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI_STREAM/i2s_tx_axis_pkg.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/UVC_AXI4_LITE/i2s_tx_axi4_lite_pkg.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/I2S_RSP_AGENT/i2s_tx_rsp_pkg.sv" \
-"/home/lpt-10xe/10xTraining/TCP/tb/top/i2s_tx_tb_top.sv" \
+"i2s_transmitter_0/sim/i2s_transmitter_0.sv" \
+"../../tb/include/i2s_tx_params.sv" \
+"../../tb/include/i2s_tx_defines.sv" \
+"../../tb/UVC_AXI_STREAM/i2s_tx_axis_pkg.sv" \
+"../../tb/UVC_AXI4_LITE/i2s_tx_axi4_lite_pkg.sv" \
+"../../tb/I2S_RSP_AGENT/i2s_tx_rsp_pkg.sv" \
+"../../tb/top/i2s_tx_tb_top.sv" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"

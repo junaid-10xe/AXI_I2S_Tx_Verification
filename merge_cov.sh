@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-COV_DIR="./home/lpt-10xe/10xTraining/TCP/Coverage/xsim.covdb"  # Base directory for individual coverage databases
+COV_DIR="/home/lpt-10xe/10xTraining/TCP/Coverage/xsim.covdb"  # Base directory for individual coverage databases
 MERGE_DIR="./coverage_merged"                                # Directory for merged coverage database
 REPORT_DIR="./coverage_report"                               # Directory for coverage report
 MERGE_DB_NAME="merged_coverage"                              # Name for the merged database

@@ -57,9 +57,9 @@
 <td nowrap width=80 bgcolor='#BCC6CC'>Comment</td>
 </tr>
 <tr>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#98FF98'>90</td>
 <td bgcolor='#FFFFFF'>1</td>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#98FF98'>90</td>
 <td bgcolor='#FFFFFF'>1</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>0</td>
@@ -92,7 +92,7 @@
 </tr>
 <tr>
 <td nowrap width=80 bgcolor='#FFFFFF'><button class='tooltip1' onclick="openInst(1); smoothScroll(document.getElementById('inst_tag_obj.axi4lite_read_cg'));"> obj.axi ...<span class='tooltiptext1'>obj.axi4lite_read_cg</span> </button></td>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#98FF98'>90</td>
 <td bgcolor='#FFFFFF'>1</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>1</td>
@@ -126,7 +126,7 @@
 <td nowrap width=65 bgcolor='#BCC6CC'>Comment</td>
 </tr>
 <tr>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#98FF98'>90</td>
 <td bgcolor='#FFFFFF'>1</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>1</td>
@@ -162,10 +162,10 @@
 <tr>
 <td bgcolor='#FFFFFF'>2</td>
 <td bgcolor='#FFFFFF'>Crosses</td>
-<td bgcolor='#FFFFFF'>2</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>2</td>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>4</td>
+<td bgcolor='#FFD2D2'>1</td>
+<td bgcolor='#FFFFFF'>3</td>
+<td bgcolor='#FFFFC2'>75</td>
 </tr>
 </table>
 </div>
@@ -243,9 +243,9 @@
 <tr>
 <td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('obj.axi4lite_read_cg_raddr_x_rresp').click();"> raddr_x ...<span class='tooltiptext5'>raddr_x_rresp</span> </button></td>
 <td bgcolor='#FFFFFF'>2</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>2</td>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFD2D2'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFC2'>50</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>1</td>
 <td bgcolor='#FFFFFF'>1</td>
@@ -253,10 +253,10 @@
 </tr>
 <tr>
 <td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('obj.axi4lite_read_cg_rand_raddr_x_rresp').click();"> rand_ra ...<span class='tooltiptext5'>rand_raddr_x_rresp</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>0</td>
-<td bgcolor='#FF0000'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>1</td>
 <td bgcolor='#FFFFFF'>1</td>
@@ -548,48 +548,37 @@
 <tr>
 <td nowrap width=80 style='font-size:10px'> Total </td>
 <td>2</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>2</td>
-<td bgcolor='#98FF98'>100</td>
-</tr>
-<tr bgcolor='#FFFFFF'>
-<td nowrap width=90 style='font-size:10px'>Auto Generated Bins</td>
-<td>1</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>1</td>
-<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFD2D2'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFC2'>50</td>
 </tr>
 <tr bgcolor='#FFFFFF'>
 <td nowrap width=90 style='font-size:10px'>User Defined Bins</td>
-<td>1</td>
-<td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>1</td>
-<td bgcolor='#98FF98'>100</td>
-</tr>
-</table>
-</div>
-<br clear=all>
-<span style='font-size:12px'>Automatically Generated Bins for Group Cross Point - obj.axi4lite_read_cg :: raddr_x_rresp</span>
-<br clear=all>
-<button class='bintable2'> Covered bins </button>
-<div class='bintablecontent2'>
-<table class='crosstable' align=left>
-<tr bgcolor='#E5E4E2'>
-<td nowrap width=50>raddr</td>
-<td nowrap width=50>rresp</td>
-<td nowrap width=50>Hit Count</td>
-<td nowrap width=50>At least</td>
-</tr>
-<tr bgcolor='#98FF98'>
-<td>rand_addr</td>
-<td>ok_resp</td>
-<td>358493</td>
-<td>1</td>
+<td>2</td>
+<td bgcolor='#FFD2D2'>1</td>
+<td bgcolor='#FFFFC2'>1</td>
+<td bgcolor='#FFFFC2'>50</td>
 </tr>
 </table>
 </div>
 <br clear=all>
 <span style='font-size:12px'>User Generated Bins for Group Cross Point - obj.axi4lite_read_cg :: raddr_x_rresp</span>
+<br clear=all>
+<button class='bintable1'> Uncovered bins </button>
+<div class='bintablecontent1'>
+<table class='crosstable' align=left>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50>Name</td>
+<td nowrap width=50>Hit Count</td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#FFD2D2'>
+<td>addr_rresp_err</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</table>
+</div>
 <br clear=all>
 <button class='bintable2'> Covered bins </button>
 <div class='bintablecontent2'>
@@ -628,10 +617,40 @@
 </tr>
 <tr>
 <td nowrap width=80 style='font-size:10px'> Total </td>
-<td>0</td>
+<td>2</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>0</td>
-<td bgcolor='#FF0000'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=90 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Group Cross Point - obj.axi4lite_read_cg :: rand_raddr_x_rresp</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table class='crosstable' align=left>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50>Name</td>
+<td nowrap width=50>Hit Count</td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>rand_addr_rresp_err</td>
+<td>96</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>rand_addr_rresp_ok</td>
+<td>358493</td>
+<td>1</td>
 </tr>
 </table>
 </div>

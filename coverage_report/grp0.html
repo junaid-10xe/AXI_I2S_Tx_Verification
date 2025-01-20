@@ -160,11 +160,11 @@
 <td bgcolor='#98FF98'>100</td>
 </tr>
 <tr>
-<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>2</td>
 <td bgcolor='#FFFFFF'>Crosses</td>
-<td bgcolor='#FFFFFF'>3</td>
+<td bgcolor='#FFFFFF'>6</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>3</td>
+<td bgcolor='#98FF98'>6</td>
 <td bgcolor='#98FF98'>100</td>
 </tr>
 </table>
@@ -242,9 +242,20 @@
 </tr>
 <tr>
 <td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('obj.axi4lite_write_cg_addr_x_wdata_x_resp').click();"> addr_x_ ...<span class='tooltiptext5'>addr_x_wdata_x_resp</span> </button></td>
-<td bgcolor='#FFFFFF'>3</td>
+<td bgcolor='#FFFFFF'>4</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>3</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp').click();"> rand_ad ...<span class='tooltiptext5'>rand_addr_x_wdata_x_resp</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
 <td bgcolor='#98FF98'>100</td>
 <td bgcolor='#FFFFFF'>100</td>
 <td bgcolor='#FFFFFF'>1</td>
@@ -279,6 +290,10 @@
 </label>
 <label class='container3'>addr_x_wdata_x_resp(cross)
 <input type='checkbox' id='obj.axi4lite_write_cg_addr_x_wdata_x_resp' onclick="checkdisp('obj.axi4lite_write_cg_addr_x_wdata_x_resp', 'obj.axi4lite_write_cg_addr_x_wdata_x_resp_table');openCPTable('obj.axi4lite_write_cg_addr_x_wdata_x_resp_tablecontent');" > 
+<span class='checkmark3'></span>
+</label>
+<label class='container3'>rand_addr_x_wdata_x_resp(cross)
+<input type='checkbox' id='obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp' onclick="checkdisp('obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp', 'obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp_table');openCPTable('obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp_tablecontent');" > 
 <span class='checkmark3'></span>
 </label>
 </div>
@@ -542,16 +557,16 @@
 </tr>
 <tr>
 <td nowrap width=80 style='font-size:10px'> Total </td>
-<td>3</td>
+<td>4</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>3</td>
+<td bgcolor='#98FF98'>4</td>
 <td bgcolor='#98FF98'>100</td>
 </tr>
 <tr bgcolor='#FFFFFF'>
 <td nowrap width=90 style='font-size:10px'>User Defined Bins</td>
-<td>3</td>
+<td>4</td>
 <td bgcolor='#FFFFFF'>0</td>
-<td bgcolor='#98FF98'>3</td>
+<td bgcolor='#98FF98'>4</td>
 <td bgcolor='#98FF98'>100</td>
 </tr>
 </table>
@@ -573,13 +588,77 @@
 <td>1</td>
 </tr>
 <tr bgcolor='#98FF98'>
-<td>addr_wdata_allzer</td>
+<td>addr_wdata_allzero</td>
 <td>421</td>
 <td>1</td>
 </tr>
 <tr bgcolor='#98FF98'>
 <td>addr_wdata_rand</td>
 <td>421</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>addr_rresp_err</td>
+<td>99</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='obj.axi4lite_write_cg_rand_addr_x_wdata_x_resp_tablecontent'><b><font size='1' color='#ffb566'> Details of Instance Cross Point - obj.axi4lite_write_cg :: rand_addr_x_wdata_x_resp</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Samples Crossed : rand_addr_x_wdata_x_resp</span>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'> Summary of Cross Point - rand_addr_x_wdata_x_resp</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr>
+<td nowrap width=80 style='font-size:10px'> Total </td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=90 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Group Cross Point - obj.axi4lite_write_cg :: rand_addr_x_wdata_x_resp</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table class='crosstable' align=left>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50>Name</td>
+<td nowrap width=50>Hit Count</td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>rand_addr_rresp_ok</td>
+<td>422</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>rand_addr_rresp_err</td>
+<td>45</td>
 <td>1</td>
 </tr>
 </table>
