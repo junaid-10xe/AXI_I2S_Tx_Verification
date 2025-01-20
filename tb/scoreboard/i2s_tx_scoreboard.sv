@@ -67,70 +67,71 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
          `uvm_error(get_name(), "Failed to cast axis_tr");
       end
 
+      if(axis_cln.s_axis_aud_tready && axis_cln.s_axis_aud_tvalid) begin   
+         if(prev_tid == 0 && axis_cln.s_axis_aud_tid == 1) begin
+            valid_pkt   = 1;
+            invalid_pkt = 0;
+            drop_pkt    = 0;
+            prev_tid    = axis_cln.s_axis_aud_tid;
+         end
+         else if (prev_tid == 1 && axis_cln.s_axis_aud_tid == 0 ) begin
+            valid_pkt  = 1;
+            prev_tid   = axis_cln.s_axis_aud_tid;
+         end
+         else if (prev_tid == 1 && axis_cln.s_axis_aud_tid == 1) begin
+            valid_pkt   = 0;
+            drop_pkt    = 1;
+            invalid_pkt = 1;
+            prev_tid    = axis_cln.s_axis_aud_tid;
+         end
+         else if (prev_tid == 0 && axis_cln.s_axis_aud_tid == 0) begin
+            valid_pkt   = 0;
+            prev_tid    = 1;
+            invalid_pkt = 0;
+         end
+            
+         if(prev_tdata != axis_cln.s_axis_aud_tdata ) begin
+               // Logic to store valid transactions in queue 
+            
+            if(axis_cln.s_axis_aud_tdata[28]==0 || cfg.AXI_STREAM_DATA_VALID == 1) begin
+               if((valid_pkt == 1) || count == 0 ) begin
+                  axis_pkts.push_front(axis_cln);
+                  prev_tdata = axis_cln.s_axis_aud_tdata;
+                  count++;
+                  `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
+                  `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
+               end
+               else if (valid_pkt == 0 && invalid_pkt == 0) begin
+                  // Handles to pop back invalid transactions
+                  // then make it valid and push in the queue
+                  i2s_tx_axis_seq_item                axis_tr0;
+                  i2s_tx_axis_seq_item                axis_tr1;
       
-      if(prev_tid == 0 && axis_cln.s_axis_aud_tid == 1) begin
-         valid_pkt   = 1;
-         invalid_pkt = 0;
-         drop_pkt    = 0;
-         prev_tid    = axis_cln.s_axis_aud_tid;
-      end
-      else if (prev_tid == 1 && axis_cln.s_axis_aud_tid == 0 ) begin
-         valid_pkt  = 1;
-         prev_tid   = axis_cln.s_axis_aud_tid;
-      end
-      else if (prev_tid == 1 && axis_cln.s_axis_aud_tid == 1) begin
-         valid_pkt   = 0;
-         drop_pkt    = 1;
-         invalid_pkt = 1;
-         prev_tid    = axis_cln.s_axis_aud_tid;
-      end
-      else if (prev_tid == 0 && axis_cln.s_axis_aud_tid == 0) begin
-         valid_pkt   = 0;
-         prev_tid    = 1;
-         invalid_pkt = 0;
-      end
-         
-      if(prev_tdata != axis_cln.s_axis_aud_tdata ) begin
-            // Logic to store valid transactions in queue 
-         
-         if(axis_cln.s_axis_aud_tdata[28]==0 || cfg.AXI_STREAM_DATA_VALID == 1) begin
-            if((valid_pkt == 1) || count == 0 ) begin
-               axis_pkts.push_front(axis_cln);
-               prev_tdata = axis_cln.s_axis_aud_tdata;
-               count++;
-               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
-               `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
-            end
-            else if (valid_pkt == 0 && invalid_pkt == 0) begin
-               // Handles to pop back invalid transactions
-               // then make it valid and push in the queue
-               i2s_tx_axis_seq_item                axis_tr0;
-               i2s_tx_axis_seq_item                axis_tr1;
-   
-               axis_tr1 = axis_pkts.pop_front();
-               axis_tr0 = axis_pkts.pop_front();
-   
-               if(axis_tr0.s_axis_aud_tdata[4]==0) axis_tr1.s_axis_aud_tdata[27:4]   = 24'h0;
-               else axis_tr1.s_axis_aud_tdata[27:4]   = 24'h800000;
-   
-               axis_cln.s_axis_aud_tdata[27:4]       = 0;
-   
-               //push again with valid data 
-               axis_pkts.push_front(axis_tr0);
-               axis_pkts.push_front(axis_tr1);
-   
-               if (drop_pkt) axis_pkts.push_front(axis_cln);
-               else repeat(3) axis_pkts.push_front(axis_cln);
-   
-               `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
-               `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
-            end
-         `uvm_info(get_name(), $sformatf("AXI-Stream Transaction  prev_tid %0d count %0d   valid_pkt %0d", prev_tid, count, valid_pkt), UVM_HIGH)
-      end
-      else begin
-         prev_tdata = axis_cln.s_axis_aud_tdata;
-         axis_cln.s_axis_aud_tdata[27:4] = 0;
-         axis_pkts.push_front(axis_cln);
+                  axis_tr1 = axis_pkts.pop_front();
+                  axis_tr0 = axis_pkts.pop_front();
+      
+                  if(axis_tr0.s_axis_aud_tdata[4]==0) axis_tr1.s_axis_aud_tdata[27:4]   = 24'h0;
+                  else axis_tr1.s_axis_aud_tdata[27:4]   = 24'h800000;
+      
+                  axis_cln.s_axis_aud_tdata[27:4]       = 0;
+      
+                  //push again with valid data 
+                  axis_pkts.push_front(axis_tr0);
+                  axis_pkts.push_front(axis_tr1);
+      
+                  if (drop_pkt) axis_pkts.push_front(axis_cln);
+                  else repeat(3) axis_pkts.push_front(axis_cln);
+      
+                  `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
+                  `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
+               end
+            `uvm_info(get_name(), $sformatf("AXI-Stream Transaction  prev_tid %0d count %0d   valid_pkt %0d", prev_tid, count, valid_pkt), UVM_HIGH)
+         end
+         else begin
+            prev_tdata = axis_cln.s_axis_aud_tdata;
+            axis_cln.s_axis_aud_tdata[27:4] = 0;
+            axis_pkts.push_front(axis_cln);
+         end
       end
    end   
       `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
@@ -144,14 +145,15 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    // Write method for i2s imp port
    virtual function void write_i2s_port(i2s_tx_seq_item i2s_tr);
       i2s_tx_axis_seq_item  axis_tr_d;
-      if (axis_pkts.size() == 0) begin
-          `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
+      if(cfg.EN_CHECKER) begin
+         if (axis_pkts.size() == 0) begin
+            `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
+         end
+         axis_tr_d = axis_pkts.pop_back();
+         output_checker(i2s_tr, axis_tr_d);
+         `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
+         `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
       end
-      axis_tr_d = axis_pkts.pop_back();
-      output_checker(i2s_tr, axis_tr_d);
-      `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
-      `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
-      
    endfunction
 
    // Checker function
