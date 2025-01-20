@@ -370,4 +370,74 @@ class intrpt_stat_test extends i2s_tx_base_test;
 
 endclass: intrpt_stat_test
 
+// Test for coverage with constraint mode off with random values 
+//  Class: rand_axis_test
+class rand_axis_test extends i2s_tx_base_test;
+    `uvm_component_utils(rand_axis_test);
+    // Handle of Stream Sequence
+    axis_rand_seq                            axis_seq;
+  
+    // Constructor: new
+    function new(string name = "rand_axis_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        axis_seq         = axis_rand_seq::type_id::create("axis_seq", this);
+        
+        cfg.NUM_TRANS    = 200;
+        axis_seq.cfg     = cfg;
+    endfunction: build_phase
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        axis_seq.start(env.axis_agt.axis_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: rand_axis_test
+//  Class: rand_reg_test
+class rand_reg_test extends i2s_tx_base_test;
+    `uvm_component_utils(rand_reg_test);
+    // Handle of ral test seq
+    ral_test_seq                             ral_seq;
+    // Handle of reg rand seq
+    reg_rand_seq                             rand_reg_seq;
+    // Constructor: new
+    function new(string name = "rand_reg_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        rand_reg_seq     = reg_rand_seq::type_id::create("rand_reg_seq", this);
+        ral_seq          = ral_test_seq::type_id::create("ral_seq", this);
+        // Enable core configuration and interrupts
+        cfg.CORE_VER_TEST   = 1;
+        cfg.CORE_CFG_TEST   = 1;
+        cfg.RD_REGS_DFT     = 1;
+        cfg.REG_RO_FIELDS   = 1;
+        cfg.REG_RW_FIELDS   = 1;
+        cfg.EN_CHECKER      = 0;
+        cfg.RAL_DATA_PATTERN = ALL_ZERO;
+        ral_seq.cfg      = cfg;
+    endfunction: build_phase
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        ral_seq.reg_blk = env.reg_block;
+        ral_seq.start(env.axi_agt.axi_sqnr);
+        rand_reg_seq.start(env.axi_agt.axi_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: rand_reg_test
+
 `endif

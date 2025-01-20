@@ -165,5 +165,33 @@ class intrpt_stat_test_seq extends i2s_tx_reg_base_seq;
 
 endclass: intrpt_stat_test_seq
 
+//Class seq to generate random sequence with constraint mode off 
+class reg_rand_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(reg_rand_seq)
+    // Constructor 
+    function new (string name = "reg_rand_seq");
+        super.new(name);
+    endfunction
+    // Handle of seq item
+    i2s_tx_axi4_lite_seq_item           axi_seq;                     // Transaction handle
+
+    // Task body 
+    task body();
+        repeat (100) begin
+            axi_seq = i2s_tx_axi4_lite_seq_item::type_id::create("axi_seq");
+            axi_seq.write.constraint_mode(0);
+            axi_seq.read.constraint_mode(0);
+            axi_seq.addr.constraint_mode(0);
+            start_item(axi_seq);
+            assert(axi_seq.randomize() with {
+                axi_seq.s_axi_ctrl_wvalid  == 1;
+                axi_seq.s_axi_ctrl_rready  == 1;
+            });
+            finish_item(axi_seq);
+        end
+    endtask
+
+endclass: reg_rand_seq
+
 
 `endif
