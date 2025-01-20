@@ -42,10 +42,7 @@ class i2s_tx_axis_seq_item extends uvm_sequence_item;
         s_axis_aud_tdata[3:0] inside {4'b0001, 4'b0010, 4'b0011};        // Preamble values
         s_axis_aud_tid        inside {3'b000, 3'b0001};                  // Valid TID values
         s_axis_aud_tdata[31]  == 0;                                      // Parity Bit
-        s_axis_aud_tdata[30]  inside {0,1};                              // Channel Status
-        s_axis_aud_tdata[29]  == 0;                                      // User Bit
-        s_axis_aud_tdata[28]  inside {0, 1};                                      // Validity Bit
-        
+        s_axis_aud_tdata[29]  == 0;                                      // User Bit 
     }
 
 endclass : i2s_tx_axis_seq_item
