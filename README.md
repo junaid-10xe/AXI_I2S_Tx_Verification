@@ -16,7 +16,7 @@ The verification architecture includes the following components:
 - **Environment Class:** Sets up and integrates agents, monitors, coverage, and scoreboard.
 - **Test Sequences:** Provides stimulus for functional and directed scenarios.
 
-![Verification Architecture](docs/architecture_diagram.png)  
+![Verification Architecture](resources/TCP-Test_bench_structure.png)  
 *Image: AXI-I2S Transmitter Verification Architecture*
 
 ---
