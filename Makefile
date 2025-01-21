@@ -3,7 +3,7 @@
 # Date: January 3, 2025
 
 # Paths
-SRC_DIR   = /home/lpt-10xe/10xTraining/TCP/dut/I2S_IP
+SRC_DIR   = dut/I2S_IP
 PRJ_FILE  = $(SRC_DIR)/i2s_tx_tb_top_vlog.prj
 TCL_BATCH = $(SRC_DIR)/i2s_tx_tb_top.tcl
 WCFG_FILE = $(SRC_DIR)/i2s_tx_10xe_tb_top_behav.wcfg
