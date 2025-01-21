@@ -29,4 +29,30 @@ The verification architecture includes the following components:
    ```bash
    git clone <repository_url>
    cd <repository_directory>
+---
 
+## Prerequisites
+Before using the Makefile, ensure you have the following set up in your environment:
+- **UVM Library:** Verify that the UVM library is included in your Vivado installation.
+---
+-**i2s_tb_top_vlog.prj:** Update Vivado installation path in this file for include
+
+## How to Use
+
+### 1. **Clone or Copy the Repository**
+   Clone or copy the Makefile and associated project files into your local working directory.
+
+### 2. **Configure the Makefile**
+   Update the following variables in the Makefile as needed (not required if repository is cloned):
+   - `SRC_DIR`: Path to your design source directory.
+   - `PRJ_FILE`: Vivado project file for your testbench.
+   - `TCL_BATCH`: Path to the TCL file for simulation settings.
+   - `WCFG_FILE`: Path to your waveform configuration file (optional).
+   - `COV_DIR`: Directory to store coverage databases.
+   
+### 3. **Run Makefile Targets**
+   Use the following commands to execute various stages of the simulation:
+
+   #### Compile the Design
+   ```bash
+   make compile
