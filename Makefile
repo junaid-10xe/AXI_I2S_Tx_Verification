@@ -51,7 +51,7 @@ simulate: elaborate
 	-view $(WCFG_FILE) \
 	-log $(LOG_DIR)/simulate.log -testplusarg UVM_VERBOSITY=$(VERBOSITY) -testplusarg UVM_TESTNAME=$(TEST)
 	mkdir -p $(WAV_DIR)
-	cp  *.wdb *.vcd *.wcfg $(WAV_DIR)
+	cp  *.wdb *.vcd *.wcfg siglist_wave.tcl $(WAV_DIR)
 	@echo "Simulation completed successfully with test: $(TEST)."
 
 # Clean logs and other generated files
@@ -61,4 +61,3 @@ clean:
 	@echo "Cleanup completed."
 
 .PHONY: all compile elaborate simulate clean
-
