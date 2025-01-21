@@ -82,9 +82,23 @@ Before using the Makefile, ensure you have the following set up in your environm
    ```bash
    make simulate TEST=ral_test
 ```
-   Check logs in logs/ral_test/ for details.
-   View waveforms using the generated .wdb or .vcd files in logs/ral_test/wave.
+   Check logs in logs/ral_test/ for details. View waveforms using the generated .wdb or .vcd files in logs/ral_test/wave.
    Verbosity is not defined in above test so by default it will be treated as UVM_LOW
+
+## How to view waveforms Using Vivado and GTKWAVE
+### 1. **Using Vivado**
+   Open the terminal in logs/ral_test/wave and run this command.
+   
+ ```bash
+    xsim i2s_tx_tb_top_behav.wdb -view i2s_tx_tb_top_behav.wcfg -gui
+ ```
+
+### 1. Using GTKWAVE
+   Open the terminal in logs/ral_test/wave and run this command.
+   
+   ```bash
+    gtkwave dump.vcd -T siglist_wave.tcl
+   ```
 
 
 
