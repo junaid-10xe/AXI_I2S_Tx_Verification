@@ -22,17 +22,33 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
 
     // Covergroup for Write transactions 
     covergroup axi4lite_write_cg;
-        // Write address coverage (valid and random addresses)
-        waddr: coverpoint axi4_tr.s_axi_ctrl_awaddr {                           // Register addresses
-            bins addr_all[] = {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
-                               'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                               'h54, 'h58, 'h5C, 'h60, 'h64};
-            bins rand_addr  = {[0:$]};
+        // Write address coverage (valid)
+        valid_waddr: coverpoint axi4_tr.s_axi_ctrl_awaddr {                           // Register addresses
+            bins core_ver_reg       = {'h00};
+            bins core_config_reg    = {'h04};
+            bins core_ctrl_reg      = {'h08};
+            bins validity_reg       = {'h0C};
+            bins itrpt_ctrl_reg     = {'h10};
+            bins itrpt_status_reg   = {'h14};
+            bins i2s_reg            = {'h20};
+            bins chan_01_reg        = {'h30};
+            bins chan_23_reg        = {'h34};
+            bins chan_45_reg        = {'h38};
+            bins chan_67_reg        = {'h3C};
+            bins aes_chan_stat0     = {'h50};
+            bins aes_chan_stat1     = {'h54};
+            bins aes_chan_stat2     = {'h58};
+            bins aes_chan_stat3     = {'h5C};
+            bins aes_chan_stat4     = {'h60};
+            bins aes_chan_stat5     = {'h64};
         }
+        rand_waddr: coverpoint axi4_tr.s_axi_ctrl_awaddr {                          // Random addresses
+            bins rand_addr          = {[0:$]};
+            }
         // Write data coverage (specific patterns and random values)
         wdata: coverpoint axi4_tr.s_axi_ctrl_wdata {                            
-            bins all_ones  = {'hFFFFFFFF};
-            bins all_zeros = {'h00000000};
+            bins all_ones   = {'hFFFFFFFF};
+            bins all_zeros  = {'h00000000};
             bins rand_val   = {[0:$]};
         }
         // Write response coverage (valid and invalid responses)
@@ -41,34 +57,87 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             bins slv_err = {2'b10};
         }
         // Cross coverage for address, data, and response
-        addr_x_wdata_x_resp: cross waddr, wdata, wresp{
-            bins addr_wdata_allone  = binsof(waddr.addr_all)  && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
-            bins addr_wdata_allzero = binsof(waddr.addr_all)  && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
-            bins addr_wdata_rand    = binsof(waddr.addr_all)  && binsof(wdata.rand_val) && binsof(wresp.ok_resp);
-            bins addr_rresp_err     = binsof(waddr.addr_all)  && binsof(wresp.slv_err);
+        addr_x_wdata_x_resp: cross valid_waddr, wdata, wresp{
+            bins core_ver_allone_ok         = binsof(valid_waddr.core_ver_reg)    && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins core_config_allone_ok      = binsof(valid_waddr.core_config_reg) && binsof(wdata.all_ones) && binsof(wresp.slv_err);
+            bins core_ctrl_allone_ok        = binsof(valid_waddr.core_ctrl_reg)   && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins validity_allone_ok         = binsof(valid_waddr.validity_reg)    && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins itrpt_ctrl_allone_ok       = binsof(valid_waddr.itrpt_ctrl_reg)  && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins itrpt_status_allone_ok     = binsof(valid_waddr.itrpt_status_reg) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins i2s_allone_ok              = binsof(valid_waddr.i2s_reg)         && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins chan_01_allone_ok          = binsof(valid_waddr.chan_01_reg)     && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins chan_23_allone_ok          = binsof(valid_waddr.chan_23_reg)     && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins chan_45_allone_ok          = binsof(valid_waddr.chan_45_reg)     && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins chan_67_allone_ok          = binsof(valid_waddr.chan_67_reg)     && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat0_allone_ok   = binsof(valid_waddr.aes_chan_stat0) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat1_allone_ok   = binsof(valid_waddr.aes_chan_stat1) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat2_allone_ok   = binsof(valid_waddr.aes_chan_stat2) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat3_allone_ok   = binsof(valid_waddr.aes_chan_stat3) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat4_allone_ok   = binsof(valid_waddr.aes_chan_stat4) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
+            bins aes_chan_stat5_allone_ok   = binsof(valid_waddr.aes_chan_stat5) && binsof(wdata.all_ones) && binsof(wresp.ok_resp);
             
-            ignore_bins ignore_1    = !(binsof(waddr.addr_all)); 
-        } 
+            bins core_ver_allzero_ok        = binsof(valid_waddr.core_ver_reg)    && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins core_config_allzero_ok     = binsof(valid_waddr.core_config_reg) && binsof(wdata.all_zeros) && binsof(wresp.slv_err);
+            bins core_ctrl_allzero_ok       = binsof(valid_waddr.core_ctrl_reg)   && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins validity_allzero_ok        = binsof(valid_waddr.validity_reg)    && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins itrpt_ctrl_allzero_ok      = binsof(valid_waddr.itrpt_ctrl_reg)  && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins itrpt_status_allzero_ok    = binsof(valid_waddr.itrpt_status_reg) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins i2s_allzero_ok             = binsof(valid_waddr.i2s_reg)         && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins chan_01_allzero_ok         = binsof(valid_waddr.chan_01_reg)     && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins chan_23_allzero_ok         = binsof(valid_waddr.chan_23_reg)     && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins chan_45_allzero_ok         = binsof(valid_waddr.chan_45_reg)     && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins chan_67_allzero_ok         = binsof(valid_waddr.chan_67_reg)     && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat0_allzero_ok  = binsof(valid_waddr.aes_chan_stat0) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat1_allzero_ok  = binsof(valid_waddr.aes_chan_stat1) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat2_allzero_ok  = binsof(valid_waddr.aes_chan_stat2) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat3_allzero_ok  = binsof(valid_waddr.aes_chan_stat3) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat4_allzero_ok  = binsof(valid_waddr.aes_chan_stat4) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
+            bins aes_chan_stat5_allzero_ok  = binsof(valid_waddr.aes_chan_stat5) && binsof(wdata.all_zeros) && binsof(wresp.ok_resp);
 
-        rand_addr_x_wdata_x_resp: cross waddr, wdata, wresp{
-            bins rand_addr_rresp_ok     = binsof(waddr.rand_addr) && binsof(wresp.ok_resp)  && binsof(wdata.rand_val);
-            bins rand_addr_rresp_err    = binsof(waddr.rand_addr) && binsof(wresp.slv_err)  && binsof(wdata.rand_val);
+            // Ignore bins
+            ignore_bins ignore_0            = binsof(wresp.slv_err) && ( binsof(valid_waddr) intersect {'h00, 'h08, 'h0C, 'h10, 'h14, 
+                                                                                'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
+                                                                                'h54, 'h58, 'h5C, 'h60, 'h64});
+            ignore_bins ignore_1            = binsof(valid_waddr.core_config_reg) && binsof(wresp.ok_resp);
+            ignore_bins ignore_2            = binsof(wdata.rand_val);
+        }
             
-            ignore_bins ignore_0        = binsof(waddr.addr_all);
-            ignore_bins ignore_1        = binsof(wdata.all_zeros);
-            ignore_bins ignore_2        = binsof(wdata.all_ones);
 
+        rand_addr_x_wdata_x_resp: cross rand_waddr, wdata, wresp{
+            bins rand_addr_rresp_err    = binsof(rand_waddr.rand_addr) && binsof(wresp.slv_err);
+            // Ignore bins
+            ignore_bins ignore_0        = binsof(wresp.ok_resp);
+            ignore_bins ignore_1        = binsof(wdata.all_ones);
+            ignore_bins ignore_2        = binsof(wdata.all_zeros);
         }
     endgroup : axi4lite_write_cg
 
     // Covergroup for Read transactions
     covergroup axi4lite_read_cg;
-        // Read address coverage (valid and random addresses)
-        raddr: coverpoint axi4_tr.s_axi_ctrl_araddr {                           // Register addresses
-            bins addr_all[] = {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
-                                'h20, 'h30, 'h34, 'h38, 'h3C, 'h50, 
-                                'h54, 'h58, 'h5C, 'h60, 'h64};
-           bins rand_addr  = {[0:$]};
+        // Read address coverage (valid addresses)
+        valid_raddr: coverpoint axi4_tr.s_axi_ctrl_araddr {                           // Register addresses
+            
+            bins core_ver_reg       = {'h00};
+            bins core_config_reg    = {'h04};
+            bins core_ctrl_reg      = {'h08};
+            bins validity_reg       = {'h0C};
+            bins itrpt_ctrl_reg     = {'h10};
+            bins itrpt_status_reg   = {'h14};
+            bins i2s_reg            = {'h20};
+            bins chan_01_reg        = {'h30};
+            bins chan_23_reg        = {'h34};
+            bins chan_45_reg        = {'h38};
+            bins chan_67_reg        = {'h3C};
+            bins aes_chan_stat0     = {'h50};
+            bins aes_chan_stat1     = {'h54};
+            bins aes_chan_stat2     = {'h58};
+            bins aes_chan_stat3     = {'h5C};
+            bins aes_chan_stat4     = {'h60};
+            bins aes_chan_stat5     = {'h64};
+        }
+        // Read data coverage (Random Addresses)
+        rand_raddr: coverpoint axi4_tr.s_axi_ctrl_araddr {
+            bins rand_addr  = {[0:$]};
         }
         // Read data coverage
         rdata: coverpoint axi4_tr.s_axi_ctrl_rdata {                            // Data values read
@@ -80,19 +149,32 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             bins slv_err = {2'b10};
         }
         // Cross coverage for address, data, and response
-        raddr_x_rresp: cross raddr, rresp{
-                    bins addr_rresp_ok   = binsof(raddr.addr_all) && binsof(rresp.ok_resp);
-                    bins addr_rresp_err  = binsof(raddr.addr_all) && binsof(rresp.slv_err);
-
-                    ignore_bins ignore_0 = !binsof(raddr.addr_all);
-
+        raddr_x_rresp: cross valid_raddr, rresp{
+                    bins core_ver_rsp_ok         = binsof(valid_raddr.core_ver_reg)    && binsof(rresp.ok_resp);
+                    bins core_config_rsp_ok      = binsof(valid_raddr.core_config_reg) && binsof(rresp.ok_resp);
+                    bins core_ctrl_rsp_ok        = binsof(valid_raddr.core_ctrl_reg)   && binsof(rresp.ok_resp);
+                    bins validity_rsp_ok         = binsof(valid_raddr.validity_reg)    && binsof(rresp.ok_resp);
+                    bins itrpt_ctrl_rsp_ok       = binsof(valid_raddr.itrpt_ctrl_reg)  && binsof(rresp.ok_resp);
+                    bins itrpt_status_rsp_ok     = binsof(valid_raddr.itrpt_status_reg) && binsof(rresp.ok_resp);
+                    bins i2s_rsp_ok              = binsof(valid_raddr.i2s_reg)         && binsof(rresp.ok_resp);
+                    bins chan_01_rsp_ok          = binsof(valid_raddr.chan_01_reg)     && binsof(rresp.ok_resp);
+                    bins chan_23_rsp_ok          = binsof(valid_raddr.chan_23_reg)     && binsof(rresp.ok_resp);
+                    bins chan_45_rsp_ok          = binsof(valid_raddr.chan_45_reg)     && binsof(rresp.ok_resp);
+                    bins chan_67_rsp_ok          = binsof(valid_raddr.chan_67_reg)     && binsof(rresp.ok_resp);
+                    bins aes_chan_stat0_rsp_ok   = binsof(valid_raddr.aes_chan_stat0) && binsof(rresp.ok_resp);
+                    bins aes_chan_stat1_rsp_ok   = binsof(valid_raddr.aes_chan_stat1) && binsof(rresp.ok_resp);
+                    bins aes_chan_stat2_rsp_ok   = binsof(valid_raddr.aes_chan_stat2) && binsof(rresp.ok_resp);
+                    bins aes_chan_stat3_rsp_ok   = binsof(valid_raddr.aes_chan_stat3) && binsof(rresp.ok_resp);
+                    bins aes_chan_stat4_rsp_ok   = binsof(valid_raddr.aes_chan_stat4) && binsof(rresp.ok_resp);
+                    bins aes_chan_stat5_rsp_ok   = binsof(valid_raddr.aes_chan_stat5) && binsof(rresp.ok_resp);
+        
+                    // Ignore bins
+                    ignore_bins ignore_0 = binsof(rresp.slv_err);
         }
-        rand_raddr_x_rresp: cross raddr, rresp{
-            bins rand_addr_rresp_err = binsof(raddr.rand_addr) && binsof(rresp.slv_err);
-            bins rand_addr_rresp_ok  = binsof(raddr.rand_addr) && binsof(rresp.ok_resp);
-            
-            // Ignore bins which are part of addr_all 
-            ignore_bins ignore_0  = binsof(raddr.addr_all); 
+        rand_raddr_x_rresp: cross rand_raddr, rresp{
+            bins rand_addr_rresp_err = binsof(rand_raddr.rand_addr) && binsof(rresp.slv_err);            
+            // Ignore bins which are part of ok resp
+            ignore_bins ignore_0  = binsof(rresp.ok_resp); 
 }
     endgroup : axi4lite_read_cg
 
@@ -144,15 +226,18 @@ class axi_stream_coverage extends uvm_subscriber #(i2s_tx_axis_seq_item);
         }
         // Coverage for parity bit
         parity: coverpoint axis_tr.s_axis_aud_tdata[31] {               // Parity bit
-            bins parity_values[] = {1'b0, 1'b1};
+            bins parity_val_lo = {1'b0};
+            bins parity_val_hi = {1'b1};
         }
         // Coverage for channel status bit
         chan_stat: coverpoint axis_tr.s_axis_aud_tdata[30] {            // Channel Status bit
-            bins channel_status[] = {1'b0, 1'b1};
+            bins channel_status_0 = {1'b0};
+            bins channel_status_1 = {1'b1};
         }
         // Coverage for valid bit
         valid_bit: coverpoint axis_tr.s_axis_aud_tdata[28] {            // Validity bit
-            bins validity_bit[] = {1'b0, 1'b1};
+            bins validity_bit_lo = {1'b0};
+            bins validity_bit_hi = {1'b1};
         }
         // Coverage for user bit
         user_bit :coverpoint axis_tr.s_axis_aud_tdata[29] {             // User bit
@@ -160,10 +245,14 @@ class axi_stream_coverage extends uvm_subscriber #(i2s_tx_axis_seq_item);
         }
         // Coverage for preamble (4-bit values)
         preamble: coverpoint axis_tr.s_axis_aud_tdata[3:0] {            // Preamble
-            bins preamble_all[] = {4'b0001, 4'b0010, 4'b0011};
+            bins preamble_start = {4'b0001};
+            bins preamble_left  = {4'b0010};
+            bins preamble_right = {4'b0011};
         }
         // Cross-coverage for preamble and control bits
-        cross preamble, parity, chan_stat, valid_bit;                   
+        cross preamble, parity, chan_stat, valid_bit {
+            ignore_bins ignore_0 = binsof(preamble.preamble_start) && (binsof(chan_stat.channel_status_0) || binsof(valid_bit.validity_bit_hi) || binsof(parity.parity_val_hi));
+        }                   
     endgroup : axi_stream_data_cg
 
     // Covergroup for handshake signals

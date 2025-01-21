@@ -219,29 +219,35 @@ class axis_rand_seq extends i2s_tx_axis_base_seq;
             assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]  == 4'b0001;
                                     axis_seq.s_axis_aud_tdata[27:4] == 24'h0;
                                     axis_seq.s_axis_aud_tdata[28]   == 0;
+                                    axis_seq.s_axis_aud_tdata[29]   == 0;
+                                    axis_seq.s_axis_aud_tdata[30]   == 1;
+                                    axis_seq.s_axis_aud_tdata[31]   == 0;
                                     axis_seq.s_axis_aud_tid         == 3'b000;
                                     axis_seq.s_axis_aud_tvalid      == 1;});
             finish_item(axis_seq);
     
             start_item(axis_seq);
             assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]      == 4'b0011;
-                                    axis_seq.s_axis_aud_tdata[27:4]     == 24'h0;
-                                    axis_seq.s_axis_aud_tdata[28]       == 0;               // Valididty Bit
-                                    axis_seq.s_axis_aud_tid             == 3'b001;
-                                    axis_seq.s_axis_aud_tvalid          == 1;});
+                                    axis_seq.s_axis_aud_tdata[27:4]               == 24'h0;
+                                    axis_seq.s_axis_aud_tdata[28]                 == 0;
+                                    axis_seq.s_axis_aud_tdata[29]                 == 0;
+                                    axis_seq.s_axis_aud_tdata[30]                 == 1;
+                                    axis_seq.s_axis_aud_tdata[31]                 == 0;               // Valididty Bit
+                                    axis_seq.s_axis_aud_tid                       == 3'b001;
+                                    axis_seq.s_axis_aud_tvalid                    == 1;});
             finish_item(axis_seq);
-            
+            // Disable constraints
+            axis_seq.tdata_tid_constraint.constraint_mode(0);
             repeat (cfg.NUM_TRANS) begin
-                axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
+                // axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
                 start_item(axis_seq);
-                axis_seq.tdata_tid_constraint.constraint_mode(0);
                 assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]  == 4'b0010;
                                         axis_seq.s_axis_aud_tid         == 3'b000;
                                         axis_seq.s_axis_aud_tvalid      == 1;})
                 finish_item(axis_seq);
                 
-                axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
-                axis_seq.tdata_tid_constraint.constraint_mode(0);
+                // axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
+                // axis_seq.tdata_tid_constraint.constraint_mode(0);
                 start_item(axis_seq);
                 assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]  == 4'b0011;
                                         axis_seq.s_axis_aud_tid         == 3'b001;

@@ -31,9 +31,9 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    i2s_tx_config                        cfg;
 
    //Variable to store previous tdata
-   bit[31:0]                           prev_tdata;
+   i2s_tx_defines::axi_stream_data     prev_tdata;
    // variable to store prev TID
-   bit [2:0]                           prev_tid;
+   i2s_tx_defines::axi_stream_tid      prev_tid;
    // Control bit to store value in queue or drop
    bit                                 valid_pkt;
    bit                                 invalid_pkt;
