@@ -34,8 +34,8 @@ The verification architecture includes the following components:
 ## Prerequisites
 Before using the Makefile, ensure you have the following set up in your environment:
 - **UVM Library:** Verify that the UVM library is included in your Vivado installation.
+- **i2s_tb_top_vlog.prj:** Update Vivado installation path in this file for include
 ---
--**i2s_tb_top_vlog.prj:** Update Vivado installation path in this file for include
 
 ## How to Use
 
