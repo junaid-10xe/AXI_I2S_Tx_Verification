@@ -64,15 +64,27 @@ Before using the Makefile, ensure you have the following set up in your environm
    make elaborate
 ```
    #### Simulate the Design
-   Replace <your_test_name> with the name of your UVM test. This runs the simulation with the specified test and stores results in logs/<TEST>/simulate.log.
+   Replace <your_test_name> with the name of your UVM test and <UVM_VERBOSITY_LEVEL> with the name of verbosity level you want to simulate by default verbosity is set to UVM_LOW. This runs the simulation with the specified test and stores results 
+   in logs/<TEST>/simulate.log.
    If no test is specified, the default sanity_test will run.
    ```bash
-   make simulate TEST=<your_test_name> VERBOSITY=
+   make simulate TEST=<your_test_name> VERBOSITY=<UVM_VERBOSITY_LEVEL>
 ```
    #### Clean Up
    Removes all generated files and logs, cleaning the workspace.
    ```bash
    make clean
 ```
+---
+   ### Example Usage
+   Here is an example workflow for running a UVM test:
+   Run the simulation with a custom test:
+   ```bash
+   make simulate TEST=ral_test
+```
+   Check logs in logs/ral_test/ for details.
+   View waveforms using the generated .wdb or .vcd files in logs/ral_test/wave.
+   Verbosity is not defined in above test so by default it will be treated as UVM_LOW
+
 
 
