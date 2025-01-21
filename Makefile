@@ -9,9 +9,11 @@ TCL_BATCH = $(SRC_DIR)/i2s_tx_tb_top.tcl
 WCFG_FILE = $(SRC_DIR)/i2s_tx_10xe_tb_top_behav.wcfg
 
 # Default Test Name (can be overridden via command line)
-TEST ?= sanity_test
-LOG_DIR   = logs/$(TEST)
-WAV_DIR	  = $(LOG_DIR)/wave
+TEST 	  ?= sanity_test
+#Verbosity 
+VERBOSITY ?= UVM_LOW 
+LOG_DIR    = logs/$(TEST)
+WAV_DIR	   = $(LOG_DIR)/wave
 # Coverage Directoru and Database
 COV_DIR = /home/lpt-10xe/10xTraining/TCP/Coverage
 # Flags
@@ -47,7 +49,7 @@ simulate: elaborate
 	xsim i2s_tx_tb_top_behav $(XSIM_FLAGS) \
 	-tclbatch $(TCL_BATCH) \
 	-view $(WCFG_FILE) \
-	-log $(LOG_DIR)/simulate.log -testplusarg UVM_VERBOSITY=UVM_LOW -testplusarg UVM_TESTNAME=$(TEST)
+	-log $(LOG_DIR)/simulate.log -testplusarg UVM_VERBOSITY=$(VERBOSITY) -testplusarg UVM_TESTNAME=$(TEST)
 	mkdir -p $(WAV_DIR)
 	cp  *.wdb *.vcd *.wcfg $(WAV_DIR)
 	@echo "Simulation completed successfully with test: $(TEST)."
@@ -55,7 +57,7 @@ simulate: elaborate
 # Clean logs and other generated files
 clean:
 	@echo "Cleaning up..."
-	rm -rf ./xsim.dir ./webtalk*.jou *.log *.pb *.wdb *.jou
+	rm -rf ./xsim.dir ./webtalk*.jou *.log *.pb *.wdb *.jou *.vcd
 	@echo "Cleanup completed."
 
 .PHONY: all compile elaborate simulate clean
