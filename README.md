@@ -54,18 +54,18 @@ Before using the Makefile, ensure you have the following set up in your environm
    Use the following commands to execute various stages of the simulation:
 
    #### Compile the Design
-   This compiles the design and testbench files into simulation-ready objects. Logs are stored in logs/<TEST>/compile.log.
+   This compiles the design and testbench files into simulation-ready objects. Logs are stored in logs/<your_test_name>/compile.log.
    ```bash
    make compile
 ```
    #### Elaborate the Design
-   This elaborates the compiled design files and generates the simulation snapshot. Logs are stored in logs/<TEST>/elaborate.log.
+   This elaborates the compiled design files and generates the simulation snapshot. Logs are stored in logs/<your_test_name>/elaborate.log.
    ```bash
    make elaborate
 ```
    #### Simulate the Design
    Replace <your_test_name> with the name of your UVM test and <UVM_VERBOSITY_LEVEL> with the name of verbosity level you want to simulate by default verbosity is set to UVM_LOW. This runs the simulation with the specified test and stores results 
-   in logs/<TEST>/simulate.log.
+   in logs/<your_test_name>/simulate.log.
    If no test is specified, the default sanity_test will run.
    ```bash
    make simulate TEST=<your_test_name> VERBOSITY=<UVM_VERBOSITY_LEVEL>
