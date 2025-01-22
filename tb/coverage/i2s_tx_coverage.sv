@@ -222,6 +222,8 @@ class axi_stream_coverage extends uvm_subscriber #(i2s_tx_axis_seq_item);
     covergroup axi_stream_data_cg;
         // Coverage for audio sample data (24-bit signed range)
         coverpoint axis_tr.s_axis_aud_tdata[27:4] {                     // Audio sample data range
+            bins all_ones   = {24'hFFFFFF};
+            bins all_zeros  = {24'h000000};
             bins valid_data = {[0:$]};                                  
         }
         // Coverage for parity bit
