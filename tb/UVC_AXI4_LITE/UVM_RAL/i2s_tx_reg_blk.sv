@@ -108,8 +108,8 @@ class i2s_tx_reg_blk extends uvm_reg_block;
 
 
         // Add addresses of registers to map 
-        this.default_map.add_reg(core_version_reg_h, 'h00, "RW");
-        this.default_map.add_reg(core_cfg_reg_h, 'h04, "RW");
+        this.default_map.add_reg(core_version_reg_h, 'h00, "RO");
+        this.default_map.add_reg(core_cfg_reg_h, 'h04, "RO");
         this.default_map.add_reg(control_reg_h, 'h08, "RW");
         this.default_map.add_reg(validity_reg_h, 'h0C, "RW");
         this.default_map.add_reg(intrpt_ctrl_reg_h, 'h10, "RW");

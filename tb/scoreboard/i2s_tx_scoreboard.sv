@@ -139,7 +139,10 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
 
    // Write method for axi imp port
    virtual function void write_axi_port(i2s_tx_axi4_lite_seq_item axi_tr);
-      // TODO Logic
+      if(cfg.RAL_CHECKER) begin
+         ral_resp_checker(axi_tr);
+      end
+
    endfunction
 
    // Write method for i2s imp port
@@ -150,14 +153,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
             `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
          end
          axis_tr_d = axis_pkts.pop_back();
-         output_checker(i2s_tr, axis_tr_d);
+         i2s_output_checker(i2s_tr, axis_tr_d);
          `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
          `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
       end
    endfunction
 
-   // Checker function
-   function void output_checker(input i2s_tx_seq_item i2s_tr, input i2s_tx_axis_seq_item axis_tr_d);
+   // Checker function for i2s Output
+   function void i2s_output_checker(input i2s_tx_seq_item i2s_tr, input i2s_tx_axis_seq_item axis_tr_d);
       if(cfg.RIGHT_JUSTICATION) begin
          if(axis_tr_d.s_axis_aud_tdata[27:4] == i2s_tr.sdata_0_out[23:0]) begin
             `uvm_info(get_name(), $sformatf("TEST PASSED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out[23:0]), UVM_NONE)
@@ -187,6 +190,75 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
             `uvm_error(get_name(), $sformatf("TEST FAILED DATA MISMATCHED  EXPECTED:: 0x%0h  ACTUAL:: 0x%0h", axis_tr_d.s_axis_aud_tdata[27:4], i2s_tr.sdata_0_out))
             
          end
+      end
+   endfunction
+
+   // Function to check reponse of register read write
+   function void ral_resp_checker(input i2s_tx_axi4_lite_seq_item axi_tr);
+      // Array of valid write addresses
+      reg [7:0] write_array [0:15] = {
+         8'h00, 8'h08, 8'h0C, 8'h10, 8'h14, 
+         8'h20, 8'h30, 8'h34, 8'h38, 8'h3C, 8'h50, 
+         8'h54, 8'h58, 8'h5C, 8'h60, 8'h64
+      };
+      // Array of valid read addresses
+      reg [7:0] read_array [0:16] = {
+         8'h00, 8'h04, 8'h08, 8'h0C, 8'h10, 8'h14, 
+         8'h20, 8'h30, 8'h34, 8'h38, 8'h3C, 8'h50, 
+         8'h54, 8'h58, 8'h5C, 8'h60, 8'h64
+      };
+
+      bit read_match;
+      bit write_match;
+
+      if(axi_tr.s_axi_ctrl_bvalid && axi_tr.s_axi_ctrl_bready) begin
+         write_match = 0;
+         foreach(write_array[i]) begin
+            if(axi_tr.s_axi_ctrl_awaddr == write_array[i]) begin
+               write_match = 1;
+            end
+         end
+         if (write_match) begin
+            if(axi_tr.s_axi_ctrl_bresp != 'b00) begin
+               `uvm_error(get_name(), $sformatf("TEST FAILED EXPECTED RESPONSE 00, GOT %0b for address %0h", axi_tr.s_axi_ctrl_bresp, axi_tr.s_axi_ctrl_awaddr))
+            end
+            else begin
+               `uvm_info(get_name(), $sformatf("TEST PASSED EXPECTED RESPONSE 00, GOT %0b for address %0h", axi_tr.s_axi_ctrl_bresp, axi_tr.s_axi_ctrl_awaddr), UVM_LOW)
+            end
+         end
+         else begin
+            if(axi_tr.s_axi_ctrl_bresp != 'b10) begin
+               `uvm_error(get_name(), $sformatf("TEST FAILED EXPECTED RESPONSE 10, GOT %0b for address %0h", axi_tr.s_axi_ctrl_bresp, axi_tr.s_axi_ctrl_awaddr))
+            end
+            else begin
+               `uvm_info(get_name(), $sformatf("TEST PASSED EXPECTED RESPONSE 10, GOT %0b for address %0h", axi_tr.s_axi_ctrl_bresp, axi_tr.s_axi_ctrl_awaddr), UVM_LOW)
+            end
+         end
+      end
+      // For read
+      if(axi_tr.s_axi_ctrl_rvalid && axi_tr.s_axi_ctrl_rready) begin
+         read_match = 0;
+         foreach(read_array[i]) begin
+            if(axi_tr.s_axi_ctrl_araddr == read_array[i]) begin
+               read_match = 1;
+            end
+         end
+         if (read_match) begin
+            if(axi_tr.s_axi_ctrl_rresp != 'b00) begin
+               `uvm_error(get_name(), $sformatf("TEST FAILED EXPECTED RESPONSE 00, GOT %0b for address %0h", axi_tr.s_axi_ctrl_rresp, axi_tr.s_axi_ctrl_araddr))
+            end
+            else begin
+               `uvm_info(get_name(), $sformatf("TEST PASSED EXPECTED RESPONSE 00, GOT %0b for address %0h", axi_tr.s_axi_ctrl_rresp, axi_tr.s_axi_ctrl_araddr), UVM_LOW)
+            end
+         end
+         else begin
+            if(axi_tr.s_axi_ctrl_rresp != 'b10) begin
+               `uvm_error(get_name(), $sformatf("TEST FAILED EXPECTED RESPONSE 10, GOT %0b for address %0h", axi_tr.s_axi_ctrl_rresp, axi_tr.s_axi_ctrl_araddr))
+            end
+            else begin
+               `uvm_info(get_name(), $sformatf("TEST PASSED EXPECTED RESPONSE 10, GOT %0b for address %0h", axi_tr.s_axi_ctrl_rresp, axi_tr.s_axi_ctrl_araddr), UVM_LOW)
+            end
+         end         
       end
    endfunction
 endclass

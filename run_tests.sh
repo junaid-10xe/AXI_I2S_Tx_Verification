@@ -19,6 +19,9 @@ TEST_NAMES=(
   "intrpt_stat_test"
   "rand_reg_test"
   "rand_axis_test"
+  "sck_freq1_test"
+  "sck_freq2_test"
+  "sck_freq3_test"
 )
 
 # Iterate over test names and run make simulate for each

@@ -115,6 +115,36 @@ class ral_test_seq extends i2s_tx_reg_base_seq;
 
 endclass
 
+//Class CORE CFG Reg test  seq 
+class core_cfg_reg_seq extends i2s_tx_reg_base_seq;
+    `uvm_object_utils(core_cfg_reg_seq)
+    // Constructor 
+    function new (string name = "core_cfg_reg_seq");
+        super.new(name);
+    endfunction
+
+    // Task body 
+    task body();
+        
+        // To generate sequence to read value of core config reg
+        if (cfg.CORE_CFG_TEST) begin
+            i2s_tx_defines::reg_data   actual_val;     // read value
+            reg_blk.core_cfg_reg_h.read(status, actual_val, UVM_FRONTDOOR);
+            if(actual_val[31:17]==1 && actual_val[16]==1 && actual_val[15:12]==0 && actual_val[11:8]==2 && actual_val[7:1]==0 && actual_val[0]==1) begin
+                `uvm_info(get_name(), "CORE Configuration READ RESET VALUE TEST PASSED", UVM_LOW)
+            end
+            else begin
+                `uvm_error(get_name(), $sformatf("CORE CONFIGURATION READ RESET VALUE TEST FAILED Expected :: %0h, Actual ::%0h", 'h30201, actual_val))
+            end
+
+            reg_blk.core_cfg_reg_h.write(status, 'hFFFFFFFF, UVM_FRONTDOOR);
+            write_ro_reg_fields(reg_blk.core_cfg_reg_h,cfg.RAL_DATA_PATTERN);
+        end
+
+    endtask
+
+endclass
+
 
 //Class RAL seq to read interrupt status register forever 
 class intrpt_ctrl_test_seq extends i2s_tx_reg_base_seq;

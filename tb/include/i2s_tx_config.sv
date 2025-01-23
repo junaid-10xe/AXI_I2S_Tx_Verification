@@ -37,6 +37,7 @@ class i2s_tx_config extends uvm_object;
 
     // Bit to enable diable checker in scorboard
     bit EN_CHECKER                                   = 1;
+    bit RAL_CHECKER                                  = 0;
 
     //bit to control slave sequence in axi4-lite interface by default it will be zero
     bit INTRPT_STAT_TEST                              = 0;

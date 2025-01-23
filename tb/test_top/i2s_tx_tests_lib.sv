@@ -66,6 +66,7 @@ class ral_test extends i2s_tx_base_test;
         cfg.RD_REGS_DFT     = 1;
         cfg.REG_RO_FIELDS   = 1;
         cfg.REG_RW_FIELDS   = 1;
+        cfg.RAL_CHECKER     = 1;
         ral_seq.cfg  = cfg;
     endfunction: build_phase
     //Run Phase
@@ -101,6 +102,7 @@ class core_cfg_test extends i2s_tx_base_test;
         super.build_phase(phase);
         core_cfg_seq        = core_cfg_reg_seq::type_id::create("core_cfg_seq", this);
         cfg.CORE_CFG_TEST   = 1;
+        cfg.RAL_CHECKER     = 1;
         core_cfg_seq.cfg    = cfg;
     endfunction: build_phase
     //Run Phase
@@ -454,6 +456,7 @@ class rand_reg_test extends i2s_tx_base_test;
         cfg.REG_RO_FIELDS   = 1;
         cfg.REG_RW_FIELDS   = 1;
         cfg.EN_CHECKER      = 0;
+        cfg.RAL_CHECKER     = 1;
         cfg.RAL_DATA_PATTERN = ALL_ZERO;
         ral_seq.cfg      = cfg;
     endfunction: build_phase

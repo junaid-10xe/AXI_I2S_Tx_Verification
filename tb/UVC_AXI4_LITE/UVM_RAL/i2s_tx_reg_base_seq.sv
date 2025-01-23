@@ -30,6 +30,9 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     bit wr_rd_regs;                                                          // Bit to write and read RAL REGISTERS 
     i2s_tx_defines::data_pattern_e data_pattern;      // To genrate write data value according to pattern
 
+    // variable to calculate sck period and frequency 
+    int SCLK_PERIOD;
+    int SCLK_FREQUENCY;
     // Constructor
     function new (string name = "i2s_tx_reg_base_seq");
         super.new(name);  
@@ -203,15 +206,22 @@ endtask: write_rw_reg_fields
                 reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider
-            reg_blk.i2s_tim_ctrl_reg_h.write(status, i2s_tx_params::SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
+            reg_blk.i2s_tim_ctrl_reg_h.write(status, cfg.SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
             //Enable core
             if(cfg.LEFT_JUSTICATION) reg_blk.control_reg_h.write(status, 3, UVM_FRONTDOOR);             // Left Justification
             else if(cfg.RIGHT_JUSTICATION) reg_blk.control_reg_h.write(status, 7, UVM_FRONTDOOR);       // Right Justification
             else reg_blk.control_reg_h.write(status, 1, UVM_FRONTDOOR);                                 // Default with no justification
+            SCLK_PERIOD                    = (i2s_tx_params::AUD_MCLK_PERIOD)*(cfg.SCLK_DIVIDER_VALUE*2);                   // Time Period of SCLK in ns
+            SCLK_FREQUENCY                 = 1000000000/SCLK_PERIOD;                                                    // Frequency of SCLK
             `uvm_info(get_name(), $sformatf("THE FREQUENCY OF AUD_MCLK IS :: %0d THE PERIOD OF AUD_MCLK IS :: %0d", i2s_tx_params::AUD_MCLK_FREQUENCY, i2s_tx_params::AUD_MCLK_PERIOD), UVM_NONE)
-            `uvm_info(get_name(), $sformatf("THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", i2s_tx_params::SCLK_FREQUENCY, i2s_tx_params::SCLK_PERIOD), UVM_NONE)
+            `uvm_info(get_name(), $sformatf("THE DIVIDER VALUE IS :: %0d THE FREQUENCY OF SCLK SHOULD :: %0d THE PERIOD OF SCLK SHOULD :: %0d", cfg.SCLK_DIVIDER_VALUE, SCLK_FREQUENCY, SCLK_PERIOD), UVM_NONE)
             
         end
+        else begin
+            // Disable the core
+            reg_blk.control_reg_h.write(status, 0, UVM_FRONTDOOR); 
+        end
+
     endtask: configure_core
 
     // Task to read register in reset phase 
