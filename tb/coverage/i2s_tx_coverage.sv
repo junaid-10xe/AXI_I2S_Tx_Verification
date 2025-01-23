@@ -51,6 +51,12 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             bins all_zeros  = {'h00000000};
             bins rand_val   = {[0:$]};
         }
+        sck_div: coverpoint axi4_tr.s_axi_ctrl_wdata[7:0] {
+            bins sck_val_1    = {1};
+            bins sck_val_2    = {2};
+            bins sck_val_3    = {3};
+            bins sck_val_4    = {4};
+        }
         // Write response coverage (valid and invalid responses)
         wresp: coverpoint axi4_tr.s_axi_ctrl_bresp {                             // Write response
             bins ok_resp = {2'b00};
@@ -109,6 +115,18 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             ignore_bins ignore_0        = binsof(wresp.ok_resp);
             ignore_bins ignore_1        = binsof(wdata.all_ones);
             ignore_bins ignore_2        = binsof(wdata.all_zeros);
+        }
+
+        // Cross coverage of i2s timing register with different values
+        i2s_timing_reg_x_SCK_VAL: cross sck_div, valid_waddr{
+            bins i2s_timing_reg_sck_val_1 = binsof(valid_waddr.i2s_reg) && binsof(sck_div.sck_val_1);
+            bins i2s_timing_reg_sck_val_2 = binsof(valid_waddr.i2s_reg) && binsof(sck_div.sck_val_2);
+            bins i2s_timing_reg_sck_val_3 = binsof(valid_waddr.i2s_reg) && binsof(sck_div.sck_val_3);
+            bins i2s_timing_reg_sck_val_4 = binsof(valid_waddr.i2s_reg) && binsof(sck_div.sck_val_4);
+
+            ignore_bins ignore_0          = (binsof(valid_waddr) intersect {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
+                                                                            'h30, 'h34, 'h38, 'h3C, 'h50, 
+                                                                            'h54, 'h58, 'h5C, 'h60, 'h64});
         }
     endgroup : axi4lite_write_cg
 
@@ -224,7 +242,7 @@ class axi_stream_coverage extends uvm_subscriber #(i2s_tx_axis_seq_item);
         coverpoint axis_tr.s_axis_aud_tdata[27:4] {                     // Audio sample data range
             bins all_ones   = {24'hFFFFFF};
             bins all_zeros  = {24'h000000};
-            bins valid_data = {[0:$]};                                  
+            bins rand_data  = {[0:$]};                                  
         }
         // Coverage for parity bit
         parity: coverpoint axis_tr.s_axis_aud_tdata[31] {               // Parity bit

@@ -25,6 +25,8 @@ class i2s_tx_monitor extends uvm_monitor;
     // Handle for configuration Class
     i2s_tx_config          cfg;
 
+    
+
     // Constructor: Initializes the monitor
     function new(string name = "i2s_tx_monitor", uvm_component parent);
         super.new(name, parent);
@@ -53,6 +55,12 @@ class i2s_tx_monitor extends uvm_monitor;
 
     // Run Phase: Monitors signals and broadcasts transactions
     task run_phase(uvm_phase phase);
+        // wait for reset to be de asserted
+        wait(!i2s_vif.aud_mrst);
+        cfg.SCLK_DIV                       = (cfg.SCLK_DIVIDER_VALUE)*2;
+        `uvm_info(get_name(), $sformatf("SCK_VAl %0d", cfg.SCLK_DIVIDER_VALUE), UVM_NONE)
+        `uvm_info(get_name(), $sformatf("SCK_VAl %0d", cfg.SCLK_DIV), UVM_NONE)
+        
          wait_for_valid();
         forever begin
             // Create transaction object
@@ -77,12 +85,12 @@ class i2s_tx_monitor extends uvm_monitor;
                 i2s_tr.lrclk_out                                        = i2s_vif.lrclk_out;
                 i2s_tr.sclk_out                                         = i2s_vif.sclk_out;
                 i2s_tr.sdata_0_out[31-i]                                = i2s_vif.sdata_0_out;
-                repeat(i2s_tx_params::SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
+                repeat(cfg.SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
             end
         end 
         else begin    
             for (int i=0; i<i2s_tx_params::AUD_WIDTH; ++i) begin
-                repeat(i2s_tx_params::SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
+                repeat(cfg.SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
                 `uvm_info(get_name(), "Clock edge detected", UVM_DEBUG)
     
                 // Capture DUT signals into transaction object
@@ -105,7 +113,7 @@ class i2s_tx_monitor extends uvm_monitor;
             repeat(2) @(posedge i2s_vif.aud_mclk);;
         end
         else begin
-            if(i2s_tx_params::SCLK_DIVIDER_VALUE == 1 || i2s_tx_params::SCLK_DIVIDER_VALUE == 2 ) begin 
+            if(cfg.SCLK_DIVIDER_VALUE == 1 || cfg.SCLK_DIVIDER_VALUE == 2 ) begin 
                 repeat(3) @(posedge i2s_vif.lrclk_out);
             end
             else begin
@@ -113,7 +121,7 @@ class i2s_tx_monitor extends uvm_monitor;
             end
             @(negedge i2s_vif.lrclk_out);
             // wait(i2s_vif.aud_mclk);
-            repeat(i2s_tx_params::SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
+            repeat(cfg.SCLK_DIV) @(posedge i2s_vif.aud_mclk); 
         end
 
     endtask

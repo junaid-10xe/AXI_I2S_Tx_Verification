@@ -20,7 +20,10 @@ class i2s_tx_config extends uvm_object;
         super.new();
     endfunction: new;
 
-     
+     // Calculate SCLK FREQUENCY
+    int SCLK_DIVIDER_VALUE          = 4;                                                                         // MCLK_FREQ/SCLK_FREQ = Divider_val*2
+    int SCLK_DIV;
+   
     // Parameters to control sequences of RAL
     i2s_tx_defines::data_pattern_e RAL_DATA_PATTERN    = ALL_ONES;
     bit CORE_CFG                                       = 1;    // Bit to cinfugure core

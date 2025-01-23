@@ -228,7 +228,7 @@ class axis_rand_seq extends i2s_tx_axis_base_seq;
     
             start_item(axis_seq);
             assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]      == 4'b0011;
-                                    axis_seq.s_axis_aud_tdata[27:4]               == 24'h0;
+                                    axis_seq.s_axis_aud_tdata[27:4]               == 24'hFFFFFF;
                                     axis_seq.s_axis_aud_tdata[28]                 == 0;
                                     axis_seq.s_axis_aud_tdata[29]                 == 0;
                                     axis_seq.s_axis_aud_tdata[30]                 == 1;

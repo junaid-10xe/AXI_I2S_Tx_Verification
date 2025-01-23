@@ -440,4 +440,147 @@ class rand_reg_test extends i2s_tx_base_test;
 
 endclass: rand_reg_test
 
+// Classes to test I2S on different SCK frequency by changing div value not extende from base test because cant change clk on runtime
+class sck_freq1_test extends i2s_tx_base_test;
+    `uvm_component_utils(sck_freq1_test)
+
+    // Handle for RAl SEQ to Configure registers
+    ral_cfg_seq                             cfg_ral_seq;
+    // Handle of Stream Sequence
+    axis_rand_seq                            axis_seq;
+    // Constructor: new
+    function new(string name = "sck_freq1_test"
+        , uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // Build_phase
+    function void build_phase(uvm_phase phase);
+        uvm_factory factory = uvm_factory::get();
+        super.build_phase(phase);
+        cfg_ral_seq                 = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
+        axis_seq                    = axis_rand_seq::type_id::create("axis_seq", this);
+        cfg.SCLK_DIVIDER_VALUE      = 1;
+        cfg_ral_seq.cfg     = cfg;
+        axis_seq.cfg        = cfg;
+    endfunction: build_phase
+
+    // Configure Phase to configure core 
+    task configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        
+        cfg_ral_seq.reg_blk         = env.reg_block;
+        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+    endtask: configure_phase
+
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        axis_seq.start(env.axis_agt.axis_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: sck_freq1_test
+
+
+class sck_freq2_test extends i2s_tx_base_test;
+    `uvm_component_utils(sck_freq2_test)
+
+    // Handle for RAl SEQ to Configure registers
+    ral_cfg_seq                             cfg_ral_seq;
+    // Handle of Stream Sequence
+    axis_rand_seq                            axis_seq;
+    // Constructor: new
+    function new(string name = "sck_freq2_test"
+        , uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // Build_phase
+    function void build_phase(uvm_phase phase);
+        uvm_factory factory = uvm_factory::get();
+        super.build_phase(phase);
+        cfg_ral_seq                 = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
+        axis_seq                    = axis_rand_seq::type_id::create("axis_seq", this);
+        cfg.SCLK_DIVIDER_VALUE      = 2;
+        cfg_ral_seq.cfg     = cfg;
+        axis_seq.cfg        = cfg;
+    endfunction: build_phase
+
+    // Configure Phase to configure core 
+    task configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        
+        cfg_ral_seq.reg_blk         = env.reg_block;
+        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+    endtask: configure_phase
+
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        axis_seq.start(env.axis_agt.axis_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: sck_freq2_test
+
+class sck_freq3_test extends i2s_tx_base_test;
+    `uvm_component_utils(sck_freq3_test)
+
+    // Handle for RAl SEQ to Configure registers
+    ral_cfg_seq                             cfg_ral_seq;
+    // Handle of Stream Sequence
+    axis_rand_seq                            axis_seq;
+    // Constructor: new
+    function new(string name = "sck_freq3_test"
+        , uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // Build_phase
+    function void build_phase(uvm_phase phase);
+        uvm_factory factory = uvm_factory::get();
+        super.build_phase(phase);
+        cfg_ral_seq                 = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
+        axis_seq                    = axis_rand_seq::type_id::create("axis_seq", this);
+        cfg.SCLK_DIVIDER_VALUE      = 3;
+        cfg_ral_seq.cfg     = cfg;
+        axis_seq.cfg        = cfg;
+    endfunction: build_phase
+
+    // Configure Phase to configure core 
+    task configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        
+        cfg_ral_seq.reg_blk         = env.reg_block;
+        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+    endtask: configure_phase
+
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        axis_seq.start(env.axis_agt.axis_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: sck_freq3_test
+
 `endif
