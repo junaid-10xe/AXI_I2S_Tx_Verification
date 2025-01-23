@@ -86,6 +86,37 @@ class ral_test extends i2s_tx_base_test;
 
 endclass: ral_test
 
+//  Class: core_cfg_test
+//
+class core_cfg_test extends i2s_tx_base_test;
+    `uvm_component_utils(core_cfg_test);
+    // HAndle of RAL test seq
+    core_cfg_reg_seq            core_cfg_seq;
+    //  Constructor: new
+    function new(string name = "core_cfg_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    //BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        core_cfg_seq        = core_cfg_reg_seq::type_id::create("core_cfg_seq", this);
+        cfg.CORE_CFG_TEST   = 1;
+        core_cfg_seq.cfg    = cfg;
+    endfunction: build_phase
+    //Run Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)   
+        core_cfg_seq.reg_blk = env.reg_block;
+        core_cfg_seq.start(env.axis_agt.axis_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+
+    endtask: main_phase
+
+endclass: core_cfg_test
+
 // Class axis_tvalid_test 
 // Description:: To test the handshake of axi-stream by giving the DUT tvalid low and high
 class axis_tvalid_test extends i2s_tx_base_test;
