@@ -22,6 +22,7 @@ TEST_NAMES=(
   "sck_freq1_test"
   "sck_freq2_test"
   "sck_freq3_test"
+  "core_cfg_test"
 )
 
 # Iterate over test names and run make simulate for each
