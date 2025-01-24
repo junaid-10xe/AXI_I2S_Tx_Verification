@@ -11,18 +11,18 @@
 `ifndef I2S_TX_TB_TOP
 `define I2S_TX_TB_TOP
     `timescale 1ns/1ns
-    // Include file which add all necessary files
+    // Include file which add all necessary
     `include "../include/i2s_tx_include_files.sv"
 
  
 module i2s_tx_tb_top;
 
     // axi4 lite interface handle
-    i2s_tx_axi4_lite_intf axi4_lite_intf();
+    i2s_tx_axi4_lite_intf   axi4_lite_intf();
     // axi stream interface handle
-    i2s_tx_axi_stream_intf axis_intf();
+    i2s_tx_axi_stream_intf  axis_intf();
     // Dut Interface handle
-    i2s_tx_intf i2s_intf();
+    i2s_tx_intf             i2s_intf();
 
 
     // DUT instantiation 

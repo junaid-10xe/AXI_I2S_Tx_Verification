@@ -30,6 +30,9 @@ interface i2s_tx_intf ();
   // Signals for clock and reset
   logic aud_mclk;
   logic aud_mrst;
+  // Expected sclk and lrclk
+  bit expected_sclk;
+  bit expected_lrclk;
 
   int TIME_PERIOD = i2s_tx_params::AUD_MCLK_PERIOD;
   // task to generate clk

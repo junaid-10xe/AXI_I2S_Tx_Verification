@@ -14,8 +14,8 @@ TEST 	  ?= sanity_test
 VERBOSITY ?= UVM_LOW 
 LOG_DIR    = logs/$(TEST)
 WAV_DIR	   = $(LOG_DIR)/wave
-# Coverage Directoru and Database
-COV_DIR = /home/lpt-10xe/10xTraining/TCP/Coverage
+# Coverage Directory and Database
+COV_DIR = Coverage
 # Flags
 XVLOG_FLAGS = --incr --relax -L uvm -L i2s_transmitter_v1_0_5 -L uvm -prj
 XELAB_FLAGS = --incr --debug typical --relax --mt 8 \

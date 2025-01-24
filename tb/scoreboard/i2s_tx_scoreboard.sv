@@ -27,6 +27,8 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    i2s_tx_axis_seq_item                axis_tr;
    i2s_tx_axi4_lite_seq_item           axi_tr;
    i2s_tx_seq_item                     i2s_tr;
+   // handle of i2s interface
+   virtual i2s_tx_intf                 i2s_vif;
    //Handle of configure class
    i2s_tx_config                        cfg;
 
@@ -34,6 +36,10 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    i2s_tx_defines::axi_stream_data     prev_tdata;
    // variable to store prev TID
    i2s_tx_defines::axi_stream_tid      prev_tid;
+   // Variable to calculate sclk period
+   int                                 SCLK_PERIOD;
+   // Variable to calculate lrclk period
+   int                                 LRCLK_PERIOD;
    // Control bit to store value in queue or drop
    bit                                 valid_pkt;
    bit                                 invalid_pkt;
@@ -51,7 +57,11 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
       super.build_phase(phase);
       if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
          `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
-     end
+      end
+     // Retrieve virtual interface from the UVM configuration database
+      if (!uvm_config_db#(virtual i2s_tx_intf)::get(this, "*", "i2s_vif", i2s_vif)) begin
+      `uvm_fatal(get_name(), "Failed to get DUT Interface from Config DB")
+      end
    endfunction: build_phase
    
    //Queue to capture axi-stream transactions
@@ -153,12 +163,55 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
             `uvm_error(get_name(), "Queue is empty! Cannot retrieve transaction.");
          end
          axis_tr_d = axis_pkts.pop_back();
-         i2s_output_checker(i2s_tr, axis_tr_d);
+         i2s_output_checker(i2s_tr, axis_tr_d);   // Check Data 
+         
          `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
          `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
       end
    endfunction
 
+   // Run phase 
+   task run_phase(uvm_phase phase);
+      wait(!i2s_vif.aud_mrst);
+      // Calculate time periods of both clocks 
+      SCLK_PERIOD = (i2s_tx_params::AUD_MCLK_PERIOD)*(cfg.SCLK_DIVIDER_VALUE*2);                   // Time Period of SCLK in ns
+      if(cfg.LEFT_JUSTICATION || cfg.RIGHT_JUSTICATION) begin
+         LRCLK_PERIOD = SCLK_PERIOD*32*2;         
+      end
+      else begin
+         LRCLK_PERIOD = SCLK_PERIOD*(i2s_tx_params::AUD_WIDTH)*2;
+      end
+      // Run in parallel
+      fork
+         fork
+            generate_sclk();
+            generate_lrclk();
+         join
+         // Check SCK and LRCLK
+         if (i2s_vif.expected_sclk != i2s_vif.sclk_out) begin
+            `uvm_error(get_name(), $sformatf("TEST FAILED SCLK DONT MATCHED EXPECTED :: %0b ACTUAL :: %0b", i2s_vif.expected_sclk, i2s_tr.sclk_out));
+         end
+         if (i2s_vif.expected_lrclk != i2s_vif.lrclk_out) begin
+            `uvm_error(get_name(), $sformatf("TEST FAILED LRCLK DONT MATCHED EXPECTED :: %0b ACTUAL :: %0b", i2s_vif.expected_lrclk, i2s_tr.lrclk_out));
+         end
+      join
+   endtask: run_phase
+   
+
+   // Task to generate sclk
+   task generate_sclk();
+      i2s_vif.expected_sclk = 0;
+      forever begin
+         #(SCLK_PERIOD/2) i2s_vif.expected_sclk = ~i2s_vif.expected_sclk;
+      end
+   endtask
+   // Task to generate lrclk
+   task generate_lrclk();
+      i2s_vif.expected_lrclk = 0;
+      forever begin
+         #(LRCLK_PERIOD/2) i2s_vif.expected_lrclk = ~i2s_vif.expected_lrclk;
+      end
+   endtask
    // Checker function for i2s Output
    function void i2s_output_checker(input i2s_tx_seq_item i2s_tr, input i2s_tx_axis_seq_item axis_tr_d);
       if(cfg.RIGHT_JUSTICATION) begin

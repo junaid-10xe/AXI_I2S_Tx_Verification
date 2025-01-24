@@ -57,6 +57,14 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             bins sck_val_3    = {3};
             bins sck_val_4    = {4};
         }
+        // write data coverage for control reg val
+        wdata_ctrl: coverpoint axi4_tr.s_axi_ctrl_wdata[2:0] {
+            bins core_disable     = {3'b000};
+            bins core_enable      = {3'b001};
+            bins left_just        = {3'b011};
+            bins right_just       = {3'b111};
+
+        }
         // Write response coverage (valid and invalid responses)
         wresp: coverpoint axi4_tr.s_axi_ctrl_bresp {                             // Write response
             bins ok_resp = {2'b00};
@@ -127,6 +135,12 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
             ignore_bins ignore_0          = (binsof(valid_waddr) intersect {'h00, 'h04, 'h08, 'h0C, 'h10, 'h14, 
                                                                             'h30, 'h34, 'h38, 'h3C, 'h50, 
                                                                             'h54, 'h58, 'h5C, 'h60, 'h64});
+        }
+        // ross coverage of control reg with all possible configuration
+        control_reg_x_config: cross valid_waddr, wdata_ctrl {
+            ignore_bins ignore_0 = (binsof(valid_waddr) intersect {'h00, 'h04, 'h0C, 'h10, 'h14, 'h20, 
+                                                                    'h30, 'h34, 'h38, 'h3C, 'h50, 
+                                                                    'h54, 'h58, 'h5C, 'h60, 'h64});
         }
     endgroup : axi4lite_write_cg
 
