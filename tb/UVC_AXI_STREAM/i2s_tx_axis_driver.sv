@@ -21,6 +21,8 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
 
     // Handle for interface
     virtual i2s_tx_axi_stream_intf axis_vif;
+    // Handle of config class
+    i2s_tx_config           cfg;
 
     // Constructor: new
     function new(string name = "i2s_tx_axis_driver", uvm_component parent);
@@ -36,6 +38,10 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
         end else begin
             `uvm_info(get_name(), "AXI-Stream Interface successfully retrieved from Config DB", UVM_DEBUG)
         end
+        // Get the config object 
+        if(!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
+            `uvm_fatal(get_name(), "Failed to get Configuration from Config DB")
+         end
     endfunction: build_phase
 
     // Run phase to drive signals to DUT
@@ -49,7 +55,9 @@ class i2s_tx_axis_driver extends uvm_driver#(i2s_tx_axis_seq_item);
             // Debug message to verify transaction details
             `uvm_info(get_name(), $sformatf("Received transaction: \n%s", axis_tr.sprint()), UVM_DEBUG)
                 @(posedge axis_vif.s_axis_aud_aclk);
-                axis_drive();
+                if(cfg.CORE_CFG) begin
+                    axis_drive();
+                end
             `uvm_info(get_name(), $sformatf("Data driven to DUT from AXI-Stream Driver:\n%s", axis_tr.sprint()), UVM_HIGH)
             seq_item_port.item_done();
         end
