@@ -65,17 +65,17 @@ interface i2s_tx_intf ();
   // Always block to monitor sclk_out and reset the counter based on justification
   always @(negedge sclk_out) begin
           count <= count + 1;
-          if (justification && count == 32) begin
+          if (justification==1 && count == 32) begin
                   count <= 1; // Reset after 32 counts for left or right justification
           end
-          else if (count == 24)  begin
+          else if (justification==0 && count == i2s_tx_params::AUD_WIDTH)  begin
                   count <= 1; // Reset after 24 counts otherwise
           end
   end
   // Sequence to detect count reaching 24 or 32
   sequence sclk_count_check;
       @(negedge sclk_out)
-      (justification ? (count == 32) : (count == 24));
+      (justification ? (count == 32) : (count == i2s_tx_params::AUD_WIDTH));
   endsequence
   // Property to check lrclk_out toggles on negedge sclk_out after count reaches the threshold
   property lrclk_check;

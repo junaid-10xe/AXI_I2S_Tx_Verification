@@ -51,6 +51,13 @@ class i2s_tx_monitor extends uvm_monitor;
         if (!uvm_config_db#(i2s_tx_config)::get(this, "*", "cfg", cfg)) begin
             `uvm_fatal(get_name(), "Failed to get Configuration Class from Config DB")
         end
+        // Update the control bit in interface if justification is enabled
+        if(cfg.LEFT_JUSTICATION || cfg.RIGHT_JUSTICATION) begin
+            i2s_vif.justification = 1;
+        end
+        else begin
+            i2s_vif.justification = 0;
+        end
     endfunction: build_phase
 
     // Run Phase: Monitors signals and broadcasts transactions
@@ -108,10 +115,6 @@ class i2s_tx_monitor extends uvm_monitor;
             repeat(3) @(posedge i2s_vif.lrclk_out);
             repeat(2) @(posedge i2s_vif.aud_mclk);
         end
-        // else if(cfg.RIGHT_JUSTICATION) begin
-        //     repeat(3) @(posedge i2s_vif.lrclk_out);
-        //     repeat(2) @(posedge i2s_vif.aud_mclk);;
-        // end
         else begin
             i2s_vif.justification = 0;
             if(cfg.SCLK_DIVIDER_VALUE == 1 || cfg.SCLK_DIVIDER_VALUE == 2 ) begin 

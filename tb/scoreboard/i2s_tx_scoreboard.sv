@@ -31,6 +31,8 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    virtual i2s_tx_intf                 i2s_vif;
    //Handle of configure class
    i2s_tx_config                        cfg;
+   // handle for reg block
+   i2s_tx_reg_blk                 reg_block;
 
    //Variable to store previous tdata
    i2s_tx_defines::axi_stream_data     prev_tdata;
@@ -248,26 +250,16 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
 
    // Function to check reponse of register read write
    function void ral_resp_checker(input i2s_tx_axi4_lite_seq_item axi_tr);
-      // Array of valid write addresses
-      reg [7:0] write_array [0:15] = {
-         8'h00, 8'h08, 8'h0C, 8'h10, 8'h14, 
-         8'h20, 8'h30, 8'h34, 8'h38, 8'h3C, 8'h50, 
-         8'h54, 8'h58, 8'h5C, 8'h60, 8'h64
-      };
-      // Array of valid read addresses
-      reg [7:0] read_array [0:16] = {
-         8'h00, 8'h04, 8'h08, 8'h0C, 8'h10, 8'h14, 
-         8'h20, 8'h30, 8'h34, 8'h38, 8'h3C, 8'h50, 
-         8'h54, 8'h58, 8'h5C, 8'h60, 8'h64
-      };
-
       bit read_match;
       bit write_match;
-
+      // Handle of queue to get registers from reg block
+      uvm_reg regs[$];
+      reg_block.get_registers(regs);
+      // For Write Response
       if(axi_tr.s_axi_ctrl_bvalid && axi_tr.s_axi_ctrl_bready) begin
          write_match = 0;
-         foreach(write_array[i]) begin
-            if(axi_tr.s_axi_ctrl_awaddr == write_array[i]) begin
+         foreach (regs[i]) begin
+            if(axi_tr.s_axi_ctrl_awaddr == regs[i].get_address) begin
                write_match = 1;
             end
          end
@@ -288,11 +280,12 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
             end
          end
       end
-      // For read
+
+      // For Read Response
       if(axi_tr.s_axi_ctrl_rvalid && axi_tr.s_axi_ctrl_rready) begin
          read_match = 0;
-         foreach(read_array[i]) begin
-            if(axi_tr.s_axi_ctrl_araddr == read_array[i]) begin
+         foreach (regs[i]) begin
+            if(axi_tr.s_axi_ctrl_araddr == regs[i].get_address) begin
                read_match = 1;
             end
          end
@@ -311,7 +304,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
             else begin
                `uvm_info(get_name(), $sformatf("TEST PASSED EXPECTED RESPONSE 10, GOT %0b for address %0h", axi_tr.s_axi_ctrl_rresp, axi_tr.s_axi_ctrl_araddr), UVM_LOW)
             end
-         end         
+         end
       end
    endfunction
 endclass

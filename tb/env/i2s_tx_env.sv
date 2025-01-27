@@ -116,6 +116,8 @@ class i2s_tx_env extends uvm_env;
             axi_agt.axi_mon.axi_a_port.connect(axi4_cov.analysis_export);
             axis_agt.axis_mon.axis_a_port.connect(axis_cov.analysis_export);
         end
+        // Assign reg block to scoreboard reg block
+        sco.reg_block = reg_block;
     endfunction: connect_phase
     
 endclass: i2s_tx_env
