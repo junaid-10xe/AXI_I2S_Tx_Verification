@@ -33,7 +33,7 @@ interface i2s_tx_intf ();
   // Expected sclk and lrclk
   bit expected_sclk;
   bit expected_lrclk;
-
+  // Time period of clock according to sampling frequency
   int TIME_PERIOD = i2s_tx_params::AUD_MCLK_PERIOD;
   // task to generate clk
   task generate_clk();
@@ -55,6 +55,36 @@ interface i2s_tx_intf ();
       generate_reset();
     join
   end
+
+
+  // ASSERTION TO VALIDATE SCK AND LRCK
+  // Counter to track sclk_out edges
+  integer count = 0;
+  // bit for justification mode
+  bit justification;
+  // Always block to monitor sclk_out and reset the counter based on justification
+  always @(negedge sclk_out) begin
+          count <= count + 1;
+          if (justification && count == 32) begin
+                  count <= 1; // Reset after 32 counts for left or right justification
+          end
+          else if (count == 24)  begin
+                  count <= 1; // Reset after 24 counts otherwise
+          end
+  end
+  // Sequence to detect count reaching 24 or 32
+  sequence sclk_count_check;
+      @(negedge sclk_out)
+      (justification ? (count == 32) : (count == 24));
+  endsequence
+  // Property to check lrclk_out toggles on negedge sclk_out after count reaches the threshold
+  property lrclk_check;
+      @(negedge sclk_out)
+      sclk_count_check |=> $changed(lrclk_out);
+  endproperty
+  // Assertion to verify the property
+  assert property (lrclk_check)
+    else `uvm_error("I2S_INTF_ASSERION", "LRCLK toggle verification failed");
 
 endinterface
 

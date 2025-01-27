@@ -103,16 +103,17 @@ class i2s_tx_monitor extends uvm_monitor;
     endtask
     // Task for initial wait to start sending valid transaction
     task wait_for_valid();
-        if(cfg.LEFT_JUSTICATION) begin
+        if(cfg.LEFT_JUSTICATION || cfg.RIGHT_JUSTICATION) begin
+            i2s_vif.justification = 1;
             repeat(3) @(posedge i2s_vif.lrclk_out);
             repeat(2) @(posedge i2s_vif.aud_mclk);
-
         end
-        else if(cfg.RIGHT_JUSTICATION) begin
-            repeat(3) @(posedge i2s_vif.lrclk_out);
-            repeat(2) @(posedge i2s_vif.aud_mclk);;
-        end
+        // else if(cfg.RIGHT_JUSTICATION) begin
+        //     repeat(3) @(posedge i2s_vif.lrclk_out);
+        //     repeat(2) @(posedge i2s_vif.aud_mclk);;
+        // end
         else begin
+            i2s_vif.justification = 0;
             if(cfg.SCLK_DIVIDER_VALUE == 1 || cfg.SCLK_DIVIDER_VALUE == 2 ) begin 
                 repeat(3) @(posedge i2s_vif.lrclk_out);
             end
