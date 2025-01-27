@@ -475,15 +475,15 @@ class rand_reg_test extends i2s_tx_base_test;
 endclass: rand_reg_test
 
 // Classes to test I2S on different SCK frequency by changing div value not extende from base test because cant change clk on runtime
-class sck_freq1_test extends i2s_tx_base_test;
-    `uvm_component_utils(sck_freq1_test)
+class sck_freq4_test extends i2s_tx_base_test;
+    `uvm_component_utils(sck_freq4_test)
 
     // Handle for RAl SEQ to Configure registers
     ral_cfg_seq                             cfg_ral_seq;
     // Handle of Stream Sequence
     axis_rand_seq                            axis_seq;
     // Constructor: new
-    function new(string name = "sck_freq1_test"
+    function new(string name = "sck_freq4_test"
         , uvm_component parent);
         super.new(name, parent);
     endfunction: new
@@ -493,7 +493,7 @@ class sck_freq1_test extends i2s_tx_base_test;
         super.build_phase(phase);
         cfg_ral_seq                 = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
         axis_seq                    = axis_rand_seq::type_id::create("axis_seq", this);
-        cfg.SCLK_DIVIDER_VALUE      = 1;
+        cfg.SCLK_DIVIDER_VALUE      = 4;
         cfg_ral_seq.cfg     = cfg;
         axis_seq.cfg        = cfg;
     endfunction: build_phase
@@ -520,7 +520,7 @@ class sck_freq1_test extends i2s_tx_base_test;
         `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
     endtask: main_phase
 
-endclass: sck_freq1_test
+endclass: sck_freq4_test
 
 
 class sck_freq2_test extends i2s_tx_base_test;
