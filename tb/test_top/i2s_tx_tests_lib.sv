@@ -61,9 +61,10 @@ class ral_test extends i2s_tx_base_test;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         ral_seq      = ral_test_seq::type_id::create("ral_seq", this);
-        cfg.CORE_VER_TEST   = 1;
-        cfg.CORE_CFG_TEST   = 1;
-        cfg.RD_REGS_DFT     = 1;
+        cfg.CORE_VER_TEST   = 0;
+        cfg.CORE_CFG_TEST   = 0;
+        cfg.RD_REGS_DFT     = 0;
+        cfg.WR_RD_REGS      = 1;
         cfg.REG_RO_FIELDS   = 1;
         cfg.REG_RW_FIELDS   = 1;
         cfg.RAL_CHECKER     = 1;
@@ -86,6 +87,131 @@ class ral_test extends i2s_tx_base_test;
     endtask: main_phase
 
 endclass: ral_test
+
+// Class :: axi-reset test 
+class axi_rst_test extends i2s_tx_base_test;
+    `uvm_component_utils(axi_rst_test);
+    // HAndle of RAL test seq
+    ral_test_seq            ral_seq;
+    //  Constructor: new
+    function new(string name = "axi_rst_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    //BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        ral_seq      = ral_test_seq::type_id::create("ral_seq", this);
+        cfg.RD_REGS_DFT     = 1;
+        cfg.RD_REGS         = 1;
+        cfg.RAL_CHECKER     = 1;
+        cfg.WR_RD_REGS      = 0;
+        ral_seq.cfg  = cfg;
+    endfunction: build_phase
+    //Run Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)  
+        axi4_lite_vif.generate_reset();
+        ral_seq.reg_blk = env.reg_block;
+        ral_seq.start(env.axis_agt.axis_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+
+    endtask: main_phase
+
+endclass: axi_rst_test
+
+//  Class: core_ver_test
+//
+class core_ver_test extends i2s_tx_base_test;
+    `uvm_component_utils(core_ver_test);
+    // HAndle of RAL test seq
+    ral_test_seq            ral_seq;
+    //  Constructor: new
+    function new(string name = "core_ver_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    //BUILD PHASE
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        ral_seq      = ral_test_seq::type_id::create("ral_seq", this);
+        cfg.CORE_VER_TEST   = 1;
+        cfg.CORE_CFG_TEST   = 0;
+        cfg.RD_REGS_DFT     = 0;
+        cfg.REG_RO_FIELDS   = 0;
+        cfg.REG_RW_FIELDS   = 0;
+        cfg.WR_RD_REGS      = 0;
+        cfg.RAL_CHECKER     = 1;
+        ral_seq.cfg  = cfg;
+    endfunction: build_phase
+    //Run Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)   
+        ral_seq.reg_blk = env.reg_block;
+        ral_seq.start(env.axis_agt.axis_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+
+    endtask: main_phase
+
+endclass: core_ver_test
+
+class core_en_test extends i2s_tx_base_test;
+    `uvm_component_utils(core_en_test)
+
+    // Handle for RAl SEQ to Configure registers
+    ral_cfg_seq                             cfg_ral_seq;
+    // Handle of Stream Sequence
+    axis_rand_seq                            axis_seq;
+    // Constructor: new
+    function new(string name = "core_en_test"
+        , uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+    // Build_phase
+    function void build_phase(uvm_phase phase);
+        uvm_factory factory = uvm_factory::get();
+        super.build_phase(phase);
+        cfg_ral_seq                 = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
+        axis_seq                    = axis_rand_seq::type_id::create("axis_seq", this);
+        cfg.CORE_CFG        = 0;
+        cfg.CORE_VER_TEST   = 0;
+        cfg.CORE_CFG_TEST   = 0;
+        cfg.RD_REGS_DFT     = 0;
+        cfg.REG_RO_FIELDS   = 0;
+        cfg.REG_RW_FIELDS   = 0;
+        cfg.WR_RD_REGS      = 0;
+        cfg.RAL_CHECKER     = 1;
+        cfg_ral_seq.cfg     = cfg;
+        axis_seq.cfg        = cfg;
+    endfunction: build_phase
+
+    // Configure Phase to configure core 
+    task configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
+        
+        cfg_ral_seq.reg_blk         = env.reg_block;
+        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
+        phase.phase_done.set_drain_time(this, 100);
+    endtask: configure_phase
+
+    // MAIN Phase
+    task main_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+        axis_seq.start(env.axis_agt.axis_sqnr);
+        `uvm_info(get_name(), "REgisters testing finished.", UVM_NONE)
+        phase.drop_objection(this);
+        `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+    endtask: main_phase
+
+endclass: core_en_test
 
 //  Class: core_cfg_test
 //
@@ -118,6 +244,7 @@ class core_cfg_test extends i2s_tx_base_test;
     endtask: main_phase
 
 endclass: core_cfg_test
+
 
 // Class axis_tvalid_test 
 // Description:: To test the handshake of axi-stream by giving the DUT tvalid low and high
