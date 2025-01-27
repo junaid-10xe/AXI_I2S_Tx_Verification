@@ -2,52 +2,32 @@
 # ****************************************************************************
 # Author: Muhammad Junaid
 # Date: January 21, 2025
-# Description: This script merges individual coverage databases into a 
-#              single merged coverage database and generates a coverage report.
+# Description: This script dynamically merges individual coverage databases 
+#              from a directory into a single merged coverage database and 
+#              generates a coverage report.
 # ****************************************************************************
 
-
 # Variables
-COV_DIR="Coverage/xsim.covdb"                                # Base directory for individual coverage databases
-MERGE_DIR="./coverage_merged"                                # Directory for merged coverage database
-REPORT_DIR="./coverage_report"                               # Directory for coverage report
-MERGE_DB_NAME="merged_coverage"                              # Name for the merged database
+COV_DIR="Coverage/xsim.covdb"            # Base directory containing individual coverage databases
+MERGE_DIR="./coverage_merged"            # Directory for merged coverage database
+REPORT_DIR="./coverage_report"           # Directory for coverage report
+MERGE_DB_NAME="merged_coverage"          # Name for the merged database
 
 # Ensure required directories exist
 mkdir -p "$MERGE_DIR"
 mkdir -p "$REPORT_DIR"
 
-# List of coverage databases to merge
-COVERAGE_DATABASES=(
-  "ral_test"
-  "axis_tvalid_test"
-  "axis_valid_bit_low_test"
-  "axis_valid_bit_hi_test"
-  "validity_reg_test"
-  "sanity_test"
-  "left_just_test"
-  "right_just_test"
-  "intrpt_ctrl_test"
-  "intrpt_stat_test"
-  "rand_reg_test"
-  "rand_axis_test"
-  "sck_freq1_test"
-  "sck_freq2_test"
-  "sck_freq3_test"
-  "core_cfg_test"
-)
-
 # Initialize merge command
 MERGE_CMD="xcrg"
 
-# Loop through each test's coverage database
-for DB_NAME in "${COVERAGE_DATABASES[@]}"; do
-    DB_PATH="$COV_DIR/$DB_NAME"
+# Iterate over subdirectories in the coverage directory
+for DB_PATH in "$COV_DIR"/*; do
     if [ -d "$DB_PATH" ]; then
+        DB_NAME=$(basename "$DB_PATH")  # Extract the folder name
         echo "Including coverage database: $DB_PATH"
         MERGE_CMD+=" -dir $DB_PATH -db_name $DB_NAME"
     else
-        echo "Warning: Coverage directory $DB_PATH not found. Skipping..."
+        echo "Warning: No coverage directories found in $COV_DIR. Skipping..."
     fi
 done
 
