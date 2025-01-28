@@ -22,13 +22,13 @@ class i2s_tx_reg_base_seq extends uvm_sequence;
     // Handle of config class
     i2s_tx_config           cfg;
     // declaring variable for configuration of sequence
-    bit core_cfg;                                                              // Bit to cinfugure core 
-    bit axi_stream_data_valid;                                    // Optional if we want to make data valid on stream
-    bit en_dis_int;                                                          // BIT to enable disable interrupt
+    bit core_cfg;                                                               // Bit to cinfugure core 
+    bit axi_stream_data_valid;                                                  // Optional if we want to make data valid on stream
+    bit en_dis_int;                                                             // BIT to enable disable interrupt
     bit rd_regs;                                                                // Bit to READ RAL REGISTERS
-    bit rd_regs_in_rst;                                                  // BIT to read registers in reset phase
-    bit wr_rd_regs;                                                          // Bit to write and read RAL REGISTERS 
-    i2s_tx_defines::data_pattern_e data_pattern;      // To genrate write data value according to pattern
+    bit rd_regs_in_rst;                                                         // BIT to read registers in reset phase
+    bit wr_rd_regs;                                                             // Bit to write and read RAL REGISTERS 
+    i2s_tx_defines::data_pattern_e data_pattern;                                // To genrate write data value according to pattern
 
     // variable to calculate sck period and frequency 
     int SCLK_PERIOD;
