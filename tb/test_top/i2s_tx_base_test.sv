@@ -52,13 +52,14 @@ class i2s_tx_base_test extends uvm_test;
         end
         // Set Config Class in Config DB
         uvm_config_db#(i2s_tx_config)::set(null, "*", "cfg", cfg);
-
        // env.set_report_verbosity_level(500);
     endfunction: build_phase
 
     // To print topology
     function void end_of_elaboration_phase(uvm_phase phase);
+        super.end_of_elaboration_phase(phase);
         uvm_top.print_topology();
+        uvm_root::get().set_report_severity_id_override(UVM_WARNING,"RegModel",UVM_INFO);
     endfunction: end_of_elaboration_phase
 
     // Reset Phase to reset signals before driving 
