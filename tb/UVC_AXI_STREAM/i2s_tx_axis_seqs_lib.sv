@@ -239,15 +239,12 @@ class axis_rand_seq extends i2s_tx_axis_base_seq;
             // Disable constraints
             axis_seq.tdata_tid_constraint.constraint_mode(0);
             repeat (cfg.NUM_TRANS) begin
-                // axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
                 start_item(axis_seq);
                 assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]  == 4'b0010;
                                         axis_seq.s_axis_aud_tid         == 3'b000;
                                         axis_seq.s_axis_aud_tvalid      == 1;})
                 finish_item(axis_seq);
                 
-                // axis_seq = i2s_tx_axis_seq_item::type_id::create("axis_seq");
-                // axis_seq.tdata_tid_constraint.constraint_mode(0);
                 start_item(axis_seq);
                 assert(axis_seq.randomize() with {axis_seq.s_axis_aud_tdata[3:0]  == 4'b0011;
                                         axis_seq.s_axis_aud_tid         == 3'b001;

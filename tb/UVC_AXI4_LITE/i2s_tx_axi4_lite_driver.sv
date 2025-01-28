@@ -48,18 +48,7 @@ class i2s_tx_axi4_lite_driver extends uvm_driver #(i2s_tx_axi4_lite_seq_item);
         forever begin
             i2s_tx_axi4_lite_seq_item           req;                     // Transaction handle
             i2s_tx_axi4_lite_seq_item           rsp;                     // Transaction handle
-                // Get next transaction item from sequencer
-            if(cfg.INTRPT_STAT_TEST) begin
-                seq_item_port.get_next_item(req);
-                // Fork two tasks: write and read to the DUT
-                fork
-                    write(req);
-                    read(req);
-                join
-                // Mark the item as completed
-                seq_item_port.item_done();
-    
-            end
+            // Get next transaction item from sequencer
             seq_item_port.get_next_item(rsp);
             // Fork two tasks: write and read to the DUT
             fork

@@ -22,7 +22,7 @@ class i2s_tx_env extends uvm_env;
     // Handles for the agents
     i2s_tx_axi4_lite_agent         axi_agt;    // AXI4-Lite agent handle
     i2s_tx_axis_agent              axis_agt;   // AXI-Stream agent handle
-    i2s_tx_agent                   i2s_agt;    // DUT AGENT HANDLE
+    i2s_tx_agent                   i2s_agt;    // I2S AGENT HANDLE
 
     // handle for reg block
     i2s_tx_reg_blk                 reg_block;
@@ -34,8 +34,8 @@ class i2s_tx_env extends uvm_env;
     // Handle for Scoreboard
     i2s_tx_scoreboard               sco;
     // Handle for coverage
-    axi4_coverage            axi4_cov;
-    axi_stream_coverage      axis_cov;
+    axi4_coverage                   axi4_cov;
+    axi_stream_coverage             axis_cov;
     // Handle of config class
     i2s_tx_config                   cfg;
 

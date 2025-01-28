@@ -11,7 +11,7 @@
 `ifndef I2S_TX_TB_TOP
 `define I2S_TX_TB_TOP
     `timescale 1ns/1ns
-    // Include file which add all necessary
+    // Include file which add all necessary files
     `include "../include/i2s_tx_include_files.sv"
 
  

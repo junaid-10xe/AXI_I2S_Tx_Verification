@@ -627,14 +627,7 @@ class sck_freq4_test extends i2s_tx_base_test;
 
     // Configure Phase to configure core 
     task configure_phase(uvm_phase phase);
-        phase.raise_objection(this);
-        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
-        
-        cfg_ral_seq.reg_blk         = env.reg_block;
-        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
-        phase.drop_objection(this);
-        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
-        phase.phase_done.set_drain_time(this, 100);
+        super.configure_phase(phase);
     endtask: configure_phase
 
     // MAIN Phase
@@ -675,14 +668,7 @@ class sck_freq2_test extends i2s_tx_base_test;
 
     // Configure Phase to configure core 
     task configure_phase(uvm_phase phase);
-        phase.raise_objection(this);
-        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
-        
-        cfg_ral_seq.reg_blk         = env.reg_block;
-        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
-        phase.drop_objection(this);
-        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
-        phase.phase_done.set_drain_time(this, 100);
+        super.configure_phase(phase);
     endtask: configure_phase
 
     // MAIN Phase
@@ -722,14 +708,7 @@ class sck_freq3_test extends i2s_tx_base_test;
 
     // Configure Phase to configure core 
     task configure_phase(uvm_phase phase);
-        phase.raise_objection(this);
-        `uvm_info(get_name(), "<configure_phase> started, objection raised.", UVM_NONE)
-        
-        cfg_ral_seq.reg_blk         = env.reg_block;
-        cfg_ral_seq.start(env.axi_agt.axi_sqnr);
-        phase.drop_objection(this);
-        `uvm_info(get_name(), "<configure_phase> finished, objection dropped.", UVM_NONE)
-        phase.phase_done.set_drain_time(this, 100);
+        super.configure_phase(phase);
     endtask: configure_phase
 
     // MAIN Phase

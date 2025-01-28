@@ -52,7 +52,6 @@ class i2s_tx_base_test extends uvm_test;
         end
         // Set Config Class in Config DB
         uvm_config_db#(i2s_tx_config)::set(null, "*", "cfg", cfg);
-       // env.set_report_verbosity_level(500);
     endfunction: build_phase
 
     // To print topology
