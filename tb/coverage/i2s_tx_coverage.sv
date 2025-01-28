@@ -49,7 +49,7 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
         wdata: coverpoint axi4_tr.s_axi_ctrl_wdata {                            
             bins all_ones   = {'hFFFFFFFF};
             bins all_zeros  = {'h00000000};
-            bins rand_val   = {[0:$]};
+            bins rand_val   = {[0:'hFFFFFFFF]};
         }
         sck_div: coverpoint axi4_tr.s_axi_ctrl_wdata[7:0] {
             bins sck_val_1    = {1};
@@ -173,7 +173,7 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
         }
         // Read data coverage
         rdata: coverpoint axi4_tr.s_axi_ctrl_rdata {                            // Data values read
-            bins all_values = {[0:$]};
+            bins all_values = {[0:'hFFFFFFFF]};
         }
         // Read response coverage (valid and invalid responses)
         rresp: coverpoint axi4_tr.s_axi_ctrl_rresp {                            // Read response
