@@ -65,8 +65,8 @@ class i2s_tx_monitor extends uvm_monitor;
         // wait for reset to be de asserted
         wait(!i2s_vif.aud_mrst);
         cfg.SCLK_DIV                       = (cfg.SCLK_DIVIDER_VALUE)*2;
-        `uvm_info(get_name(), $sformatf("SCK_VAl %0d", cfg.SCLK_DIVIDER_VALUE), UVM_NONE)
-        `uvm_info(get_name(), $sformatf("SCK_VAl %0d", cfg.SCLK_DIV), UVM_NONE)
+        `uvm_info(get_name(), $sformatf("SCK_DIV_VAl %0d", cfg.SCLK_DIVIDER_VALUE), UVM_NONE)
+        `uvm_info(get_name(), $sformatf("SCK_VAl:: cycles of AUD_MCLK %0d", cfg.SCLK_DIV), UVM_HIGH)
         
          wait_for_valid();
         forever begin
