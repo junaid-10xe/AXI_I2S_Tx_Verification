@@ -203,7 +203,7 @@ endtask: write_rw_reg_fields
             end
             // Optional if want to enable disable interupts
             if(cfg.EN_DIS_INT) begin
-                reg_blk.intrpt_ctrl_reg_h.write(status, 32'h80000007, UVM_FRONTDOOR);                
+                reg_blk.intrpt_ctrl_reg_h.write(status, 32'h8000000F, UVM_FRONTDOOR);                
             end
             //Set value for sclk divider
             reg_blk.i2s_tim_ctrl_reg_h.write(status, cfg.SCLK_DIVIDER_VALUE, UVM_FRONTDOOR);
