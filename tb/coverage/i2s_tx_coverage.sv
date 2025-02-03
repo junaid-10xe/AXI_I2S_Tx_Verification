@@ -212,17 +212,45 @@ class axi4_coverage extends uvm_subscriber #(i2s_tx_axi4_lite_seq_item);
 
     // Covergroup for handshake signals
     covergroup axi4lite_protocol_cg;
-        coverpoint axi4_tr.s_axi_ctrl_awvalid;                           // Write address valid
-        coverpoint axi4_tr.s_axi_ctrl_awready;                           // Write address ready
-        coverpoint axi4_tr.s_axi_ctrl_wvalid;                            // Write data valid
-        coverpoint axi4_tr.s_axi_ctrl_wready;                            // Write data ready
-        coverpoint axi4_tr.s_axi_ctrl_arvalid;                           // Read address valid
-        coverpoint axi4_tr.s_axi_ctrl_arready;                           // Read address ready
-        coverpoint axi4_tr.s_axi_ctrl_rvalid;                            // Read data valid
-        coverpoint axi4_tr.s_axi_ctrl_rready;                            // Read data ready
-        coverpoint axi4_tr.s_axi_ctrl_bvalid;                            // Write response valid
-        coverpoint axi4_tr.s_axi_ctrl_bready;                            // Write response ready
+        awvalid: coverpoint axi4_tr.s_axi_ctrl_awvalid;                           // Write address valid
+        awready: coverpoint axi4_tr.s_axi_ctrl_awready;                           // Write address ready
+        wvalid: coverpoint axi4_tr.s_axi_ctrl_wvalid;                            // Write data valid
+        wready: coverpoint axi4_tr.s_axi_ctrl_wready;                            // Write data ready
+        arvalid: coverpoint axi4_tr.s_axi_ctrl_arvalid;                           // Read address valid
+        arready: coverpoint axi4_tr.s_axi_ctrl_arready;                           // Read address ready
+        rvalid: coverpoint axi4_tr.s_axi_ctrl_rvalid{
+            bins valid_1 = {1'b1};
+            bins valid_0 = {1'b0};
+        }                            // Read data valid
+        rready: coverpoint axi4_tr.s_axi_ctrl_rready{
+            bins ready_1 = {1'b1};
+            bins ready_0 = {1'b0};
+        }                            // Read data ready
+        bvalid: coverpoint axi4_tr.s_axi_ctrl_bvalid{
+            bins valid_1 = {1'b1};
+            bins valid_0 = {1'b0};
+        }                            // Write response valid
+        bready: coverpoint axi4_tr.s_axi_ctrl_bready{
+            bins ready_1 = {1'b1};
+            bins ready_0 = {1'b0};
+        }                            // Write response ready
+
+        // Write Adress channel 
+        write_address: cross awvalid, awready;
+        // Write Data Chennel
+        write_data: cross wvalid, wready;
+        // Read Address Channel
+        read_address: cross arvalid, arready;
+        // Read Data Channel
+        read_data: cross rvalid, rready{
+            ignore_bins ignore_0 = binsof(rvalid.valid_1) && binsof(rready.ready_0);
+        }
+        // Write Response Channel
+        write_response: cross bvalid, bready{
+            ignore_bins ignore_0 = binsof(bvalid.valid_0) && binsof(bready.ready_1);
+        }
     endgroup : axi4lite_protocol_cg
+ 
     // Constructor
     function new( string name , uvm_component parent);
         super.new( name , parent );
