@@ -9,8 +9,8 @@
 
 # Variables
 COV_DIR="Coverage/xsim.covdb"            # Base directory containing individual coverage databases
-MERGE_DIR="./coverage_merged"            # Directory for merged coverage database
-REPORT_DIR="./coverage_report"           # Directory for coverage report
+MERGE_DIR="./Coverage/coverage_merged"            # Directory for merged coverage database
+REPORT_DIR="./Coverage/coverage_report"           # Directory for coverage report
 MERGE_DB_NAME="merged_coverage"          # Name for the merged database
 
 # Ensure required directories exist
