@@ -20,11 +20,11 @@ package i2s_tx_axi4_lite_pkg;
     import i2s_tx_defines::*;
 
     //include UVC files
-    `include "i2s_tx_axi4_lite_seq_item.sv"
+    `include "../../sim/reg_seq/i2s_tx_axi4_lite_seq_item.sv"
     `include "UVM_RAL/i2s_tx_reg.sv"
     `include "UVM_RAL/i2s_tx_reg_blk.sv"
-    `include "UVM_RAL/i2s_tx_reg_base_seq.sv"
-    `include "UVM_RAL/i2s_tx_reg_seqs_lib.sv"
+    `include "../../sim/reg_seq/i2s_tx_reg_base_seq.sv"
+    `include "../../sim/reg_seq/i2s_tx_reg_seqs_lib.sv"
     `include "UVM_RAL/i2s_tx_adapter.sv"
 
     `include "i2s_tx_axi4_lite_sequencer.sv"
