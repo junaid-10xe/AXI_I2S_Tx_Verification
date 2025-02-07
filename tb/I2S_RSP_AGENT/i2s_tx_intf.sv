@@ -33,6 +33,8 @@ interface i2s_tx_intf ();
   // Expected sclk and lrclk
   bit expected_sclk;
   bit expected_lrclk;
+  // Integer to count number of frames
+  int frame_count;
   // Time period of clock according to sampling frequency
   int TIME_PERIOD = i2s_tx_params::AUD_MCLK_PERIOD;
   // task to generate clk

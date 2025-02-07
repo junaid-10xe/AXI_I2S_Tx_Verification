@@ -70,6 +70,7 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
    i2s_tx_axis_seq_item     axis_pkts[$];
    //Variable to count number of transaction
    int count = 0;
+   int invalid = 0;
    // Write method for axi-stream imp port
    virtual function void write_axis_port(i2s_tx_axis_seq_item axis_tr);
       // Push axi_transactions in queue to later compare with i2s_transactions
@@ -131,9 +132,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
                   axis_pkts.push_front(axis_tr0);
                   axis_pkts.push_front(axis_tr1);
       
-                  if (drop_pkt) axis_pkts.push_front(axis_cln);
-                  else repeat(3) axis_pkts.push_front(axis_cln);
-      
+                  if (drop_pkt) begin 
+                     axis_pkts.push_front(axis_cln);
+                     invalid = invalid +1;
+                  end
+                  else begin
+                     repeat(3) axis_pkts.push_front(axis_cln);
+                     invalid = invalid + 3;
+                  end
                   `uvm_info(get_name(), $sformatf("AXI-Stream Transaction stored in Queue \n %s", axis_cln.sprint()), UVM_HIGH)
                   `uvm_info(get_name(), $sformatf("prev_tid %0d count %0d", prev_tid, count), UVM_DEBUG)
                end
@@ -154,7 +160,14 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
       if(cfg.RAL_CHECKER) begin
          ral_resp_checker(axi_tr);
       end
-
+      if(i2s_vif.frame_count == (384-invalid)) begin
+         if(axi_tr.s_axi_ctrl_araddr == 'h14) begin
+            if (axi_tr.s_axi_ctrl_rdata[0] != 1) begin
+               `uvm_error(get_name(), $sformatf("AES Block completed but interrupt is not triggered total subframes :: %0d Invalid :: %0d", i2s_vif.frame_count, invalid))
+            end
+            i2s_vif.frame_count = 0;
+         end 
+      end
    endfunction
 
    // Write method for i2s imp port
@@ -169,6 +182,10 @@ class i2s_tx_scoreboard extends uvm_scoreboard;
          
          `uvm_info(get_name(), $sformatf("Size of queue is \n %d", axis_pkts.size()), UVM_DEBUG)
          `uvm_info(get_name(), $sformatf("AXI-Stream Transaction Retrived from Queue \n %s", axis_tr_d.sprint()), UVM_HIGH)
+         // if(axis_tr_d.s_axis_aud_tdata[3:0] == 3) begin
+            i2s_vif.frame_count = i2s_vif.frame_count+1;
+         // end
+
       end
    endfunction
 
