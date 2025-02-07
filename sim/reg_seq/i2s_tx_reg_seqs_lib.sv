@@ -183,28 +183,45 @@ class intrpt_stat_test_seq extends i2s_tx_reg_base_seq;
                                    req.s_axi_ctrl_arvalid == 1;
                                    req.s_axi_ctrl_awvalid == 0;})
             end
-            if(req.s_axi_ctrl_rdata != 0) begin
+            if(req.s_axi_ctrl_rdata[0] != 0) begin
                 `uvm_do_with(rsp, {rsp.s_axi_ctrl_awaddr  == 'h14;
                                    rsp.s_axi_ctrl_awvalid == 1;
-                                   rsp.s_axi_ctrl_wdata   == 32'hFFFFFFFF;
+                                   rsp.s_axi_ctrl_wdata   == 32'h1;
+                                   rsp.s_axi_ctrl_arvalid == 0;})
+            end
+            if(req.s_axi_ctrl_rdata[1] != 0) begin
+                `uvm_do_with(rsp, {rsp.s_axi_ctrl_awaddr  == 'h14;
+                                   rsp.s_axi_ctrl_awvalid == 1;
+                                   rsp.s_axi_ctrl_wdata   == 32'h2;
+                                   rsp.s_axi_ctrl_arvalid == 0;})
+            end
+            if(req.s_axi_ctrl_rdata[2] != 0) begin
+                `uvm_do_with(rsp, {rsp.s_axi_ctrl_awaddr  == 'h14;
+                                   rsp.s_axi_ctrl_awvalid == 1;
+                                   rsp.s_axi_ctrl_wdata   == 32'h4;
+                                   rsp.s_axi_ctrl_arvalid == 0;})
+            end
+            if(req.s_axi_ctrl_rdata[3] != 0) begin
+                `uvm_do_with(rsp, {rsp.s_axi_ctrl_awaddr  == 'h14;
+                                   rsp.s_axi_ctrl_awvalid == 1;
+                                   rsp.s_axi_ctrl_wdata   == 32'h8;
                                    rsp.s_axi_ctrl_arvalid == 0;})
             end
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h50;
-                                    req.s_axi_ctrl_arvalid == 1;
-                                    req.s_axi_ctrl_awvalid == 0;})
+                        req.s_axi_ctrl_arvalid == 1;
+                        req.s_axi_ctrl_awvalid == 0;})
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h54;
-                                   req.s_axi_ctrl_arvalid == 1;
-                                   req.s_axi_ctrl_awvalid == 0;})
+                        req.s_axi_ctrl_arvalid == 1;
+                        req.s_axi_ctrl_awvalid == 0;})
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h58;
-                                   req.s_axi_ctrl_arvalid == 1;
-                                   req.s_axi_ctrl_awvalid == 0;})
+                        req.s_axi_ctrl_arvalid == 1;
+                        req.s_axi_ctrl_awvalid == 0;})
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h60;
-                                   req.s_axi_ctrl_arvalid == 1;
-                                   req.s_axi_ctrl_awvalid == 0;})
+                        req.s_axi_ctrl_arvalid == 1;
+                        req.s_axi_ctrl_awvalid == 0;})
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h64;
-                                   req.s_axi_ctrl_arvalid == 1;
-                                   req.s_axi_ctrl_awvalid == 0;})
-        end
+                        req.s_axi_ctrl_arvalid == 1;
+                        req.s_axi_ctrl_awvalid == 0;})
     endtask
 
 endclass: intrpt_stat_test_seq
