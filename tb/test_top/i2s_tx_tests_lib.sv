@@ -722,5 +722,49 @@ class sck_freq3_test extends i2s_tx_base_test;
     endtask: main_phase
 
 endclass: sck_freq3_test
+// Class AES Intrpt
+class aes_intrpt_test extends i2s_tx_base_test;
+    `uvm_component_utils(aes_intrpt_test)
+
+        // Handle of core configuration sequence 
+        ral_cfg_seq                             cfg_ral_seq;
+        // Handle of Stream Sequence
+        axis_aes_seq                            axis_seq;
+        // Handle of intrpt status which read the value of register
+        intrpt_stat_test_seq                    intrpt_stat_seq;
+        // Constructor: new
+        function new(string name = "intrpt_stat_test", uvm_component parent);
+            super.new(name, parent);
+        endfunction: new
+        // BUILD PHASE
+        function void build_phase(uvm_phase phase);
+            super.build_phase(phase);
+            cfg_ral_seq      = ral_cfg_seq::type_id::create("cfg_ral_seq", this);
+            intrpt_stat_seq  = intrpt_stat_test_seq::type_id::create("intrpt_stat_seq", this);
+            axis_seq         = axis_aes_seq::type_id::create("axis_seq", this);
+            // Enable core configuration and interrupts
+            cfg.CORE_CFG     = 1;
+            cfg.EN_DIS_INT   = 1;
+            cfg_ral_seq.cfg  = cfg;
+            axis_seq.cfg     = cfg;
+        endfunction: build_phase
+        // MAIN Phase
+        task main_phase(uvm_phase phase);
+            phase.raise_objection(this);
+            `uvm_info(get_name(), "<run_phase> started, objection raised.", UVM_NONE)
+            // Reconfigure core again by enabling interrupts
+            cfg_ral_seq.reg_blk = env.reg_block;
+            cfg_ral_seq.start(env.axi_agt.axi_sqnr);
+            cfg.INTRPT_STAT_TEST = 1;
+            intrpt_stat_seq.cfg  = cfg;
+            fork
+                intrpt_stat_seq.start(env.axi_agt.axi_sqnr);        
+                axis_seq.start(env.axis_agt.axis_sqnr);
+            join_any
+            phase.drop_objection(this);
+            `uvm_info(get_name(), "<run_phase> finished, objection dropped.", UVM_NONE)
+        endtask: main_phase
+
+endclass: aes_intrpt_test
 
 `endif
