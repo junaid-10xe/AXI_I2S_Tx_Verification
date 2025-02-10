@@ -222,6 +222,7 @@ class intrpt_stat_test_seq extends i2s_tx_reg_base_seq;
             `uvm_do_with(req, {req.s_axi_ctrl_araddr  == 'h64;
                         req.s_axi_ctrl_arvalid == 1;
                         req.s_axi_ctrl_awvalid == 0;})
+        end
     endtask
 
 endclass: intrpt_stat_test_seq
